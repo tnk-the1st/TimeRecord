@@ -1,0 +1,37 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!--item name="colorPrimary">@color/colorPrimary</item-->
+        <item name="colorPrimary">#F0F0F0</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="NavigationViewTheme" type="drawable" parent ="Base.ThemeOverlay.AppCompat">
+        <item name="android:background">@drawable/gradient_black_lengthwise</item>
+    </style>
+    <!-- APP Theme which extends Theme App Compact -->
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat">
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+        <item name="dropDownListViewStyle">@style/PopupMenuListView</item>
+        <item name="actionBarDivider">@null</item>
+        <!-- OverFlow Menu Text Color -->
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <!-- OverFlow menu Styles -->
+    <style name="PopupMenuListView" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:divider">#000000</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:background">@drawable/gradient_black_lengthwise</item>
+        <item name="android:listSelector">@drawable/gradient_black_lengthwise</item>
+    </style>
+</resources>

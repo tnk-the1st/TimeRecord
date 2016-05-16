@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jp.co.tennti.timerecord.MainFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentImageView"
+        android:scaleType="fitCenter"/>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/timeCountButton"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        android:layout_above="@+id/controlButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="44dp" />
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/deleteButtonMain"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        android:layout_alignTop="@+id/controlButton"
+        android:layout_toStartOf="@+id/timeCountButton" />
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/controlButton"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="61dp" />
+
+</RelativeLayout>

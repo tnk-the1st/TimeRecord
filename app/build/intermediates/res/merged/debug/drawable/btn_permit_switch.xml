@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+<!-- ボタンを押された時 -->
+<item
+    android:state_pressed="true"
+    android:state_enabled="true"
+    android:drawable="@mipmap/ic_permit_disallowed_dep"/>
+<!-- ボタンにフォーカスがあたった時 -->
+<item
+    android:state_focused="true"
+    android:state_enabled="true"
+    android:drawable="@mipmap/ic_permit_disallowed"/>
+<!-- 上記以外の条件の時 -->
+<item
+    android:state_enabled="true"
+    android:drawable="@mipmap/ic_permit_disallowed"/>
+</selector>

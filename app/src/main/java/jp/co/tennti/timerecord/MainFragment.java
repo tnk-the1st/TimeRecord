@@ -1,0 +1,277 @@
+package jp.co.tennti.timerecord;
+
+import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
+import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
+import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
+
+
+public class MainFragment extends Fragment {
+    private Bitmap myImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
+
+    private Bitmap permitDisallowedImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
+    static final String TAG = "MainFragment";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
+        final SQLiteDatabase db = helper.getWritableDatabase();
+
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        Resources resource = getResources();
+        if(myImage!=null){
+            myImage.recycle();
+        }
+        myImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
+        ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
+
+        imgView.setImageDrawable(null);
+        imgView.setImageBitmap(null);
+        imgView.setImageBitmap(myImage);
+        imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        //Resources res = getResources();
+        /*int size = 48;//res.getDimensionPixelSize(R.dimen.image_size);
+        BitmapUtils bu = new BitmapUtils();
+        imgView.setImageBitmap(
+                bu.decodeSampledBitmapFromFile("/res/mipmap-xxxhdpi/main_disp_magika.jpg" , size, size));*/
+
+        /*BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 0;
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.main_disp_magika, options);
+
+        ImageView imageView = (ImageView)view.findViewById(R.id.contentImageView);
+        imageView.setImageBitmap(bmp);*/
+        if(permitDisallowedImage!=null){
+            permitDisallowedImage.recycle();
+        }
+        /************ 登録ボタン start ************/
+        // ボタンを設定
+        final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);
+        //timeCountButton.setImageBitmap(BitmapFactory.decodeResource(resource,R.mipmap.times_day));
+        //controlButton.setImageBitmap(permitDisallowedImage);
+        timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+
+
+        TimeUtils timeUtil = new TimeUtils();
+        /** 初期表示時にボタンを非活性にする判定**/
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.createTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+        try {
+            if (cursor.moveToNext()) {
+                cursor.moveToFirst();
+                String result = cursor.getString(0);
+                if(result.equals("0")){
+                    //timeCountButton.setEnabled(true);
+                } else {
+                    timeCountButton.setEnabled(false);
+                    timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                }
+            }
+        } catch (SQLException ex) {
+            GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT COUNTエラー", "活性判定時のSELECT COUNT処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
+            Log.e("SELECT COUNT ERROR", ex.toString());
+        } finally {
+            cursor.close();
+        }
+
+        // リスナーをボタンに登録
+        timeCountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.beginTransaction();
+                try {
+                    RandGeneratUtils randGenerat = new RandGeneratUtils();
+                    TimeUtils timeUtil = new TimeUtils();
+
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?,?)");
+                    try {
+                        statement.bindString(1, randGenerat.get());
+                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
+                        statement.bindString(3, timeUtil.getCurrentYearMonthHyphen());
+                        statement.bindString(4, timeUtil.getCurrentDate());
+                        statement.bindString(5, timeUtil.getCurrentWeekOmit());
+                        statement.executeInsert();
+                        timeCountButton.setEnabled(false);
+                        timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                        // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
+                        Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
+                    }  catch (SQLException ex) {
+                        GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
+                        Log.e("INSERT ERROR", ex.toString());
+                    } finally {
+                        timeUtil=null;
+                        statement.close();
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+            }
+        });
+        /************ 登録ボタン end ************/
+        /************ 制御ボタン start ************/
+        // ボタンを設定
+        final ImageButton controlButton = (ImageButton)view.findViewById(R.id.controlButton);
+        controlButton.setImageBitmap(null);
+        controlButton.setImageDrawable(null);
+        //controlButton.setImageBitmap(permitDisallowedImage);
+        controlButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_permit_switch));
+
+        // リスナーをボタンに登録
+        controlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeCountButton.setEnabled(true);
+                timeCountButton.setColorFilter(null);
+                //db.delete("person", null, null);
+                //String sql = "drop database NameAgeDB;";
+                //db.execSQL(sql);
+            }
+        });
+        /************ 制御ボタン end ************/
+        /************ 削除ボタン start ************/
+        // ボタンを設定
+        final ImageButton deleteButton = (ImageButton)view.findViewById(R.id.deleteButtonMain);
+        deleteButton.setImageBitmap(null);
+        deleteButton.setImageDrawable(null);
+        deleteButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_switch));
+
+        // リスナーをボタンに登録
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ダイアログの生成
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                // アラートダイアログのタイトルを設定します
+                alertDialogBuilder.setTitle("指定日削除ダイアログ");
+                // アラートダイアログのメッセージを設定します
+                TimeUtils timeUtil = new TimeUtils();
+                alertDialogBuilder.setMessage(timeUtil.getCurrentYearMonthDay()+"のデータ削除を行いますがよろしいですか。");
+                // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+                alertDialogBuilder.setNeutralButton("実行",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                db.beginTransaction();
+                                try {
+                                    TimeUtils timeUtil = new TimeUtils();
+                                    final SQLiteStatement statement = db.compileStatement("DELETE FROM "+timeUtil.createTableName()+" WHERE basic_date=?");
+                                    try {
+                                        /**年月の判定 start**/
+                                        /**年月の判定 end**/
+                                        statement.bindString(1, timeUtil.getCurrentYearMonthDay());
+                                        statement.executeUpdateDelete();
+                                        // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
+                                        Toast.makeText(getActivity(), "対象日付のデータを削除しました", Toast.LENGTH_SHORT).show();
+                                    }  catch (SQLException ex) {
+                                        GeneralUtils.createErrorDialog(getActivity(),"SQL DELETE エラー","delete処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
+                                        Log.e("DELETE ERROR", ex.toString());
+                                    } finally {
+                                        statement.close();
+                                    }
+                                    db.setTransactionSuccessful();
+                                } finally {
+                                    db.endTransaction();
+                                }
+                            }
+                        });
+                alertDialogBuilder.setNegativeButton(
+                        "cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                // アラートダイアログのキャンセルが可能かどうかを設定します
+                alertDialogBuilder.setCancelable(true);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // アラートダイアログを表示します
+                alertDialog.show();
+            }
+        });
+        /************ 削除ボタン end ************/
+
+        return view;
+    }
+    /***
+     * フォアグラウンドでなくなった場合に呼び出される
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    /***
+     * Fragmentの内部のViewリソースの整理を行う
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        myImage=null;
+        ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
+        imgView.setImageBitmap(null);
+        imgView.setImageDrawable(null);
+        /************ 登録ボタン ************/
+        ImageButton timeCountButton = (ImageButton)getActivity().findViewById(R.id.timeCountButton);
+        timeCountButton.setImageDrawable(null);
+        timeCountButton.setImageBitmap(null);
+        timeCountButton.setOnClickListener(null);
+        /************ 制御ボタン ************/
+        ImageButton controlButton = (ImageButton)getActivity().findViewById(R.id.controlButton);
+        controlButton.setImageBitmap(null);
+        controlButton.setImageDrawable(null);
+        controlButton.setOnClickListener(null);
+        /************ 削除ボタン ************/
+        ImageButton deleteButton = (ImageButton) getActivity().findViewById(R.id.deleteButtonMain);
+        deleteButton.setImageBitmap(null);
+        deleteButton.setImageDrawable(null);
+        Log.d(TAG, "onDestroyView");
+    }
+
+    /***
+     * Fragmentが破棄される時、最後に呼び出される
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    /***
+     * Activityの関連付けから外された時に呼び出される
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetach");
+    }
+}

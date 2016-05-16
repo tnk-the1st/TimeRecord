@@ -1,0 +1,9 @@
+<resources>
+
+    <array name="animation_drawable">
+        <item>@mipmap/list_the_world</item>
+        <item>@mipmap/main_disp_magika</item>
+        <!-- ~省略~ -->
+    </array>
+
+</resources>

@@ -41,10 +41,9 @@ public class ListViewFragment extends Fragment {
     private final static int GL = Gravity.LEFT;
     private final static int GE = Gravity.END;         // Gravity.RIGHTでもよい
     private int colorFlg = 1;                   //背景切り替え用フラグ
-    TextView dateTextView;
-    AlertDialog.Builder builder;
-    View contentView;
-    //DatePicker datePicker;
+    TextView dateTextView=null;
+    AlertDialog.Builder builder=null;
+    View contentView=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,29 +74,6 @@ public class ListViewFragment extends Fragment {
         imgView.setImageBitmap(myImage);
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-       /* ImageView image = (ImageView) view.findViewById(R.id.listImageView);
-        animation = new AnimationDrawable();
-        // Bitmap生成時のオプション。
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        // inPurgeableでBitmapを再利用するかどうかを明示的に決定
-        options.inPurgeable = true;
-        TypedArray images = getResources().obtainTypedArray(
-                R.array.animation_drawable);
-        for (int i = 0; i < images.length(); i++) {
-            animation.addFrame(
-                    new BitmapDrawable(getResources(), BitmapFactory
-                            .decodeResource(getResources(),
-                                    images.getResourceId(i, R.mipmap.list_the_world),
-                                    options)), 50);
-
-        }
-        // setBackgroundDrawableは非推奨
-        image.setImageDrawable(animation);
-        // ImageView全体に画像を拡大して表示する
-        image.setScaleType(ImageView.ScaleType.FIT_XY);*/
-        //images.recycle();
-       // myImage.recycle();
-
         /**日付データ**/
         /**データピッカー**/
         DatePicker datePicker = (DatePicker)contentView.findViewById(R.id.datePickerDia);
@@ -123,7 +99,6 @@ public class ListViewFragment extends Fragment {
 
                     // 確認ダイアログの生成
                     builder = new AlertDialog.Builder(getContext());
-
                     builder.setView(contentView);
                     TimeUtils timeUtil = new TimeUtils();
                     builder.setTitle(timeUtil.getCurrentDate());
@@ -135,7 +110,7 @@ public class ListViewFragment extends Fragment {
                                 // OK ボタンクリック処理
                                 DatePicker datePicker = (DatePicker) contentView.findViewById(R.id.datePickerDia);
                                 try{
-                                    String JOIN_YEAR_MONTH;
+                                    //String JOIN_YEAR_MONTH;
                                     int month = datePicker.getMonth()+1;
                                     TimeUtils timeUtil = new TimeUtils();
                                     StringBuilder builder = new StringBuilder();
@@ -146,8 +121,8 @@ public class ListViewFragment extends Fragment {
                                     timeUtil.is10over(month, builder);
                                     builder.append(monthStr);
                                     builder.append("月");
-                                    JOIN_YEAR_MONTH = builder.toString();
-                                    dateTextView.setText(JOIN_YEAR_MONTH);
+                                    //JOIN_YEAR_MONTH = builder.toString();
+                                    dateTextView.setText(builder.toString());
                                 } catch (NullPointerException e){
                                     Log.d("NullPointerException",e.getMessage());
                                 }
@@ -202,82 +177,74 @@ public class ListViewFragment extends Fragment {
                     if ( dateTextView.getText() != null && dateTextView.getText() != "" ) {
                         String yearStr  =  dateTextView.getText().toString().substring(0, 4);
                         String monthStr =  dateTextView.getText().toString().substring(5, 7);
-                        /*if(monthStr.substring(0,1).equals("0")){
-                            monthStr = monthStr.substring(1,2);
-                        }*/
-                        String JOIN_YEAR_MONTH;
+
+                        //String JOIN_YEAR_MONTH;
                         StringBuilder builder = new StringBuilder();
                         builder.append(yearStr);
                         builder.append("-");
                         builder.append(monthStr);
-                        JOIN_YEAR_MONTH = builder.toString();
+                        //JOIN_YEAR_MONTH = builder.toString();
 
-                        String TABLE_YEAR_MONTH;
+                        //String TABLE_YEAR_MONTH;
                         StringBuilder builder_t = new StringBuilder();
                         builder_t.append("time_record_");
                         builder_t.append(yearStr);
                         builder_t.append(monthStr);
-                        TABLE_YEAR_MONTH = builder_t.toString();
+                        //TABLE_YEAR_MONTH = builder_t.toString();
 
 
                         /**一覧レイアウト**/
-
                         TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
                         mTableLayoutList.removeAllViews();
-                        //mTableLayoutList.addView(v);
-                        //mTableLayoutList.removeView(v);
+
+                        TableRow.LayoutParams paramsDate = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
+                        TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
+                        TableRow.LayoutParams paramsOverTime = setParams(0.2f);
+                        TableRow.LayoutParams paramsWeek = setParams(0.1f);
                         TableRow rowHeader = new TableRow(getActivity());    // 行を作成
                         rowHeader.setPadding(2, 2, 2, 2);       // 行のパディングを指定(左, 上, 右, 下)
                         rowHeader.setBackgroundResource(R.drawable.row_head);
 
-
-                        // ヘッダー：産地
-                        TextView headerMadeIn = setTextItem("日付", GC);            // TextViewのカスタマイズ処理
-                        headerMadeIn.setBackgroundColor(Color.WHITE);
-                        headerMadeIn.setPadding(15, 15, 15, 15);
-                        TableRow.LayoutParams paramsMadeIn = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
-                        // ヘッダー：個数
-                        TextView headerNumber = setTextItem("退社時間", GC);
-                        TableRow.LayoutParams paramsNumber = setParams(0.3f);
-                        // ヘッダー：単価
-                        TextView headerPrice = setTextItem("曜日", GC);
-                        TableRow.LayoutParams paramsPrice = setParams(0.1f);
-                        // rowHeaderにヘッダータイトルを追加
-                        rowHeader.addView(headerMadeIn, paramsMadeIn);          // ヘッダー：産地
-                        rowHeader.addView(headerNumber, paramsNumber);          // ヘッダー：個数
-                        rowHeader.addView(headerPrice, paramsPrice);            // ヘッダー：単価
-                        //rowHeader.setBackgroundResource(R.drawable.row_deco1);  // 背景
-
-                        // TableLayoutにrowHeaderを追加
-                        mTableLayoutList.addView(rowHeader);
-
-
-
-                        TimeUtils timeUtil = new TimeUtils();
+                        Typeface meiryoType=Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc");
                         db.beginTransaction();
                         try {
-                            Cursor cursor = db.rawQuery("SELECT basic_date,leaving_date,week FROM " + TABLE_YEAR_MONTH + " WHERE year_month_date=? ORDER BY basic_date;", new String[]{JOIN_YEAR_MONTH}); //new String[]{String.valueOf(count), String.valueOf(offset)});
+                            Cursor cursor = db.rawQuery("SELECT basic_date,leaving_date,over_time_date,week FROM " + builder_t.toString() + " WHERE year_month_date=? ORDER BY basic_date;", new String[]{builder.toString()});
                             try {
                                 if (cursor.moveToFirst()) {
                                     do {
                                         TableRow row = new TableRow(getActivity());          // 行を作成
-                                        row.setPadding(2, 2, 2, 2);             // 行のパディングを指定(左, 上, 右, 下)
-                                        // 産地
-                                        TextView textMadeIn = setTextItem(cursor.getString(cursor.getColumnIndex("basic_date")), GC);     // TextViewのカスタマイズ処理
-                                        // 個数
-                                        TextView textNumber = setTextItem(cursor.getString(cursor.getColumnIndex("leaving_date")), GL);      // TextViewのカスタマイズ処理
-                                        // 単価
-                                        TextView textPrice = setTextItem(cursor.getString(cursor.getColumnIndex("week")), GC);      // TextViewのカスタマイズ処理
-                                        row.addView(textMadeIn, paramsMadeIn);      // 産地
-                                        row.addView(textNumber, paramsNumber);      // 個数
-                                        row.addView(textPrice, paramsPrice);        // 単価
+                                        row.removeAllViews();
+                                        //row.setPadding(1, 1, 1, 1);             // 行のパディングを指定(左, 上, 右, 下)
+                                        // 日付
+                                        TextView textDate = setTextItem(cursor.getString(cursor.getColumnIndex("basic_date")), GC);     // TextViewのカスタマイズ処理
+                                        // 退社時間
+                                        TextView textsQuitTime = setTextItem(cursor.getString(cursor.getColumnIndex("leaving_date")), GL);      // TextViewのカスタマイズ処理
+                                        // 残業時間
+                                        TextView textOverTime = setTextItem(cursor.getString(cursor.getColumnIndex("over_time_date")), GC);      // TextViewのカスタマイズ処理
+                                        // 曜日
+                                        TextView textWeek = setTextItem(cursor.getString(cursor.getColumnIndex("week")), GC);      // TextViewのカスタマイズ処理
+                                        /******************* フォント調整 *******************/
+                                        textDate.setTextSize(11);
+                                        textsQuitTime.setTextSize(11);
+                                        textOverTime.setTextSize(11);
+                                        textWeek.setTextSize(11);
+                                        textDate.setTypeface(meiryoType);
+                                        textsQuitTime.setTypeface(meiryoType);
+                                        textOverTime.setTypeface(meiryoType);
+                                        textWeek.setTypeface(meiryoType);
+                                        /******************* フォント調整 *******************/
+
+                                        row.addView(textDate, paramsDate);      // 日付
+                                        row.addView(textsQuitTime, paramsQuitTime);      // 退社時間
+                                        row.addView(textOverTime, paramsOverTime);          //残業時間
+                                        row.addView(textWeek, paramsWeek);        // 曜日
                                         mTableLayoutList.addView(row);            // TableLayoutにrowHeaderを追加
 
                                         // 交互に行の背景を変える
                                         if (colorFlg % 2 != 0) {
-                                            row.setBackgroundResource(R.drawable.row_head);
+                                            row.setBackgroundResource(R.drawable.row_color1);
                                         } else {
-                                            //row.setBackgroundResource(R.drawable.row_head);
+                                            row.setBackgroundResource(R.drawable.row_color2);
                                         }
                                         colorFlg++;
                                     } while (cursor.moveToNext());
@@ -293,47 +260,43 @@ public class ListViewFragment extends Fragment {
                             Log.e("SELECT ERROR", ex.toString());
                         } finally {
                             db.endTransaction();
-                            System.gc();
                         }
-
-
                     }
                 }
         });
         /**期間変更ボタン**/
 
-        /**一覧レイアウト**/
-        TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
+
+        Typeface meiryoType=Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc");
+        /**ヘッダーレイアウト**/
+        TableLayout headerTable = (TableLayout) view.findViewById(R.id.headerTable);
         TableRow rowHeader = new TableRow(getActivity());    // 行を作成
         rowHeader.setPadding(2, 2, 2, 2);       // 行のパディングを指定(左, 上, 右, 下)
         rowHeader.setBackgroundResource(R.drawable.row_head);
 
-
         // ヘッダー：日付
         TextView headeDate = setTextItem("日付", GC);            // TextViewのカスタマイズ処理
-        //headerMadeIn.setBackgroundColor(Color.WHITE);
         headeDate.setTextColor(Color.WHITE);
         headeDate.setTextSize(12);
-        headeDate.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
-        //headerMadeIn.setPadding(5, 5, 5, 5);
+        headeDate.setTypeface(meiryoType);
         TableRow.LayoutParams paramsDate = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
         // ヘッダー：退社時間
         TextView headerQuitTime = setTextItem("退社時間", GC);
         headerQuitTime.setTextColor(Color.WHITE);
         headerQuitTime.setTextSize(12);
-        headerQuitTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
+        headerQuitTime.setTypeface(meiryoType);
         TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
         // ヘッダー：残業時間
         TextView headerOverTime = setTextItem("残業時間", GC);
         headerOverTime.setTextColor(Color.WHITE);
         headerOverTime.setTextSize(12);
-        headerOverTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
+        headerOverTime.setTypeface(meiryoType);
         TableRow.LayoutParams paramsOverTime = setParams(0.2f);
         // ヘッダー：曜日
         TextView headerWeek = setTextItem("曜日", GC);
         headerWeek.setTextColor(Color.WHITE);
         headerWeek.setTextSize(12);
-        headerWeek.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
+        headerWeek.setTypeface(meiryoType);
         TableRow.LayoutParams paramsWeek = setParams(0.1f);
         // rowHeaderにヘッダータイトルを追加
         rowHeader.addView(headeDate, paramsDate);                 // ヘッダー：日付
@@ -343,24 +306,27 @@ public class ListViewFragment extends Fragment {
         //rowHeader.setBackgroundResource(R.drawable.row_deco1);  // 背景
 
         // TableLayoutにrowHeaderを追加
-        mTableLayoutList.addView(rowHeader);
-
+        headerTable.addView(rowHeader);
+        /**ヘッダーレイアウト**/
+        /**一覧レイアウト**/
+        TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
 
         /**DB接続 実行処理**/
         db.beginTransaction();
         try {
-            Cursor cursor = db.rawQuery("SELECT basic_date,leaving_date,week FROM " + timeUtil.createTableName() + " WHERE year_month_date=? ORDER BY basic_date;", new String[]{timeUtil.getCurrentYearMonthHyphen()}); //new String[]{String.valueOf(count), String.valueOf(offset)});
+            colorFlg = 1;
+            Cursor cursor = db.rawQuery("SELECT basic_date,leaving_date,over_time_date,week FROM " + timeUtil.createTableName() + " WHERE year_month_date=? ORDER BY basic_date;", new String[]{timeUtil.getCurrentYearMonthHyphen()});
             try {
                 if (cursor.moveToFirst()) {
                     do {
                         TableRow row = new TableRow(getActivity());          // 行を作成
-                        row.setPadding(1, 1, 1, 1);             // 行のパディングを指定(左, 上, 右, 下)
+                        //row.setPadding(1, 1, 1, 1);             // 行のパディングを指定(左, 上, 右, 下)
                         // 日付
                         TextView textDate = setTextItem(cursor.getString(cursor.getColumnIndex("basic_date")), GC);     // TextViewのカスタマイズ処理
                         // 退社時間
                         TextView textsQuitTime = setTextItem(cursor.getString(cursor.getColumnIndex("leaving_date")), GL);      // TextViewのカスタマイズ処理
                         // 退社時間
-                        TextView textOverTime = setTextItem(timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(cursor.getString(cursor.getColumnIndex("leaving_date")))), GC);      // TextViewのカスタマイズ処理
+                        TextView textOverTime = setTextItem(cursor.getString(cursor.getColumnIndex("over_time_date")), GC);      // TextViewのカスタマイズ処理
                         // 曜日
                         TextView textWeek = setTextItem(cursor.getString(cursor.getColumnIndex("week")), GC);      // TextViewのカスタマイズ処理
                         /******************* フォント調整 *******************/
@@ -368,10 +334,10 @@ public class ListViewFragment extends Fragment {
                         textsQuitTime.setTextSize(11);
                         textOverTime.setTextSize(11);
                         textWeek.setTextSize(11);
-                        textDate.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
-                        textsQuitTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
-                        textOverTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
-                        textWeek.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc"));
+                        textDate.setTypeface(meiryoType);
+                        textsQuitTime.setTypeface(meiryoType);
+                        textOverTime.setTypeface(meiryoType);
+                        textWeek.setTypeface(meiryoType);
                         /******************* フォント調整 *******************/
 
                         row.addView(textDate, paramsDate);      // 日付
@@ -402,7 +368,6 @@ public class ListViewFragment extends Fragment {
         } finally {
             db.endTransaction();
         }
-
         return view;//inflater.inflate(R.layout.fragment_list_view, container, false);
     }
 
@@ -441,6 +406,10 @@ public class ListViewFragment extends Fragment {
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.listImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
+        TableLayout headerTable = (TableLayout) getActivity().findViewById(R.id.headerTable);
+        headerTable.setOnClickListener(null);
+        headerTable.setBackground(null);
+        headerTable.removeAllViews();
         /************ 期間変更ボタン ************/
         ImageButton timeSwitchButton = (ImageButton)getActivity().findViewById(R.id.perSwitchButton);
         timeSwitchButton.setImageBitmap(null);
@@ -448,6 +417,11 @@ public class ListViewFragment extends Fragment {
         timeSwitchButton.setOnClickListener(null);
         dateTextView = (TextView)getActivity().findViewById(R.id.dateTextView);
         dateTextView.setOnClickListener(null);
+        /************ グローバル変数 ************/
+        dateTextView=null;
+        builder=null;
+        contentView=null;
+        System.gc();
     }
 
     /***

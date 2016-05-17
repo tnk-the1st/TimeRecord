@@ -78,8 +78,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 String result = cursor.getString(0);
                 if(result.equals("0")){
-                    db.execSQL("create table "+CUR_TIME_TABLE_NAME+" ( key_cd text , basic_date text primary key , year_month_date text,"+
-                            " leaving_date text not null , week text );");//,primary key (key_cd, basic_date)
+                    db.execSQL("CREATE TABLE " + CUR_TIME_TABLE_NAME + " ( key_cd text , basic_date text primary key , year_month_date text," +
+                            " leaving_date text not null ,over_time_date text, week text );");
                 }
             }
         } catch (SQLException ex) {

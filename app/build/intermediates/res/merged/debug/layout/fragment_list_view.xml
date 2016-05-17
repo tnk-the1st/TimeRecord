@@ -31,12 +31,19 @@
         android:layout_alignParentStart="true"
         android:gravity="center" />
 
+    <TableLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/headerTable"
+        android:layout_below="@+id/dateTextView">
+    </TableLayout>
     <!-- スクロール -->
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/dateTextView">
+        android:layout_alignParentStart="true"
+        android:fillViewport="false"
+        android:layout_below="@+id/headerTable">
 
         <!-- データ表示用TableLayout -->
         <TableLayout

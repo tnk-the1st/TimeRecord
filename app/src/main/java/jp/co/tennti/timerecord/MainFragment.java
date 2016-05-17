@@ -77,8 +77,6 @@ public class MainFragment extends Fragment {
         /************ 登録ボタン start ************/
         // ボタンを設定
         final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);
-        //timeCountButton.setImageBitmap(BitmapFactory.decodeResource(resource,R.mipmap.times_day));
-        //controlButton.setImageBitmap(permitDisallowedImage);
         timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
 
 
@@ -112,13 +110,14 @@ public class MainFragment extends Fragment {
                     RandGeneratUtils randGenerat = new RandGeneratUtils();
                     TimeUtils timeUtil = new TimeUtils();
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?,?,?)");
                     try {
                         statement.bindString(1, randGenerat.get());
                         statement.bindString(2, timeUtil.getCurrentYearMonthDay());
                         statement.bindString(3, timeUtil.getCurrentYearMonthHyphen());
                         statement.bindString(4, timeUtil.getCurrentDate());
-                        statement.bindString(5, timeUtil.getCurrentWeekOmit());
+                        statement.bindString(5, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
+                        statement.bindString(6, timeUtil.getCurrentWeekOmit());
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -128,7 +127,6 @@ public class MainFragment extends Fragment {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
                         Log.e("INSERT ERROR", ex.toString());
                     } finally {
-                        timeUtil=null;
                         statement.close();
                     }
                     db.setTransactionSuccessful();
@@ -143,7 +141,6 @@ public class MainFragment extends Fragment {
         final ImageButton controlButton = (ImageButton)view.findViewById(R.id.controlButton);
         controlButton.setImageBitmap(null);
         controlButton.setImageDrawable(null);
-        //controlButton.setImageBitmap(permitDisallowedImage);
         controlButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_permit_switch));
 
         // リスナーをボタンに登録
@@ -152,9 +149,6 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 timeCountButton.setEnabled(true);
                 timeCountButton.setColorFilter(null);
-                //db.delete("person", null, null);
-                //String sql = "drop database NameAgeDB;";
-                //db.execSQL(sql);
             }
         });
         /************ 制御ボタン end ************/
@@ -218,7 +212,6 @@ public class MainFragment extends Fragment {
             }
         });
         /************ 削除ボタン end ************/
-
         return view;
     }
     /***
@@ -227,7 +220,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
     }
 
     /***
@@ -254,7 +246,6 @@ public class MainFragment extends Fragment {
         ImageButton deleteButton = (ImageButton) getActivity().findViewById(R.id.deleteButtonMain);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
-        Log.d(TAG, "onDestroyView");
     }
 
     /***
@@ -263,7 +254,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
     }
 
     /***
@@ -272,6 +262,5 @@ public class MainFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(TAG, "onDetach");
     }
 }

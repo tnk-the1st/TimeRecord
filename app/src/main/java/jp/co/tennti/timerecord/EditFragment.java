@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,13 +36,12 @@ public class EditFragment extends Fragment {
     private Bitmap myImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
 
     private Bitmap permitDisallowedImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
-    static final String TAG = "EditFragment";
-    TextView dateTextView;
-    TextView timeTextView;
-    AlertDialog.Builder builder_d;
-    AlertDialog.Builder builder_t;
-    View datePickerView;
-    View timePickerView;
+    TextView dateTextView = null;
+    TextView timeTextView = null;
+    AlertDialog.Builder builder_d = null;
+    AlertDialog.Builder builder_t = null;
+    View datePickerView = null;
+    View timePickerView = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,8 @@ public class EditFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        /** font 指定 */
+        Typeface meiryoType=Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc");
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
@@ -90,7 +91,8 @@ public class EditFragment extends Fragment {
         /**データピッカー**/
         dateTextView = (TextView)view.findViewById(R.id.editDateTextView);
         dateTextView.setText(timeUtil.getCurrentYearMonthDayJaCal());
-
+        dateTextView.setTypeface(meiryoType);
+        dateTextView.setTextSize(18);
 
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +150,8 @@ public class EditFragment extends Fragment {
 
         timeTextView = (TextView)view.findViewById(R.id.editTimeTextView);
         timeTextView.setText(timeUtil.getCurrentHourMinuteJaCal());
+        timeTextView.setTypeface(meiryoType);
+        timeTextView.setTextSize(18);
         timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +202,8 @@ public class EditFragment extends Fragment {
                                     // Cancel ボタンクリック処理
                                 }
                             });
-
                     // 表示
                 builder_t.create().show();
-
             }
         });
 
@@ -225,7 +227,7 @@ public class EditFragment extends Fragment {
                     builder.append("time_record_");
                     builder.append(timeUtil.getTargetYYYYMM(dateTextViewTemp.getText().toString()));
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?,?)");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -245,7 +247,8 @@ public class EditFragment extends Fragment {
                         statement.bindString(2, yearMonthDay);
                         statement.bindString(3, yearMonth);
                         statement.bindString(4, allDate);
-                        statement.bindString(5, timeUtil.getTargetWeekOmit(yearMonthDay));
+                        statement.bindString(5, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
+                        statement.bindString(6, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -255,7 +258,6 @@ public class EditFragment extends Fragment {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
                         Log.e("INSERT ERROR", ex.toString());
                     } finally {
-                        timeUtil=null;
                         statement.close();
                     }
                     db.setTransactionSuccessful();
@@ -410,7 +412,6 @@ public class EditFragment extends Fragment {
             }
         });
         /************ 更新ボタン end ************/
-
         return view;
     }
     /***
@@ -419,7 +420,6 @@ public class EditFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
     }
 
     /***
@@ -457,10 +457,8 @@ public class EditFragment extends Fragment {
         timePickerView = null;
         dateTextView = null;
         timeTextView = null;
-
-        /**データピッカー**/
-
-        Log.d(TAG, "onDestroyView");
+        builder_d = null;
+        builder_t = null;
     }
 
     /***
@@ -469,7 +467,6 @@ public class EditFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
     }
 
     /***
@@ -478,6 +475,5 @@ public class EditFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(TAG, "onDetach");
     }
 }

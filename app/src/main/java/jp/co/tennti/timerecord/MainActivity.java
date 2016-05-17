@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity
         /**DB接続**/
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
-        /**DB接続**/        MySQLiteOpenHelper sqlLiteAdepter = new MySQLiteOpenHelper(this);
+        /**DB接続**/
+        MySQLiteOpenHelper sqlLiteAdepter = new MySQLiteOpenHelper(this);
         sqlLiteAdepter.reloadOnFire(db);
         /******月ごとテーブル再作成 END******/
         // ボタンを設定

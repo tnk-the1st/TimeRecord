@@ -28,10 +28,9 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
 public class MainFragment extends Fragment {
-    private Bitmap myImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
 
+    private Bitmap myImage               = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
     private Bitmap permitDisallowedImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
-    static final String TAG = "MainFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,14 +44,14 @@ public class MainFragment extends Fragment {
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        Resources resource = getResources();
+        final Resources resource = getResources();
         if(myImage!=null){
             myImage.recycle();
         }
         myImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
-        ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
+        final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
@@ -80,14 +79,13 @@ public class MainFragment extends Fragment {
         timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
 
 
-        TimeUtils timeUtil = new TimeUtils();
+        final TimeUtils timeUtil = new TimeUtils();
         /** 初期表示時にボタンを非活性にする判定**/
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.createTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.createTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
-                String result = cursor.getString(0);
-                if(result.equals("0")){
+                if(cursor.getString(0).equals("0")){
                     //timeCountButton.setEnabled(true);
                 } else {
                     timeCountButton.setEnabled(false);
@@ -107,8 +105,8 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 db.beginTransaction();
                 try {
-                    RandGeneratUtils randGenerat = new RandGeneratUtils();
-                    TimeUtils timeUtil = new TimeUtils();
+                    final RandGeneratUtils randGenerat = new RandGeneratUtils();
+                    final TimeUtils timeUtil = new TimeUtils();
 
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?,?,?)");
                     try {
@@ -168,7 +166,7 @@ public class MainFragment extends Fragment {
                 // アラートダイアログのタイトルを設定します
                 alertDialogBuilder.setTitle("指定日削除ダイアログ");
                 // アラートダイアログのメッセージを設定します
-                TimeUtils timeUtil = new TimeUtils();
+                final TimeUtils timeUtil = new TimeUtils();
                 alertDialogBuilder.setMessage(timeUtil.getCurrentYearMonthDay()+"のデータ削除を行いますがよろしいですか。");
                 // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
                 alertDialogBuilder.setNeutralButton("実行",
@@ -177,7 +175,7 @@ public class MainFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 db.beginTransaction();
                                 try {
-                                    TimeUtils timeUtil = new TimeUtils();
+                                    final TimeUtils timeUtil = new TimeUtils();
                                     final SQLiteStatement statement = db.compileStatement("DELETE FROM "+timeUtil.createTableName()+" WHERE basic_date=?");
                                     try {
                                         /**年月の判定 start**/

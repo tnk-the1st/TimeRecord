@@ -51,19 +51,19 @@ public class EditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** font 指定 */
-        Typeface meiryoType=Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc");
+        final Typeface meiryobType=Typeface.createFromAsset(getResources().getAssets(), "meiryob.ttc");
 
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
 
         final View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
-        Resources resource = getResources();
+        final Resources resource = getResources();
         if(myImage!=null){
             myImage.recycle();
         }
         myImage = BitmapFactory.decodeResource(resource, R.mipmap.edit_disp_hiei);
-        ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
+        final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
@@ -73,35 +73,34 @@ public class EditFragment extends Fragment {
         if(permitDisallowedImage!=null){
             permitDisallowedImage.recycle();
         }
-        TimeUtils timeUtil = new TimeUtils();
+        final TimeUtils timeUtil = new TimeUtils();
 
 
         /**日付データ**/
         datePickerView = inflater.inflate(R.layout.date_picker_dia, null);
         /**データピッカー**/
-        DatePicker datePicker = (DatePicker)datePickerView.findViewById(R.id.datePickerDia);
+        final DatePicker datePicker = (DatePicker)datePickerView.findViewById(R.id.datePickerDia);
         // 初期値を設定する 1999年12月31日
         //datePicker.updateDate(1999, 11, 31);
         //2011/01/01~3000/12/31
-        Date minDate = new Date(111, 0, 1);
-        Date maxDate = new Date(1100, 12, 31);
+        final Date minDate = new Date(111, 0, 1);
+        final Date maxDate = new Date(1100, 12, 31);
         datePicker.setMinDate(minDate.getTime());
         datePicker.setMaxDate(maxDate.getTime());
 
         /**データピッカー**/
         dateTextView = (TextView)view.findViewById(R.id.editDateTextView);
         dateTextView.setText(timeUtil.getCurrentYearMonthDayJaCal());
-        dateTextView.setTypeface(meiryoType);
+        dateTextView.setTypeface(meiryobType);
+        dateTextView.setTextColor(Color.BLACK);
         dateTextView.setTextSize(18);
 
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final android.view.ViewParent parent = datePickerView.getParent ();
-                if (parent instanceof android.view.ViewManager)
-                {
+                if (parent instanceof android.view.ViewManager) {
                     final android.view.ViewManager viewManager = (android.view.ViewManager) parent;
-
                     viewManager.removeView (datePickerView);
                 }
 
@@ -116,7 +115,7 @@ public class EditFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // OK ボタンクリック処理
-                                DatePicker datePicker = (DatePicker) datePickerView.findViewById(R.id.datePickerDia);
+                                final DatePicker datePicker = (DatePicker) datePickerView.findViewById(R.id.datePickerDia);
                                 try{
                                     TimeUtils timeUtil = new TimeUtils();
                                     /**年月の判定 start**/
@@ -125,7 +124,6 @@ public class EditFragment extends Fragment {
                                     yearMonthDay = timeUtil.getJoinYYYYMMDDJaCal(datePicker.getYear(),datePicker.getMonth()+1,datePicker.getDayOfMonth());
                                     /**年月の判定 end**/
                                     dateTextView.setText(yearMonthDay);
-                                    Log.d("NullPointerException", yearMonthDay);
                                 } catch (NullPointerException e){
                                     Log.d("NullPointerException",e.getMessage());
                                 }
@@ -150,7 +148,8 @@ public class EditFragment extends Fragment {
 
         timeTextView = (TextView)view.findViewById(R.id.editTimeTextView);
         timeTextView.setText(timeUtil.getCurrentHourMinuteJaCal());
-        timeTextView.setTypeface(meiryoType);
+        timeTextView.setTypeface(meiryobType);
+        timeTextView.setTextColor(Color.BLACK);
         timeTextView.setTextSize(18);
         timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +172,7 @@ public class EditFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // OK ボタンクリック処理
                                     try {
-                                        TimePicker timePicker = (TimePicker) timePickerView.findViewById(R.id.timePickerDia);
+                                        final TimePicker timePicker = (TimePicker) timePickerView.findViewById(R.id.timePickerDia);
                                         int hour;
                                         int minute;
                                         int currentApiVersion = Build.VERSION.SDK_INT;
@@ -184,7 +183,7 @@ public class EditFragment extends Fragment {
                                             hour = timePicker.getCurrentHour();
                                             minute = timePicker.getCurrentMinute();
                                         }
-                                        TimeUtils timeUtil = new TimeUtils();
+                                        final TimeUtils timeUtil = new TimeUtils();
                                         /**時分の判定 start**/
                                         String hourMinute ="00時00分";
                                         hourMinute = timeUtil.getTargetHourMinuteJaCal(hour,minute);
@@ -218,14 +217,18 @@ public class EditFragment extends Fragment {
             public void onClick(View v) {
                 db.beginTransaction();
                 try {
-                    RandGeneratUtils randGenerat = new RandGeneratUtils();
-                    TimeUtils timeUtil = new TimeUtils();
+                    final RandGeneratUtils randGenerat = new RandGeneratUtils();
+                    final TimeUtils timeUtil = new TimeUtils();
 
                     /**年月日**/
-                    TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
-                    StringBuilder builder = new StringBuilder();
+                    final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+                    final StringBuilder builder = new StringBuilder();
                     builder.append("time_record_");
                     builder.append(timeUtil.getTargetYYYYMM(dateTextViewTemp.getText().toString()));
+                    /**DB存在判定**/
+                    if (helper.isTarMonthTable(db , builder.toString())) {
+                        helper.createMonthTable(db , builder.toString());
+                    }
 
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?,?)");
                     try {
@@ -235,7 +238,7 @@ public class EditFragment extends Fragment {
                         String allDate      ="1999-01-01 00:00:00";
 
                         /**時分**/
-                        TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
+                        final TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
                         if ( dateTextViewTemp.getText() != null && dateTextViewTemp.getText() != "" && timeTextViewTemp.getText() != null && timeTextViewTemp.getText() != "") {
                             yearMonth    = timeUtil.getTargetYYYYMMHyphen(dateTextViewTemp.getText().toString());
                             yearMonthDay = timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
@@ -250,8 +253,8 @@ public class EditFragment extends Fragment {
                         statement.bindString(5, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
                         statement.bindString(6, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.executeInsert();
-                        timeCountButton.setEnabled(false);
-                        timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                        /*timeCountButton.setEnabled(false);
+                        timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));*/
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                         Toast.makeText(getActivity(), "指定時刻を登録しました", Toast.LENGTH_SHORT).show();
                     }  catch (SQLException ex) {
@@ -298,23 +301,23 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //ダイアログの生成
-                       AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                        // アラートダイアログのタイトルを設定します
-                        alertDialogBuilder.setTitle("指定日削除ダイアログ");
-                        // アラートダイアログのメッセージを設定します
-                        TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
-                        TimeUtils timeUtil = new TimeUtils();
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                // アラートダイアログのタイトルを設定します
+                alertDialogBuilder.setTitle("指定日削除ダイアログ");
+                // アラートダイアログのメッセージを設定します
+                final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+                final TimeUtils timeUtil = new TimeUtils();
 
-                        alertDialogBuilder.setMessage(timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString())+"のデータ削除を行いますがよろしいですか。");
-                        // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
-                        alertDialogBuilder.setNeutralButton("実行",
+                alertDialogBuilder.setMessage(timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString())+"のデータ削除を行いますがよろしいですか。");
+                // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+                alertDialogBuilder.setNeutralButton("実行",
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         db.beginTransaction();
                                         try {
                                             TimeUtils timeUtil = new TimeUtils();
-                                            TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+                                            final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
 
                                             StringBuilder builder = new StringBuilder();
                                             builder.append("time_record_");
@@ -374,7 +377,7 @@ public class EditFragment extends Fragment {
             public void onClick(View v) {
                 db.beginTransaction();
                 try {
-                    TimeUtils timeUtil = new TimeUtils();
+                    final TimeUtils timeUtil = new TimeUtils();
                     final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.createTableName()+" SET year_month_date=?, leaving_date=?,week=? WHERE basic_date = ?");
                     try {
                         /**年月の判定 start**/
@@ -382,9 +385,9 @@ public class EditFragment extends Fragment {
                         String yearMonthDay ="1999-01-01";
                         String allDate      ="1999-01-01 00:00:00";
                         /**年月日**/
-                        TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+                        final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
                         /**時分**/
-                        TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
+                        final TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
                         if ( dateTextViewTemp.getText() != null && dateTextViewTemp.getText() != "" && timeTextViewTemp.getText() != null && timeTextViewTemp.getText() != "") {
                             yearMonth    = timeUtil.getTargetYYYYMMHyphen(dateTextViewTemp.getText().toString());
                             yearMonthDay = timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
@@ -402,7 +405,6 @@ public class EditFragment extends Fragment {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL UPDATE エラー","update処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
                         Log.e("UPDATE ERROR", ex.toString());
                     } finally {
-                        timeUtil=null;
                         statement.close();
                     }
                     db.setTransactionSuccessful();

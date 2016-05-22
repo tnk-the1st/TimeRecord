@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="animation_drawable">
-        <item>@mipmap/list_the_world</item>
-        <item>@mipmap/main_disp_magika</item>
+        <item>@mipmap/main_disp_kongou</item>
+        <item>@mipmap/edit_disp_hiei</item>
         <!-- ~省略~ -->
     </array>
     <attr format="reference" name="drawerArrowStyle"/>

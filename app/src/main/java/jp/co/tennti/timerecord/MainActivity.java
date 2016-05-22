@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity
 
         /*フラグメントの初期読込み*/
         if (savedInstanceState == null) {
-            MainFragment fragment = new MainFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_main, fragment).commit();
+            final MainFragment fragment = new MainFragment();
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_main, fragment).commit();
         }
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
@@ -56,35 +56,12 @@ public class MainActivity extends AppCompatActivity
         /******基本処理******/
         /******月ごとテーブル再作成 START******/
         /**DB接続**/
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
         /**DB接続**/
-        MySQLiteOpenHelper sqlLiteAdepter = new MySQLiteOpenHelper(this);
+        final MySQLiteOpenHelper sqlLiteAdepter = new MySQLiteOpenHelper(this);
         sqlLiteAdepter.reloadOnFire(db);
         /******月ごとテーブル再作成 END******/
-        // ボタンを設定
-        /*final ImageButton timeCountButton = (ImageButton)findViewById(R.id.timeCountButton);
-
-        // リスナーをボタンに登録
-        timeCountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimeUtils.getCurrentTime();
-                timeCountButton.setEnabled(false);
-                timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
-            }
-        });
-
-        // ボタンを設定
-        final ImageButton controlButton = (ImageButton)findViewById(R.id.controlButton);
-        // リスナーをボタンに登録
-        controlButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timeCountButton.setEnabled(true);
-                timeCountButton.setColorFilter(null);
-            }
-        });*/
         /******基本処理******/
     }
 
@@ -108,60 +85,25 @@ public class MainActivity extends AppCompatActivity
     // メニューアイテム選択イベント
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.list_screen:
                 // 一覧を起動
-                /*Intent intent = new Intent(getApplication(),ListViewFragment.class);
-                startActivity(intent);*/
-                /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ListViewFragment next = new ListViewFragment();
-                ft.replace(R.id.bar_container,next);
-                //ft.addToBackStack(null);
-                ft.commit();*/
-
-                /*ImageView imgView = (ImageView)findViewById(R.id.contentImageView);
-                *//*imgView.setImageDrawable(null);
-                imgView.setImageBitmap(null);*//*
-                Drawable drawable = imgView.getDrawable();
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                bitmap.recycle();*/
-
-                ListViewFragment listViewFragment = new ListViewFragment();
+                final ListViewFragment listViewFragment = new ListViewFragment();
                 transaction.replace(R.id.fragment_main, listViewFragment).addToBackStack(null).commit();
                 break;
             case R.id.regist_screen:
                 // 登録画面を起動
                 //finish();
-
-                /*ImageView imgView2 = (ImageView)findViewById(R.id.listImageView);
-                *//*imgView2.setImageDrawable(null);
-                imgView2.setImageBitmap(null);*//*
-                Drawable drawable2 = imgView2.getDrawable();
-                BitmapDrawable bitmapDrawable2 = (BitmapDrawable) drawable2;
-                Bitmap bitmap2 = bitmapDrawable2.getBitmap();
-                bitmap2.recycle();*/
-
-                MainFragment mainFragment = new MainFragment();
+                final MainFragment mainFragment = new MainFragment();
                 transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
                 break;
             case R.id.edit_screen:
                 // 編集画面を起動
-                EditFragment editFragment = new EditFragment();
+                final EditFragment editFragment = new EditFragment();
                 transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
                 break;
         }
-        System.gc();
         return super.onOptionsItemSelected(item);
     }
 
@@ -169,14 +111,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+        final int id = item.getItemId();
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (id == R.id.main_content) {
+            final MainFragment mainFragment = new MainFragment();
+            transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
+        } else if (id == R.id.list_content) {
+            final ListViewFragment listViewFragment = new ListViewFragment();
+            transaction.replace(R.id.fragment_main, listViewFragment).addToBackStack(null).commit();
+        } else if (id == R.id.edit_content) {
+            final EditFragment editFragment = new EditFragment();
+            transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -185,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -203,7 +148,7 @@ public class MainActivity extends AppCompatActivity
      * （ドローワブルをのコールバックメソッドによるアクティビティのリークを防ぐため）
      * @param view
      */
-    public static final void cleanupView(View view) {
+    protected static final void cleanupView(View view) {
         if(view instanceof ImageButton) {
             ImageButton ib = (ImageButton)view;
             ib.setImageDrawable(null);
@@ -222,11 +167,10 @@ public class MainActivity extends AppCompatActivity
         view.setBackgroundDrawable(null);
         if(view instanceof ViewGroup) {
             ViewGroup vg = (ViewGroup)view;
-            int size = vg.getChildCount();
+            final int size = vg.getChildCount();
             for(int i = 0; i < size; i++) {
                 cleanupView(vg.getChildAt(i));
             }
         }
     }
-
 }

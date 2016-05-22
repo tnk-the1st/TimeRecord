@@ -20,12 +20,12 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\drawable\\design_snackbar_background.xml"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\gradient_black_lengthwise.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\gradient_black_lengthwise.xml"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\row_color2.xml",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\row_color2.xml"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\gradient_black_lengthwise.xml",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\gradient_black_lengthwise.xml"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
@@ -104,12 +104,12 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_menu_send.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\ic_menu_send.xml"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_fab_background.xml",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\drawable\\design_fab_background.xml"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_menu_send.xml",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\ic_menu_send.xml"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_dark.xml",
@@ -156,12 +156,12 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\btn_edit_times_day_switch.xml"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\row_head.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\row_head.xml"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\row_color1.xml",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\row_color1.xml"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\row_head.xml",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\drawable\\row_head.xml"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_menu_manage.xml",

@@ -24,10 +24,6 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-hdpi\\ic_edit_times_day.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_edit_times_day_dep.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-hdpi\\ic_edit_times_day_dep.png"
     },

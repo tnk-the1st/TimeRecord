@@ -44,10 +44,6 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_period_change_dep.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\ic_launcher.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\ic_times_day.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_times_day.png"
     },

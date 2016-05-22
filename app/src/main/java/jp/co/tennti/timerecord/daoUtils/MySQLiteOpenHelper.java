@@ -32,17 +32,14 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         StringBuilder builder = new StringBuilder();
         builder.append("time_record_");
         builder.append(TimeUtils.getCurrentYearAndMonth());
-        TimeUtils timeUtil = new TimeUtils();
-        String CUR_TIME_TABLE_NAME =  timeUtil.createTableName();//builder.toString();
+        final TimeUtils timeUtil = new TimeUtils();
 
-
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{CUR_TIME_TABLE_NAME});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.createTableName().toString()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
-                String result = cursor.getString(0);
-                if(result.equals("0")){
-                    db.execSQL("create table "+CUR_TIME_TABLE_NAME+" ( key_cd text , basic_date text primary key , year_month_date text,"+
+                if(cursor.getString(0).equals("0")){
+                    db.execSQL("create table "+timeUtil.createTableName().toString()+" ( key_cd text , basic_date text primary key , year_month_date text,"+
                             " leaving_date text not null , week text );");//,primary key (key_cd, basic_date)
                 }
             }
@@ -50,10 +47,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             Log.e("ERROR", ex.toString());
         }
         finally {
-            timeUtil = null;
             cursor.close();
         }
-
         //db.execSQL("create table person(" + " name text not null," + "age text" + ");");
     }
 
@@ -62,32 +57,73 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    //テーブル月更新再作成用
+    /**
+     * テーブル月更新再作成用
+     * @param SQLiteDatabase db DBアクセッサ
+     */
     public void reloadOnFire(SQLiteDatabase db) {
         //テーブル名作成
         StringBuilder builder = new StringBuilder();
         builder.append("time_record_");
         builder.append(TimeUtils.getCurrentYearAndMonth());
-        TimeUtils timeUtil = new TimeUtils();
-        String CUR_TIME_TABLE_NAME =  timeUtil.createTableName();//builder.toString();
+        final TimeUtils timeUtil = new TimeUtils();
 
-
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{CUR_TIME_TABLE_NAME});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.createTableName().toString()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
-                String result = cursor.getString(0);
-                if(result.equals("0")){
-                    db.execSQL("CREATE TABLE " + CUR_TIME_TABLE_NAME + " ( key_cd text , basic_date text primary key , year_month_date text," +
+                if(cursor.getString(0).equals("0")){
+                    db.execSQL("CREATE TABLE " + timeUtil.createTableName().toString() + " ( key_cd text , basic_date text primary key , year_month_date text," +
                             " leaving_date text not null ,over_time_date text, week text );");
                 }
             }
-        } catch (SQLException ex) {
-            Log.e("ERROR", ex.toString());
+        } catch (SQLException e) {
+            Log.e("ERROR", e.toString());
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * テーブル存在判定
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String targMonthTable テーブル名
+     * @return boolean exitFlag 判定結果
+     */
+    public boolean isTarMonthTable(SQLiteDatabase db,String targMonthTable) {
+        boolean exitFlag = false;
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targMonthTable});
+        try {
+            if (cursor.moveToNext()) {
+                cursor.moveToFirst();
+                if(cursor.getString(0).equals("0")){
+                    exitFlag =true;
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("SELECT COUNT(*) ERROR", e.toString());
         }
         finally {
-            timeUtil = null;
             cursor.close();
+        }
+        return exitFlag;
+    }
+
+    /**
+     * テーブル存在判定
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String targMonthTable テーブル名
+     */
+    public void createMonthTable(SQLiteDatabase db,String targMonthTable) {
+        /*final Cursor cursor =*/
+        try {
+            db.execSQL("CREATE TABLE " + targMonthTable + " ( key_cd text , basic_date text primary key , year_month_date text," +
+                    " leaving_date text not null ,over_time_date text, week text );");
+        } catch (SQLException e) {
+            Log.e("CREATE ERROR", e.toString());
+        }
+        finally {
+            /*cursor.close();*/
         }
     }
 }

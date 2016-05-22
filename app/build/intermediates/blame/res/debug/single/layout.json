@@ -8,12 +8,12 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\notification_template_part_chronometer.xml"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_lines.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\notification_template_lines.xml"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_expanded_menu_layout.xml",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_lines.xml",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\notification_template_lines.xml"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",

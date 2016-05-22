@@ -32,24 +32,12 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_delete_btn_dep.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\list_the_world.jpg",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\list_the_world.jpg"
-    },
-    {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\main_disp_magika.jpg",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\main_disp_magika.jpg"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\yariha.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\yariha.png"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_permit_disallowed_dep.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_permit_disallowed_dep.png"
-    },
-    {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\edit_disp_magika.jpg",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\edit_disp_magika.jpg"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_udate_btn.png",
@@ -78,9 +66,5 @@
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_period_change_dep.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_period_change_dep.png"
-    },
-    {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi-v4\\ic_launcher.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
     }
 ]

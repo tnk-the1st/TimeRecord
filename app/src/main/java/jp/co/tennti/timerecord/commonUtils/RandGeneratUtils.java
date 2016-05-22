@@ -17,10 +17,10 @@ public class RandGeneratUtils {
      * @memo 13+7桁
      */
     public String get() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(make());
-        builder.append(RandomStringUtils.randomAlphanumeric(7).toLowerCase());
-        return builder.toString();
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(make());
+        buffer.append(RandomStringUtils.randomAlphanumeric(7).toLowerCase());
+        return buffer.toString();
     }
     /**
      * ユニークＩＤを作成します。
@@ -45,11 +45,13 @@ public class RandGeneratUtils {
      * @return ユニークＩＤ
      */
     public synchronized static final String getUniqueId(){
-        Date now = new Date();
-        String dateFormat = Long.toString(Long.parseLong(datePattern.format(now)), 36);
-        String sequence = sequencer();
-
-        return dateFormat.concat(sequence);
+        final Date now = new Date();
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(Long.toString(Long.parseLong(datePattern.format(now)), 36));
+        buffer.append(sequencer());
+        /*String dateFormat = Long.toString(Long.parseLong(datePattern.format(now)), 36);
+        String sequence = sequencer();*/
+        return buffer.toString();//dateFormat.concat(sequence);
     }
     /**
      * シーケンスを取得して返却。
@@ -68,10 +70,10 @@ public class RandGeneratUtils {
 
         // 桁チェック後３６進数変換して返却
         if(seq < 36){
-            StringBuilder builder = new StringBuilder();
-            builder.append("0");
-            builder.append(Integer.toString(seq, 36));
-            return builder.toString();
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("0");
+            buffer.append(Integer.toString(seq, 36));
+            return buffer.toString();
         }
         else{
             return Integer.toString(seq, 36);

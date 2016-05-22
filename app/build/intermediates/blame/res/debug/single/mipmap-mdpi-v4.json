@@ -44,10 +44,6 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_delete_btn_dep.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_launcher.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_edit_times_day.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_edit_times_day.png"
     },

@@ -2351,6 +2351,7 @@ containing a value of this type.
         public static final int drawer_layout=0x7f0d0069;
         public static final int editDateTextView=0x7f0d0077;
         public static final int editTimeTextView=0x7f0d0079;
+        public static final int edit_content=0x7f0d0098;
         public static final int edit_query=0x7f0d005c;
         public static final int edit_screen=0x7f0d009e;
         public static final int end=0x7f0d0021;
@@ -2379,18 +2380,17 @@ containing a value of this type.
         public static final int line3=0x7f0d0090;
         public static final int listImageView=0x7f0d007d;
         public static final int listMode=0x7f0d000b;
+        public static final int list_content=0x7f0d0097;
         public static final int list_item=0x7f0d0041;
         public static final int list_screen=0x7f0d009c;
+        public static final int main_content=0x7f0d0096;
         public static final int media_actions=0x7f0d008a;
         public static final int middle=0x7f0d0032;
         public static final int mini=0x7f0d0030;
         public static final int multiply=0x7f0d0027;
-        public static final int nav_camera=0x7f0d0096;
-        public static final int nav_gallery=0x7f0d0097;
         public static final int nav_manage=0x7f0d0099;
         public static final int nav_send=0x7f0d009b;
         public static final int nav_share=0x7f0d009a;
-        public static final int nav_slideshow=0x7f0d0098;
         public static final int nav_view=0x7f0d006a;
         public static final int navigation_header_container=0x7f0d0071;
         public static final int never=0x7f0d0036;
@@ -2535,26 +2535,22 @@ containing a value of this type.
     }
     public static final class mipmap {
         public static final int edit_disp_hiei=0x7f030000;
-        public static final int edit_disp_magika=0x7f030001;
-        public static final int ic_delete_btn=0x7f030002;
-        public static final int ic_delete_btn_dep=0x7f030003;
-        public static final int ic_edit_times_day=0x7f030004;
-        public static final int ic_edit_times_day_dep=0x7f030005;
-        public static final int ic_launcher=0x7f030006;
-        public static final int ic_period_change=0x7f030007;
-        public static final int ic_period_change_dep=0x7f030008;
-        public static final int ic_permit_disallowed=0x7f030009;
-        public static final int ic_permit_disallowed_dep=0x7f03000a;
-        public static final int ic_times_day=0x7f03000b;
-        public static final int ic_times_day_dep=0x7f03000c;
-        public static final int ic_udate_btn=0x7f03000d;
-        public static final int ic_udate_btn_dep=0x7f03000e;
-        public static final int kakugane=0x7f03000f;
-        public static final int list_disp_all=0x7f030010;
-        public static final int list_the_world=0x7f030011;
-        public static final int main_disp_kongou=0x7f030012;
-        public static final int main_disp_magika=0x7f030013;
-        public static final int yariha=0x7f030014;
+        public static final int ic_delete_btn=0x7f030001;
+        public static final int ic_delete_btn_dep=0x7f030002;
+        public static final int ic_edit_times_day=0x7f030003;
+        public static final int ic_edit_times_day_dep=0x7f030004;
+        public static final int ic_period_change=0x7f030005;
+        public static final int ic_period_change_dep=0x7f030006;
+        public static final int ic_permit_disallowed=0x7f030007;
+        public static final int ic_permit_disallowed_dep=0x7f030008;
+        public static final int ic_times_day=0x7f030009;
+        public static final int ic_times_day_dep=0x7f03000a;
+        public static final int ic_udate_btn=0x7f03000b;
+        public static final int ic_udate_btn_dep=0x7f03000c;
+        public static final int kakugane=0x7f03000d;
+        public static final int list_disp_all=0x7f03000e;
+        public static final int main_disp_kongou=0x7f03000f;
+        public static final int yariha=0x7f030010;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f060000;

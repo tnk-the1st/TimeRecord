@@ -33,9 +33,8 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
 public class EditFragment extends Fragment {
-    private Bitmap myImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
+    private Bitmap mainImage = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
 
-    private Bitmap permitDisallowedImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
     TextView dateTextView = null;
     TextView timeTextView = null;
     AlertDialog.Builder builder_d = null;
@@ -59,20 +58,17 @@ public class EditFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
         final Resources resource = getResources();
-        if(myImage!=null){
-            myImage.recycle();
+        if(mainImage!=null){
+            mainImage.recycle();
         }
-        myImage = BitmapFactory.decodeResource(resource, R.mipmap.edit_disp_hiei);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.edit_disp_hiei);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        imgView.setImageBitmap(myImage);
+        imgView.setImageBitmap(mainImage);
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        if(permitDisallowedImage!=null){
-            permitDisallowedImage.recycle();
-        }
+        
         final TimeUtils timeUtil = new TimeUtils();
 
 
@@ -241,8 +237,8 @@ public class EditFragment extends Fragment {
                         final TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
                         if ( dateTextViewTemp.getText() != null && dateTextViewTemp.getText() != "" && timeTextViewTemp.getText() != null && timeTextViewTemp.getText() != "") {
                             yearMonth    = timeUtil.getTargetYYYYMMHyphen(dateTextViewTemp.getText().toString());
-                            yearMonthDay = timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
-                            allDate      = timeUtil.getTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
+                            yearMonthDay = timeUtil.conTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
+                            allDate      = timeUtil.conTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
                         }
 
                         /**年月の判定 end**/
@@ -308,7 +304,7 @@ public class EditFragment extends Fragment {
                 final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
                 final TimeUtils timeUtil = new TimeUtils();
 
-                alertDialogBuilder.setMessage(timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString())+"のデータ削除を行いますがよろしいですか。");
+                alertDialogBuilder.setMessage(timeUtil.conTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString())+"のデータ削除を行いますがよろしいですか。");
                 // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
                 alertDialogBuilder.setNeutralButton("実行",
                                 new DialogInterface.OnClickListener() {
@@ -331,7 +327,7 @@ public class EditFragment extends Fragment {
                                                 /**年月日**/
 
                                                 if ( dateTextViewTemp.getText() != null && dateTextViewTemp.getText() != "" ) {
-                                                    yearMonthDay = timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
+                                                    yearMonthDay = timeUtil.conTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
                                                 }
                                                 /**年月の判定 end**/
                                                 statement.bindString(1, yearMonthDay);
@@ -390,8 +386,8 @@ public class EditFragment extends Fragment {
                         final TextView timeTextViewTemp = (TextView)view.findViewById(R.id.editTimeTextView);
                         if ( dateTextViewTemp.getText() != null && dateTextViewTemp.getText() != "" && timeTextViewTemp.getText() != null && timeTextViewTemp.getText() != "") {
                             yearMonth    = timeUtil.getTargetYYYYMMHyphen(dateTextViewTemp.getText().toString());
-                            yearMonthDay = timeUtil.getTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
-                            allDate      = timeUtil.getTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
+                            yearMonthDay = timeUtil.conTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
+                            allDate      = timeUtil.conTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
                         }
                         /**年月の判定 end**/
                         statement.bindString(1, yearMonth);
@@ -430,7 +426,7 @@ public class EditFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        myImage=null;
+        mainImage=null;
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);

@@ -29,8 +29,7 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class MainFragment extends Fragment {
 
-    private Bitmap myImage               = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
-    private Bitmap permitDisallowedImage = Bitmap.createBitmap(800, 600, Bitmap.Config.ARGB_4444);
+    private Bitmap mainImage               = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,37 +46,21 @@ public class MainFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         final Resources resource = getResources();
-        if(myImage!=null){
-            myImage.recycle();
+        if(mainImage!=null){
+            mainImage.recycle();
         }
-        myImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        imgView.setImageBitmap(myImage);
+        imgView.setImageBitmap(mainImage);
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        //Resources res = getResources();
-        /*int size = 48;//res.getDimensionPixelSize(R.dimen.image_size);
-        BitmapUtils bu = new BitmapUtils();
-        imgView.setImageBitmap(
-                bu.decodeSampledBitmapFromFile("/res/mipmap-xxxhdpi/main_disp_magika.jpg" , size, size));*/
-
-        /*BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 0;
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.main_disp_magika, options);
-
-        ImageView imageView = (ImageView)view.findViewById(R.id.contentImageView);
-        imageView.setImageBitmap(bmp);*/
-        if(permitDisallowedImage!=null){
-            permitDisallowedImage.recycle();
-        }
+        
         /************ 登録ボタン start ************/
         // ボタンを設定
         final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);
         timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
-
 
         final TimeUtils timeUtil = new TimeUtils();
         /** 初期表示時にボタンを非活性にする判定**/
@@ -108,14 +91,14 @@ public class MainFragment extends Fragment {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?)");
                     try {
-                        statement.bindString(1, randGenerat.get());
-                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
-                        statement.bindString(3, timeUtil.getCurrentYearMonthHyphen());
-                        statement.bindString(4, timeUtil.getCurrentDate());
-                        statement.bindString(5, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
-                        statement.bindString(6, timeUtil.getCurrentWeekOmit());
+//                        statement.bindString(1, randGenerat.get());
+//                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
+                        statement.bindString(1, timeUtil.getCurrentYearMonthHyphen());
+                        statement.bindString(2, timeUtil.getCurrentDate());
+                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
+                        statement.bindString(4, timeUtil.getCurrentWeekOmit());
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -226,7 +209,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        myImage=null;
+        mainImage=null;
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);

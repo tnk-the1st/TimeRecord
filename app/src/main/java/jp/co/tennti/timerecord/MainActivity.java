@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import jp.co.tennti.timerecord.daoUtils.DatabaseAccess;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class MainActivity extends AppCompatActivity
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity
 
 
         /******基本処理******/
+        DatabaseAccess aba = new DatabaseAccess();
+        aba.openDatabase();
         /******月ごとテーブル再作成 START******/
         /**DB接続**/
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
@@ -86,21 +89,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final ListViewFragment listViewFragment = new ListViewFragment();
+        final MainFragment mainFragment         = new MainFragment();
+        final EditFragment editFragment         = new EditFragment();
         switch (item.getItemId()) {
             case R.id.list_screen:
                 // 一覧を起動
-                final ListViewFragment listViewFragment = new ListViewFragment();
                 transaction.replace(R.id.fragment_main, listViewFragment).addToBackStack(null).commit();
                 break;
             case R.id.regist_screen:
                 // 登録画面を起動
                 //finish();
-                final MainFragment mainFragment = new MainFragment();
                 transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
                 break;
             case R.id.edit_screen:
                 // 編集画面を起動
-                final EditFragment editFragment = new EditFragment();
                 transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
                 break;
         }
@@ -112,15 +115,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         final int id = item.getItemId();
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction transaction   = getSupportFragmentManager().beginTransaction();
+        final MainFragment mainFragment         = new MainFragment();
+        final ListViewFragment listViewFragment = new ListViewFragment();
+        final EditFragment editFragment         = new EditFragment();
         if (id == R.id.main_content) {
-            final MainFragment mainFragment = new MainFragment();
             transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
         } else if (id == R.id.list_content) {
-            final ListViewFragment listViewFragment = new ListViewFragment();
             transaction.replace(R.id.fragment_main, listViewFragment).addToBackStack(null).commit();
         } else if (id == R.id.edit_content) {
-            final EditFragment editFragment = new EditFragment();
             transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_manage) {
 

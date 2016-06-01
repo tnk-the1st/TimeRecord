@@ -2,11 +2,15 @@ package jp.co.tennti.timerecord.commonUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by peko on 2016/03/06.
@@ -15,8 +19,7 @@ public class TimeUtils {
 
     public static final String PROVIS_TIME="18:00:00";
     /**
-     * 現在時刻の取得
-     *
+     * システム日付でのテーブル作成
      */
     public String createTableName() {
         //テーブル名作成
@@ -30,7 +33,7 @@ public class TimeUtils {
      * 現在時刻の取得
      *
      */
-    public static void getCurrentTime() {
+    /*public static void getCurrentTime() {
         List<String> asList = Arrays.asList("日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日");
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -45,14 +48,12 @@ public class TimeUtils {
         System.out.println("現在の日時は" + year + "年" + month + "月" + day + "日" + "(" + asList.get(week) + ")");
         System.out.println(hour + "時" + minute + "分" + second + "秒");
         System.out.println("今日は今年の" + day_of_year + "日目です");
-    }
+    }*/
     /**
-     * 現在時刻の取得
-     *
+     * 現在時刻 FULL の取得
      * @return 現在時刻 yyyy-MM-dd HH:mm:ss
      */
     public String getCurrentDate() {
-        //List<String> asList = Arrays.asList("日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日");
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
@@ -60,10 +61,8 @@ public class TimeUtils {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
-        /*int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        int day_of_year = cal.get(Calendar.DAY_OF_YEAR);*/
 
-        StringBuffer builder = new StringBuffer();
+        StringBuffer buffer = new StringBuffer();
         String yearStr  = String.valueOf(year);
         String monthStr = String.valueOf(month);
         String dayStr   = String.valueOf(day);
@@ -71,39 +70,47 @@ public class TimeUtils {
         String minuteStr= String.valueOf(minute);
         String secondStr= String.valueOf(second);
 
-        builder.append(yearStr);
-        builder.append("-");
-        /*if (month < 10) {
-            builder.append("0");
-        }*/
-        addZeroBuf(month, builder);
-        builder.append(monthStr);
-        builder.append("-");
-        /*if (day < 10) {
-            builder.append("0");
-        }*/
-        addZeroBuf(day, builder);
-        builder.append(dayStr);
-        builder.append(" ");
-        /*if (hour < 10) {
-            builder.append("0");
-        }*/
-        addZeroBuf(hour, builder);
-        builder.append(hourStr);
-        builder.append(":");
-        /*if (minute < 10) {
-            builder.append("0");
-        }*/
-        addZeroBuf(minute, builder);
-        builder.append(minuteStr);
-        builder.append(":");
-        /*if (second < 10) {
-            builder.append("0");
-        }*/
-        addZeroBuf(second, builder);
-        builder.append(secondStr);
+        buffer.append(yearStr);
+        buffer.append("-");
+        addZeroBuf(month, buffer);
+        buffer.append(monthStr);
+        buffer.append("-");
+        addZeroBuf(day, buffer);
+        buffer.append(dayStr);
+        buffer.append(" ");
+        addZeroBuf(hour, buffer);
+        buffer.append(hourStr);
+        buffer.append(":");
+        addZeroBuf(minute, buffer);
+        buffer.append(minuteStr);
+        buffer.append(":");
+        addZeroBuf(second, buffer);
+        buffer.append(secondStr);
 
-        return builder.toString();
+        return buffer.toString();
+    }
+    /**
+     * 現在時間の取得
+     * @return 現在時間 HH:mm:ss
+     */
+    public String getCurrentTime() {
+        Calendar cal = Calendar.getInstance();
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+
+        StringBuffer buffer = new StringBuffer();
+
+        addZeroBuf(hour, buffer);
+        buffer.append(String.valueOf(hour));
+        buffer.append(":");
+        addZeroBuf(minute, buffer);
+        buffer.append(String.valueOf(minute));
+        buffer.append(":");
+        addZeroBuf(second, buffer);
+        buffer.append(String.valueOf(second));
+
+        return buffer.toString();
     }
     /**
      * 追加関数
@@ -167,16 +174,36 @@ public class TimeUtils {
         return buffer.toString();
     }
     /**
-     * 指定日の曜日を取得
-     * @param  yyyyMMdd 指定対象日： yyyyMMdd
-     * @return 指定日の曜日略式：(曜日)
+     * 現在曜日の取得
+     *y@param  String 指定対象日 yyy-MM-dd
+     * @return 現在の曜日略式：(曜日)
      */
-    public String getTargetWeekOmit(String yyyyMMdd) {
+    public String getTargWeekOmit(String targDate) {
         final List<String> asList = Arrays.asList("日", "月", "火", "水", "木", "金", "土");
         final Calendar cal = Calendar.getInstance();
-        final int year     = Integer.parseInt(yyyyMMdd.substring(0, 4));
-        final int month    = Integer.parseInt(yyyyMMdd.substring(5, 7))-1;
-        final int day      = Integer.parseInt(yyyyMMdd.substring(8, 10));
+
+        cal.set(Calendar.YEAR, Integer.parseInt(targDate.substring(0, 4)));
+        cal.set(Calendar.MONTH, Integer.parseInt(targDate.substring(5,7)) - 1);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(targDate.substring(8,10)));
+        final int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("(");
+        buffer.append(asList.get(week));
+        buffer.append(")");
+
+        return buffer.toString();
+    }
+    /**
+     * 指定日の曜日を取得
+     * @param  String 指定対象日： yyyy-MM-dd
+     * @return 指定日の曜日略式：(曜日)
+     */
+    public String getTargetWeekOmit(String tarDate) {
+        final List<String> asList = Arrays.asList("日", "月", "火", "水", "木", "金", "土");
+        final Calendar cal = Calendar.getInstance();
+        final int year     = Integer.parseInt(tarDate.substring(0, 4));
+        final int month    = Integer.parseInt(tarDate.substring(5, 7)) -1;
+        final int day      = Integer.parseInt(tarDate.substring(8, 10));
         cal.set(year, month, day);
         final int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
 
@@ -356,13 +383,12 @@ public class TimeUtils {
         return buffer.toString();
     }
     /**
-     * 現在年月日の取得
+     * 現在年月日の変換
      * @param  指定日付:yyyy_MM_dd
      * @return 指定時刻yyyy-MM-dd
      */
-    public String getTargetYYYYMMDDHyphen( String yyyyMMdd) {
+    public String conTargetYYYYMMDDHyphen( String yyyyMMdd) {
 
-        //String JOIN_HOUR_MINUTE;
         final String yearStr = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
         final String dayStr = yyyyMMdd.substring(8, 10);
@@ -372,18 +398,32 @@ public class TimeUtils {
         buffer.append(monthStr);
         buffer.append("-");
         buffer.append(dayStr);
-        //JOIN_HOUR_MINUTE = buffer.toString();
         return buffer.toString();
     }
 
     /**
-     * 現在時刻全容の取得
+     * 現在時刻全容の変換
+     * @param  hm 指定時間:hh_mm
+     * @return 指定時間HH:mm:ss
+     */
+    public String conTargetTime( String hm) {
+        String regex = "[時分]";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(hm);
+        String result = m.replaceAll(":");
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(result);
+        buffer.append(":");
+        buffer.append(":00");
+        return buffer.toString();
+    }
+    /**
+     * 現在時刻全容の変換
      * @param  yyyyMMdd 指定日付:yyyy_MM_dd
-     * @param  hms 指定時刻:hh_mm_ss
+     * @param  hms 指定時刻:hh_mm
      * @return 指定時刻yyyy-MM-dd HH:mm:ss
      */
-    public String getTargetDateFullHyphen( String yyyyMMdd,String hms) {
-
+    public String conTargetDateFullHyphen(String yyyyMMdd, String hm) {
         //String JOIN_HOUR_MINUTE;
         final  String yearStr = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
@@ -394,8 +434,8 @@ public class TimeUtils {
         buffer.append(monthStr);
         buffer.append("-");
         buffer.append(dayStr);
-        final String hourStr = hms.substring(0, 2);
-        final String minuteStr = hms.substring(3, 5);
+        final String hourStr = hm.substring(0, 2);
+        final String minuteStr = hm.substring(3, 5);
         buffer.append(" ");
         buffer.append(hourStr);
         buffer.append(":");
@@ -587,5 +627,71 @@ public class TimeUtils {
         SimpleDateFormat timeFormatter = new SimpleDateFormat ("HH:mm:ss");
         timeFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
         return timeFormatter.format(new Date(diffTime));
+    }
+    /**
+     * 金曜日判定クラス
+     * @param  string 判定用曜日
+     * @return boolean 判定結果
+     */
+    public boolean isFriday(String tarWeek){
+        if(tarWeek.equals("(金)")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * 土曜日判定クラス
+     * @param  string 判定用曜日
+     * @return boolean 判定結果
+     */
+    public boolean isSaturday(String tarWeek){
+        if(tarWeek.equals("(土)")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * 日曜日判定クラス
+     * @param  string 判定用曜日
+     * @return boolean 判定結果
+     */
+    public boolean isSunday(String tarWeek){
+        if(tarWeek.equals("(日)")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * 日曜日判定クラス
+     * @param  string 判定用曜日
+     * @return int 判定結果
+     * 日曜 :0 , 月曜:1 ,火曜:2 , 水曜:3 , 木曜:4 , 金曜:5, 土曜:6 , 判定不能:99
+     */
+    public int isWeekDrive(String tarWeek){
+        if(tarWeek.equals("(日)")){
+            return 0;
+        }
+        if(tarWeek.equals("(月)")){
+            return 1;
+        }
+        if(tarWeek.equals("(火)")){
+            return 2;
+        }
+        if(tarWeek.equals("(水)")){
+            return 3;
+        }
+        if(tarWeek.equals("(木)")){
+            return 4;
+        }
+        if(tarWeek.equals("(金)")){
+            return 5;
+        }
+        if(tarWeek.equals("(土)")){
+            return 6;
+        }
+        return 99;
     }
 }

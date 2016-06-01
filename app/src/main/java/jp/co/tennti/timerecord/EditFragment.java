@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
+import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -66,7 +68,9 @@ public class EditFragment extends Fragment {
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        imgView.setImageBitmap(mainImage);
+        BitmapUtils bu = new BitmapUtils();
+        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
         
         final TimeUtils timeUtil = new TimeUtils();
@@ -226,7 +230,7 @@ public class EditFragment extends Fragment {
                         helper.createMonthTable(db , builder.toString());
                     }
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?)");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -242,12 +246,12 @@ public class EditFragment extends Fragment {
                         }
 
                         /**年月の判定 end**/
-                        statement.bindString(1, randGenerat.get());
-                        statement.bindString(2, yearMonthDay);
-                        statement.bindString(3, yearMonth);
-                        statement.bindString(4, allDate);
-                        statement.bindString(5, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
-                        statement.bindString(6, timeUtil.getTargetWeekOmit(yearMonthDay));
+                        //statement.bindString(1, randGenerat.get());
+                        statement.bindString(1, yearMonthDay);
+                        //statement.bindString(3, yearMonth);
+                        statement.bindString(2, allDate);
+                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
+                        statement.bindString(4, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.executeInsert();
                         /*timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));*/
@@ -374,7 +378,7 @@ public class EditFragment extends Fragment {
                 db.beginTransaction();
                 try {
                     final TimeUtils timeUtil = new TimeUtils();
-                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.createTableName()+" SET year_month_date=?, leaving_date=?,week=? WHERE basic_date = ?");
+                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.createTableName()+" SET  leaving_date=?,overtime=?,week=? WHERE basic_date = ?");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -390,9 +394,10 @@ public class EditFragment extends Fragment {
                             allDate      = timeUtil.conTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
                         }
                         /**年月の判定 end**/
-                        statement.bindString(1, yearMonth);
-                        statement.bindString(2, allDate);
-                        statement.bindString(3, timeUtil.getTargetWeekOmit(yearMonthDay));
+
+                        statement.bindString(1, allDate);
+                        statement.bindString(2, yearMonth);
+                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
                         statement.bindString(4, yearMonthDay);
                         statement.executeInsert();
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
@@ -426,7 +431,10 @@ public class EditFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mainImage=null;
+        if(mainImage != null){
+            mainImage.recycle();
+        }
+        mainImage = null;
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);

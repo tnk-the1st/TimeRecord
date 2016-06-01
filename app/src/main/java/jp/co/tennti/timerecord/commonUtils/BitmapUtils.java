@@ -1,8 +1,12 @@
 package jp.co.tennti.timerecord.commonUtils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * Created by TENNTI on 2016/04/15.
@@ -94,6 +98,13 @@ public class BitmapUtils {
 
         return resizeBitmap;
 
+    }
+    public static final DisplayMetrics getDisplayMetrics(Context context) {
+        WindowManager winMan   = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        Display disp           = winMan.getDefaultDisplay();
+        DisplayMetrics dispMet = new DisplayMetrics();
+        disp.getMetrics(dispMet);
+        return dispMet;
     }
 //    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 //

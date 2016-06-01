@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -46,7 +48,7 @@ public class MainFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         final Resources resource = getResources();
-        if(mainImage!=null){
+        if(mainImage != null){
             mainImage.recycle();
         }
         mainImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
@@ -54,7 +56,9 @@ public class MainFragment extends Fragment {
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        imgView.setImageBitmap(mainImage);
+        BitmapUtils bu = new BitmapUtils();
+        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
         
         /************ 登録ボタン start ************/
@@ -209,7 +213,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mainImage=null;
+        if(mainImage != null){
+            mainImage.recycle();
+        }
+        mainImage = null;
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);

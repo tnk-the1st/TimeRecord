@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -13,9 +14,13 @@ import jp.co.tennti.timerecord.commonUtils.TimeUtils;
  * Created by TENNTI on 2016/04/09.
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
-
-    static final String DB_NAME = "time_record_db";
+    private static final String DB_DIRECTORY =
+            Environment.getExternalStorageDirectory() +
+                    "/time_record/db/";
+    private static final String DB_NAME =
+            DB_DIRECTORY + "time_record_db.db";
     static final int DB_VERSION = 1;
+    private static final String TABLE_COLUMN_NAME="( basic_date text not null primary key , leaving_date text not null , overtime text , week text );";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -39,8 +44,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
-                    db.execSQL("create table "+timeUtil.createTableName().toString()+" ( key_cd text , basic_date text primary key , year_month_date text,"+
-                            " leaving_date text not null , week text );");//,primary key (key_cd, basic_date)
+                    db.execSQL("CREATE TABLE "+timeUtil.createTableName().toString()+TABLE_COLUMN_NAME);
                 }
             }
         } catch (SQLException ex) {
@@ -73,8 +77,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
-                    db.execSQL("CREATE TABLE " + timeUtil.createTableName().toString() + " ( key_cd text , basic_date text primary key , year_month_date text," +
-                            " leaving_date text not null ,over_time_date text, week text );");
+                    db.execSQL("CREATE TABLE " + timeUtil.createTableName().toString() + TABLE_COLUMN_NAME);
                 }
             }
         } catch (SQLException e) {
@@ -117,13 +120,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     public void createMonthTable(SQLiteDatabase db,String targMonthTable) {
         /*final Cursor cursor =*/
         try {
-            db.execSQL("CREATE TABLE " + targMonthTable + " ( key_cd text , basic_date text primary key , year_month_date text," +
-                    " leaving_date text not null ,over_time_date text, week text );");
+            db.execSQL("CREATE TABLE " + targMonthTable + TABLE_COLUMN_NAME);
         } catch (SQLException e) {
             Log.e("CREATE ERROR", e.toString());
-        }
-        finally {
-            /*cursor.close();*/
         }
     }
 }

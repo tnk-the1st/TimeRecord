@@ -6,7 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 
 /**
  * Created by TENNTI on 2016/04/15.
@@ -99,12 +104,53 @@ public class BitmapUtils {
         return resizeBitmap;
 
     }
+    /**
+     * Activity以外でのディスプレイ情報の取得
+     * @param Context context
+     */
     public static final DisplayMetrics getDisplayMetrics(Context context) {
         WindowManager winMan   = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         Display disp           = winMan.getDefaultDisplay();
         DisplayMetrics dispMet = new DisplayMetrics();
         disp.getMetrics(dispMet);
         return dispMet;
+    }
+
+    /**
+     * 指定したビュー階層内のドローワブルをクリアする。
+     * （ドローワブルをのコールバックメソッドによるアクティビティのリークを防ぐため）
+     * @param view
+     */
+    public static final void cleanupView(View view) {
+        if (view instanceof ImageButton) {
+            ImageButton ib = (ImageButton) view;
+            ib.setImageDrawable(null);
+            ib.setImageBitmap(null);
+            ib.destroyDrawingCache();
+        } else if (view instanceof ImageView) {
+            ImageView iv = (ImageView) view;
+            iv.setImageDrawable(null);
+            iv.setImageBitmap(null);
+            iv.destroyDrawingCache();
+        } else if (view instanceof View) {
+            view.setOnClickListener(null);
+            view.setBackground(null);
+            view.destroyDrawingCache();
+        }
+//        } else if (view instanceof SeekBar) {
+//            SeekBar sb = (SeekBar) view;
+//            sb.setProgressDrawable(null);
+//            sb.setThumb(null);
+//            // } else if(view instanceof( xxxx )) {  -- 他にもDrawableを使用するUIコンポーネントがあれば追加
+//        }
+        view.setBackgroundDrawable(null);
+        if (view instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) view;
+            int size = vg.getChildCount();
+            for (int i = 0; i < size; i++) {
+                cleanupView(vg.getChildAt(i));
+            }
+        }
     }
 //    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 //

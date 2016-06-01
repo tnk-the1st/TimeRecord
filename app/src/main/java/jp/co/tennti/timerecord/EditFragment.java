@@ -402,9 +402,9 @@ public class EditFragment extends Fragment {
                         statement.executeInsert();
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                         Toast.makeText(getActivity(), "指定日付のデータを更新しました", Toast.LENGTH_SHORT).show();
-                    }  catch (SQLException ex) {
-                        GeneralUtils.createErrorDialog(getActivity(),"SQL UPDATE エラー","update処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-                        Log.e("UPDATE ERROR", ex.toString());
+                    }  catch (SQLException e) {
+                        GeneralUtils.createErrorDialog(getActivity(),"SQL UPDATE エラー","update処理に失敗しました:" + e.getLocalizedMessage(),"OK");
+                        Log.e("UPDATE ERROR", e.toString());
                     } finally {
                         statement.close();
                     }
@@ -433,8 +433,9 @@ public class EditFragment extends Fragment {
         super.onDestroyView();
         if(mainImage != null){
             mainImage.recycle();
+            mainImage = null;
         }
-        mainImage = null;
+
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
@@ -458,13 +459,15 @@ public class EditFragment extends Fragment {
         updateButton.setImageBitmap(null);
         updateButton.setImageDrawable(null);
         updateButton.setOnClickListener(null);
-
+        datePickerView.setOnClickListener(null);
         datePickerView = null;
+        timePickerView.setOnClickListener(null);
         timePickerView = null;
         dateTextView = null;
         timeTextView = null;
         builder_d = null;
         builder_t = null;
+        BitmapUtils.cleanupView(getView());
     }
 
     /***

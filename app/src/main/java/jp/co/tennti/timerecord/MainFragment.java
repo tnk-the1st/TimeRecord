@@ -215,8 +215,8 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
         if(mainImage != null){
             mainImage.recycle();
+            mainImage = null;
         }
-        mainImage = null;
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
@@ -234,6 +234,8 @@ public class MainFragment extends Fragment {
         ImageButton deleteButton = (ImageButton) getActivity().findViewById(R.id.deleteButtonMain);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
+
+        BitmapUtils.cleanupView(getView());
     }
 
     /***

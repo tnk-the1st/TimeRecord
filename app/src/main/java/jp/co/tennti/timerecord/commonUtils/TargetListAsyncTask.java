@@ -14,19 +14,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
-public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> implements DialogInterface.OnCancelListener {
+public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> implements DialogInterface.OnCancelListener {
     ProgressDialog dialog;
     Context context;
     SQLiteDatabase db;
     List<HashMap<String, String>> listMap = new ArrayList<HashMap<String, String>>();
 
-    public OnloadListAsyncTask(Context context,SQLiteDatabase db) {
+    public TargetListAsyncTask(Context context, SQLiteDatabase db) {
         this.context = context;
         this.db = db;
     }
@@ -39,16 +36,20 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
     }
 
     @Override
-    protected List<HashMap<String, String>> doInBackground(String... params) {
+    protected List<HashMap<String, String>> doInBackground(String... paramsTableName) {
         final TimeUtils timeUtil = new TimeUtils();
         /**DB接続 実行処理**/
+
         try {
+            db.beginTransaction();
             cursor = db.rawQuery("SELECT basic_date,leaving_date,overtime,week FROM "
-                    + timeUtil.createTableName() +
+                    + paramsTableName[0] +
                     " ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
         } catch (SQLException e) {
             Log.e("SELECT ERROR", e.toString());
+        } finally {
+            db.endTransaction();
         }
 
         if (cursor.moveToFirst()) {
@@ -69,6 +70,7 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
         /****** 空行のデータ整形 ******/
         final int MAX_LENGTH_I = 31;
         final int MAX_LENGTH_J = listMap.size();
+        final String yearMonthOnly = listMap.get(0).get("basic_date").substring(0, 7);
         List<HashMap<String, String>> arrayTmp = new ArrayList<HashMap<String, String>>();
         String addFlag = "0";
         for (int i = 1; i <= MAX_LENGTH_I; i++) {
@@ -87,7 +89,7 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
                 if (i < 10) {
                     buffer.append("0");
                 }
-                map.put("basic_date", timeUtil.getCurrentYearMonthHyphen() + "-" + buffer.append(i).toString());
+                map.put("basic_date", yearMonthOnly + "-" + buffer.append(i).toString());
                 map.put("leaving_date", "");
                 map.put("overtime", "--:--:--");
                 map.put("week", timeUtil.getTargWeekOmit(timeUtil.getCurrentYearMonthHyphen() + "-" + buffer.append(i).toString()));

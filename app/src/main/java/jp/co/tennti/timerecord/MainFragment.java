@@ -99,7 +99,7 @@ public class MainFragment extends Fragment {
                     try {
 //                        statement.bindString(1, randGenerat.get());
 //                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
-                        statement.bindString(1, timeUtil.getCurrentYearMonthHyphen());
+                        statement.bindString(1, timeUtil.getCurrentYearMonthDay());
                         statement.bindString(2, timeUtil.getCurrentDate());
                         statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());

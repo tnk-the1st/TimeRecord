@@ -94,26 +94,24 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @return boolean exitFlag 判定結果
      */
     public boolean isTarMonthTable(SQLiteDatabase db,String targMonthTable) {
-        boolean exitFlag = false;
+        boolean exitFlag = true;
+
         final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targMonthTable});
         try {
-            if (cursor.moveToNext()) {
-                cursor.moveToFirst();
-                if(cursor.getString(0).equals("0")){
-                    exitFlag =true;
-                }
+            cursor.moveToFirst();
+            if(cursor.getString(0).equals("0")){
+                exitFlag = false;
             }
         } catch (SQLException e) {
             Log.e("SELECT COUNT(*) ERROR", e.toString());
-        }
-        finally {
+        } finally {
             cursor.close();
         }
         return exitFlag;
     }
 
     /**
-     * テーブル存在判定
+     * テーブル存在判定後の作成
      * @param  SQLiteDatabase db DBアクセッサ
      * @param  String targMonthTable テーブル名
      */

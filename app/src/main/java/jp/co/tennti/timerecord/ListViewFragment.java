@@ -49,7 +49,7 @@ public class ListViewFragment extends Fragment {
     /**
      * ヘッダーサイズ
      */
-    TableRow.LayoutParams paramsDate = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
+    TableRow.LayoutParams paramsDate = setParams(0.2f);
     TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
     TableRow.LayoutParams paramsOverTime = setParams(0.2f);
     TableRow.LayoutParams paramsWeek = setParams(0.1f);
@@ -160,12 +160,9 @@ public class ListViewFragment extends Fragment {
         /**期間変更ボタン**/
         // ボタンを設定
         final ImageButton perCountButton = (ImageButton) view.findViewById(R.id.perSwitchButton);
-
         perCountButton.setImageBitmap(null);
         perCountButton.setImageDrawable(null);
         perCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_period_change_switch));
-        // ボタンを取得して、ClickListenerをセット
-        //timeCountButton.setOnClickListener(this);
         // リスナーをボタンに登録
         perCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,12 +186,10 @@ public class ListViewFragment extends Fragment {
                     final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
                     mTableLayoutList.removeAllViews();
 
-                    TableRow.LayoutParams paramsDate     = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
-                    TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
-                    TableRow.LayoutParams paramsOverTime = setParams(0.2f);
-                    TableRow.LayoutParams paramsWeek     = setParams(0.1f);
-                    TableRow rowHeader = new TableRow(getActivity());    // 行を作成
-                    rowHeader.setPadding(2, 2, 2, 2);       // 行のパディングを指定(左, 上, 右, 下)
+                    // 行を作成
+                    TableRow rowHeader = new TableRow(getActivity());
+                    // 行のパディングを指定(左, 上, 右, 下)
+                    rowHeader.setPadding(2, 2, 2, 2);
                     rowHeader.setBackgroundResource(R.drawable.row_head);
 
                     List<HashMap<String, String>> editResultList = new ArrayList<HashMap<String, String>>();
@@ -208,14 +203,14 @@ public class ListViewFragment extends Fragment {
                             final int MAX_LENGTH_I = 31;
                             for (int i = 1; i <= MAX_LENGTH_I; i++) {
                                 HashMap<String, String> map = new HashMap<String, String>();
-                                StringBuffer buffer3 = new StringBuffer();
+                                StringBuffer buffer_day = new StringBuffer();
                                 if (i < 10) {
-                                    buffer3.append("0");
+                                    buffer_day.append("0");
                                 }
-                                map.put("basic_date", buffer.toString() + "-" + buffer3.append(i).toString());
+                                map.put("basic_date", buffer.toString() + "-" + buffer_day.append(i).toString());
                                 map.put("leaving_date", "");
                                 map.put("overtime", "--:--:--");
-                                map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer3.append(i).toString()));
+                                map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer_day.append(i).toString()));
                                 editResultList.add(map);
                             }
                         }
@@ -240,17 +235,21 @@ public class ListViewFragment extends Fragment {
                             textOverTime.setTypeface(meiryobType);
                             textWeek.setTypeface(meiryobType);
                             /******************* フォント調整 *******************/
-                            row.addView(textDate, paramsDate);      // 日付
-                            row.addView(textsQuitTime, paramsQuitTime);      // 退社時間
-                            row.addView(textOverTime, paramsOverTime);          //残業時間
-                            row.addView(textWeek, paramsWeek);        // 曜日
-                            mTableLayoutList.addView(row);            // TableLayoutにrowHeaderを追加
+                            row.addView(textDate, paramsDate);
+                            row.addView(textsQuitTime, paramsQuitTime);
+                            row.addView(textOverTime, paramsOverTime);
+                            row.addView(textWeek, paramsWeek);
+
                             // 交互に行の背景を変える
                             if (colorFlg % 2 != 0) {
                                 row.setBackgroundResource(R.drawable.row_color1);
                             } else {
                                 row.setBackgroundResource(R.drawable.row_color2);
                             }
+                            /******************* 曜日背景色ドリブン *******************/
+                            textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
+                            /******************* 曜日背景色ドリブン *******************/
+                            mTableLayoutList.addView(row);
                             colorFlg++;
                         }
                         colorFlg = 1;
@@ -266,34 +265,33 @@ public class ListViewFragment extends Fragment {
 
         /**ヘッダーレイアウト**/
         TableLayout headerTable = (TableLayout) view.findViewById(R.id.headerTable);
-        TableRow rowHeader = new TableRow(getActivity());    // 行を作成
-        rowHeader.setPadding(2, 2, 2, 2);       // 行のパディングを指定(左, 上, 右, 下)
+        // 行を作成
+        TableRow rowHeader = new TableRow(getActivity());
+        // 行のパディングを指定(左, 上, 右, 下)
+        rowHeader.setPadding(2, 2, 2, 2);
         rowHeader.setBackgroundResource(R.drawable.row_head);
 
         // ヘッダー：日付
-        final TextView headeDate = setTextItem("日付", GC);            // TextViewのカスタマイズ処理
+        final TextView headeDate = setTextItem("日付", GC);
         headeDate.setTextColor(Color.WHITE);
         headeDate.setTextSize(12);
         headeDate.setTypeface(meiryobType);
-        //TableRow.LayoutParams paramsDate = setParams(0.2f);       // LayoutParamsのカスタマイズ処理
+
         // ヘッダー：退社時間
         final TextView headerQuitTime = setTextItem("退社時間", GC);
         headerQuitTime.setTextColor(Color.WHITE);
         headerQuitTime.setTextSize(12);
         headerQuitTime.setTypeface(meiryobType);
-        //TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
         // ヘッダー：残業時間
         final TextView headerOverTime = setTextItem("残業時間", GC);
         headerOverTime.setTextColor(Color.WHITE);
         headerOverTime.setTextSize(12);
         headerOverTime.setTypeface(meiryobType);
-        //TableRow.LayoutParams paramsOverTime = setParams(0.2f);
         // ヘッダー：曜日
         final TextView headerWeek = setTextItem("曜日", GC);
         headerWeek.setTextColor(Color.WHITE);
         headerWeek.setTextSize(12);
         headerWeek.setTypeface(meiryobType);
-        //TableRow.LayoutParams paramsWeek = setParams(0.1f);
         // rowHeaderにヘッダータイトルを追加
         rowHeader.addView(headeDate, paramsDate);                 // ヘッダー：日付
         rowHeader.addView(headerQuitTime, paramsQuitTime);        // ヘッダー：退社時間
@@ -330,11 +328,10 @@ public class ListViewFragment extends Fragment {
                 textWeek.setTypeface(meiryobType);
                 /******************* フォント調整 *******************/
 
-                row.addView(textDate, paramsDate);      // 日付
-                row.addView(textsQuitTime, paramsQuitTime);      // 退社時間
-                row.addView(textOverTime, paramsOverTime);          //残業時間
-                row.addView(textWeek, paramsWeek);        // 曜日
-                mTableLayoutList.addView(row);            // TableLayoutにrowHeaderを追加
+                row.addView(textDate, paramsDate);
+                row.addView(textsQuitTime, paramsQuitTime);
+                row.addView(textOverTime, paramsOverTime);
+                row.addView(textWeek, paramsWeek);
 
                 // 交互に行の背景を変える
                 if (colorFlg % 2 != 0) {
@@ -342,6 +339,10 @@ public class ListViewFragment extends Fragment {
                 } else {
                     row.setBackgroundResource(R.drawable.row_color2);
                 }
+                /******************* 曜日背景色ドリブン *******************/
+                textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
+                /******************* 曜日背景色ドリブン *******************/
+                mTableLayoutList.addView(row);            // TableLayoutにrowHeaderを追加
                 colorFlg++;
             }
             colorFlg = 1;

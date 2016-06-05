@@ -5,7 +5,7 @@
     <!-- 背景色 -->
     <!--<solid android:color="@drawable/gradient_black_lengthwise" />-->
     <gradient
-        android:startColor="#6C9BD2"
+        android:startColor="#88ABDA"
         android:endColor="#00000000"
         android:angle="90"
         android:type="linear"/>

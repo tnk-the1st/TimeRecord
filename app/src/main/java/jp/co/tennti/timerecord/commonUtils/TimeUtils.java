@@ -12,6 +12,8 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jp.co.tennti.timerecord.R;
+
 /**
  * Created by peko on 2016/03/06.
  */
@@ -665,7 +667,7 @@ public class TimeUtils {
         }
     }
     /**
-     * 日曜日判定クラス
+     * 曜日判定クラス
      * @param  string 判定用曜日
      * @return int 判定結果
      * 日曜 :0 , 月曜:1 ,火曜:2 , 水曜:3 , 木曜:4 , 金曜:5, 土曜:6 , 判定不能:99
@@ -693,5 +695,35 @@ public class TimeUtils {
             return 6;
         }
         return 99;
+    }
+    /**
+     * 曜日背景セットクラス
+     * @param  string 判定用曜日
+     * @return int 判定結果
+     * 日曜 :0 , 月曜:1 ,火曜:2 , 水曜:3 , 木曜:4 , 金曜:5, 土曜:6 , 判定不能:99
+     */
+    public int setBackgroundWeek(String tarWeek){
+        if (isWeekDrive(tarWeek)== 0) {
+            return R.drawable.color_sunday;
+        }
+        if (isWeekDrive(tarWeek)== 1) {
+            return R.drawable.color_monday;
+        }
+        if (isWeekDrive(tarWeek)== 2) {
+            return R.drawable.color_tuesday;
+        }
+        if (isWeekDrive(tarWeek)== 3) {
+            return R.drawable.color_wednesday;
+        }
+        if (isWeekDrive(tarWeek)== 4) {
+            return R.drawable.color_thursday;
+        }
+        if (isWeekDrive(tarWeek)== 5) {
+            return R.drawable.color_friday ;
+        }
+        if (isWeekDrive(tarWeek)== 6) {
+            return R.drawable.color_saturday;
+        }
+        return R.drawable.row_color1;
     }
 }

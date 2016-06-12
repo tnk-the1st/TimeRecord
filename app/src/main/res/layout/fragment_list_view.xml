@@ -35,6 +35,13 @@
         android:layout_width="match_parent"
         android:id="@+id/headerTable"
         android:layout_below="@+id/dateTextView">
+
+        <TextView
+            android:id="@+id/rowtext1"
+            android:layout_marginLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </TableLayout>
     <!-- スクロール -->
     <ScrollView
@@ -43,7 +50,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:fillViewport="false"
-        android:layout_below="@+id/headerTable">
+        android:layout_below="@+id/headerTable"
+        android:layout_above="@+id/totalText">
 
         <!-- データ表示用TableLayout -->
         <TableLayout
@@ -58,4 +66,13 @@
         android:datePickerMode="spinner"
         android:calendarViewShown="false"
         />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:id="@+id/totalText"
+        android:gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

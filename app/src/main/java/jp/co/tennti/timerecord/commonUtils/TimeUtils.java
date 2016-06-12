@@ -631,6 +631,29 @@ public class TimeUtils {
         return timeFormatter.format(new Date(diffTime));
     }
     /**
+     * 時刻の追加計算クラス
+     * @param  provisDate 規定時刻 yy/MM/dd HH:mm:ss
+     * @param  endDate 退社時刻 yy/MM/dd HH:mm:ss
+     * @return 差分時刻 HH:mm
+     */
+    public String addTimeCalculation(String provisTime,String addTime){
+        final StringBuffer buffer = new StringBuffer();
+        String [] pt = provisTime.split(":");
+        int ptHour   = Integer.parseInt(pt[0]);
+        int ptMinute = Integer.parseInt( pt[1] );
+        int ptSecond = Integer.parseInt(pt[2]);
+        String [] st = addTime.split(":");
+        int sttHour  = Integer.parseInt(st[0]);
+        int stMinute = Integer.parseInt( st[1] );
+        int stSecond = Integer.parseInt(st[2]);
+        buffer.append(ptHour + sttHour);
+        buffer.append(":");
+        buffer.append(ptMinute + stMinute);
+        buffer.append(":");
+        buffer.append(ptSecond + stSecond);
+        return buffer.toString();
+    }
+    /**
      * 金曜日判定クラス
      * @param  string 判定用曜日
      * @return boolean 判定結果

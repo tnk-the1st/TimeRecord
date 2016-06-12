@@ -7,4 +7,20 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <!-- 文字サイズ（小） -->
+    <dimen name="sp_s">16sp</dimen>
+    <!-- 文字サイズ（中） -->
+    <dimen name="sp_m">20sp</dimen>
+    <!-- 文字サイズ（大） -->
+    <dimen name="sp_l">24sp</dimen>
+    <!-- px指定のサイズ（小） -->
+    <dimen name="px_s">1px</dimen>
+    <!-- px指定のサイズ（中） -->
+    <dimen name="px_m">2px</dimen>
+    <!-- 余白などのサイズ（小） -->
+    <dimen name="dp_s">1dp</dimen>
+    <!-- 余白などのサイズ（中） -->
+    <dimen name="dp_m">4dp</dimen>
+    <!-- 余白などのサイズ（大） -->
+    <dimen name="dp_l">8dp</dimen>
 </resources>

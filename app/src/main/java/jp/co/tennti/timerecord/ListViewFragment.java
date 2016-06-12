@@ -18,20 +18,27 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
+import jp.co.tennti.timerecord.commonUtils.ListAdapter;
 import jp.co.tennti.timerecord.commonUtils.OnloadListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.contactUtils.ContactUtil;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
@@ -209,7 +216,7 @@ public class ListViewFragment extends Fragment {
                                 }
                                 map.put("basic_date", buffer.toString() + "-" + buffer_day.append(i).toString());
                                 map.put("leaving_date", "");
-                                map.put("overtime", "--:--:--");
+                                map.put("overtime", ContactUtil.NO_TIME);
                                 map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer_day.append(i).toString()));
                                 editResultList.add(map);
                             }
@@ -268,30 +275,34 @@ public class ListViewFragment extends Fragment {
         // 行を作成
         TableRow rowHeader = new TableRow(getActivity());
         // 行のパディングを指定(左, 上, 右, 下)
-        rowHeader.setPadding(2, 2, 2, 2);
-        rowHeader.setBackgroundResource(R.drawable.row_head);
+        //rowHeader.setPadding(-2,-2, -2, -2);
+        //rowHeader.setBackgroundResource(R.drawable.row_head);
 
         // ヘッダー：日付
-        final TextView headeDate = setTextItem("日付", GC);
+        final TextView headeDate =setTextItem("日付", GC);
         headeDate.setTextColor(Color.WHITE);
         headeDate.setTextSize(12);
         headeDate.setTypeface(meiryobType);
+        headeDate.setBackgroundResource(R.drawable.row_head);
 
         // ヘッダー：退社時間
         final TextView headerQuitTime = setTextItem("退社時間", GC);
         headerQuitTime.setTextColor(Color.WHITE);
         headerQuitTime.setTextSize(12);
         headerQuitTime.setTypeface(meiryobType);
+        headerQuitTime.setBackgroundResource(R.drawable.row_head);
         // ヘッダー：残業時間
         final TextView headerOverTime = setTextItem("残業時間", GC);
         headerOverTime.setTextColor(Color.WHITE);
         headerOverTime.setTextSize(12);
         headerOverTime.setTypeface(meiryobType);
+        headerOverTime.setBackgroundResource(R.drawable.row_head);
         // ヘッダー：曜日
         final TextView headerWeek = setTextItem("曜日", GC);
         headerWeek.setTextColor(Color.WHITE);
         headerWeek.setTextSize(12);
         headerWeek.setTypeface(meiryobType);
+        headerWeek.setBackgroundResource(R.drawable.row_head);
         // rowHeaderにヘッダータイトルを追加
         rowHeader.addView(headeDate, paramsDate);                 // ヘッダー：日付
         rowHeader.addView(headerQuitTime, paramsQuitTime);        // ヘッダー：退社時間
@@ -305,7 +316,24 @@ public class ListViewFragment extends Fragment {
         /**一覧レイアウト**/
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
         OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
+//        ListView list  = new ListView(getContext());
+//        try {
+//            ListAdapter adapter = new ListAdapter(getContext(), task.execute("").get());
+//            adapter.getView(0, view, container);
+//            //view2.setAdapter(adapter);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            Log.e("InterruptedException", e.toString());
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//            Log.e("ExecutionException", e.toString());
+//        }
+        // Date型変換
+        Date formatDate;
+        // カレンダークラスのインスタンスを取得
+        Calendar cal = Calendar.getInstance();
         try {
+            String baseTime ="00:00:00";
             List<HashMap<String, String>> onloadResultList = task.execute("").get();
             for (HashMap<String, String> onloadMap : onloadResultList) {
                 TableRow row = new TableRow(getActivity());
@@ -327,7 +355,6 @@ public class ListViewFragment extends Fragment {
                 textOverTime.setTypeface(meiryobType);
                 textWeek.setTypeface(meiryobType);
                 /******************* フォント調整 *******************/
-
                 row.addView(textDate, paramsDate);
                 row.addView(textsQuitTime, paramsQuitTime);
                 row.addView(textOverTime, paramsOverTime);
@@ -342,12 +369,18 @@ public class ListViewFragment extends Fragment {
                 /******************* 曜日背景色ドリブン *******************/
                 textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
                 /******************* 曜日背景色ドリブン *******************/
+                if(!onloadMap.get("overtime").toString().equals(ContactUtil.NO_TIME)){
+                    baseTime = timeUtil.addTimeCalculation( baseTime , onloadMap.get("overtime").toString() );
+                }
                 mTableLayoutList.addView(row);            // TableLayoutにrowHeaderを追加
                 colorFlg++;
             }
             colorFlg = 1;
-
-
+            TextView totalText = (TextView) view.findViewById(R.id.totalText);
+            totalText.setBackgroundResource(R.drawable.row_head);
+            totalText.setTextColor(Color.WHITE);
+            totalText.setTextSize(12);
+            totalText.setText("合計残業時間 " + baseTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.e("InterruptedException", e.toString());
@@ -362,7 +395,6 @@ public class ListViewFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     /***
@@ -411,7 +443,7 @@ public class ListViewFragment extends Fragment {
         contentView = null;
         TableLayout mTableLayoutList = (TableLayout) getActivity().findViewById(R.id.tableLayoutList);
         mTableLayoutList.removeAllViews();mTableLayoutList.setBackground(null);
-        mTableLayoutList=null;
+        mTableLayoutList = null;
     }
 
     /***
@@ -455,6 +487,7 @@ public class ListViewFragment extends Fragment {
     private TableRow.LayoutParams setParams(float f) {
         TableRow.LayoutParams params = new TableRow.LayoutParams(0, WC);
         params.weight = f;      //weight(行内でのテキストごとの比率)
+        //params.setMargins(12,12,12,12);
         return params;
     }
 

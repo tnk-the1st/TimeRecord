@@ -351,7 +351,7 @@ public class EditFragment extends Fragment {
                                     }
                                 });
                          alertDialogBuilder.setNegativeButton(
-                                 "cancel", new DialogInterface.OnClickListener() {
+                                 "CANCEL", new DialogInterface.OnClickListener() {
                                      @Override
                                      public void onClick(DialogInterface dialog, int which) {
                                      }

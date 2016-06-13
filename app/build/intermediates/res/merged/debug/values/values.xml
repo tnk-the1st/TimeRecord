@@ -235,6 +235,9 @@
     <dimen name="design_tab_text_size_2line">12sp</dimen>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
+    <dimen name="dp_l">8dp</dimen>
+    <dimen name="dp_m">4dp</dimen>
+    <dimen name="dp_s">1dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
@@ -247,6 +250,11 @@
     <dimen name="notification_large_icon_height">64dp</dimen>
     <dimen name="notification_large_icon_width">64dp</dimen>
     <dimen name="notification_subtext_size">12dp</dimen>
+    <dimen name="px_m">2px</dimen>
+    <dimen name="px_s">1px</dimen>
+    <dimen name="sp_l">24sp</dimen>
+    <dimen name="sp_m">20sp</dimen>
+    <dimen name="sp_s">16sp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <item name="action_bar_activity_content" type="id"/>
@@ -291,6 +299,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
+    <string name="delete_file">※DBファイル削除</string>
     <string name="edit_content">編集画面</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="list_content">一覧画面</string>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <!-- 背景色 -->
+            <!--<solid android:color="@drawable/gradient_black_lengthwise" />-->
+            <gradient
+                android:startColor="#00000000"
+                android:endColor="#000000"
+                android:angle="270"
+                android:centerY="0.4"
+                android:type="linear"/>
+            <!-- 角丸 (8dpで設定) -->
+        </shape>
+    </item>
+</layer-list>

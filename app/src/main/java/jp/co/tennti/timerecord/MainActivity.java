@@ -1,5 +1,6 @@
 package jp.co.tennti.timerecord;
 
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,7 +19,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
+import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.DatabaseAccess;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackground(titleGrad);
         setSupportActionBar(toolbar);
-        
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -129,8 +134,24 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.delete_file) {
+            new AlertDialog.Builder(this)
+                    .setTitle("確認ダイアログ")
+                    .setMessage("このアプリケーションのDBファイルを削除しますがよろしいですか?")
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setNeutralButton("実行", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // OK button pressed
+                            if (!GeneralUtils.deleteSDCardFile(Constants.APP_FOLDER_DIR + Constants.DB_FILE_NAME)) {
+                                Toast.makeText(MainActivity.this, "ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).show();
         }
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

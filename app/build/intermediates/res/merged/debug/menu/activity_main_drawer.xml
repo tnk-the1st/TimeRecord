@@ -26,10 +26,11 @@
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
+            <item android:title="" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/delete_file"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/delete_file" />
         </menu>
     </item>
 

@@ -13,6 +13,10 @@ ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\Androi
 	android:versionCode
 		INJECTED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml
 		INJECTED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:4:5-80
+	android:name
+		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:4:22-78
 application
 ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:5:5-22:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\dev\android\AndroidStudioProjects15\TimeRecord\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20

@@ -1,5 +1,6 @@
 
 時間を記録する用のAndroidネイティブアプリ。
+Android native app use to record the time.
 ====
 
 # Description

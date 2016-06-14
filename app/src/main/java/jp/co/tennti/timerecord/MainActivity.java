@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity
         /**DB接続**/
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
-        /**DB接続**/
-        final MySQLiteOpenHelper sqlLiteAdepter = new MySQLiteOpenHelper(this);
-        sqlLiteAdepter.reloadOnFire(db);
+        helper.reloadOnFire(db);
         /******月ごとテーブル再作成 END******/
         /******基本処理******/
     }
@@ -148,7 +146,9 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
                             // OK button pressed
                             if (!GeneralUtils.deleteSDCardFile(Constants.APP_FOLDER_DIR + Constants.DB_FILE_NAME)) {
-                                Toast.makeText(MainActivity.this, "ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "DBファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(MainActivity.this, "DBファイルを削除しました。", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).show();

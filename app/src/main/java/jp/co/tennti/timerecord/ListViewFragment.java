@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class ListViewFragment extends Fragment {
     TextView dateTextView = null;
     AlertDialog.Builder builder = null;
     View contentView = null;
+    TextView totalText = null;
     /**
      * ヘッダーサイズ
      */
@@ -83,6 +85,7 @@ public class ListViewFragment extends Fragment {
         imgView.setImageBitmap(null);
         imgView.setImageBitmap(mainImage);
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+
 
         /**日付データ**/
         /**データピッカー**/
@@ -167,6 +170,7 @@ public class ListViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dateTextView = (TextView) view.findViewById(R.id.dateTextView);
+                String baseTime ="00:00:00";
                 if (dateTextView.getText() != null && dateTextView.getText() != "") {
                     final String yearStr  = dateTextView.getText().toString().substring(0, 4);
                     final String monthStr = dateTextView.getText().toString().substring(5, 7);
@@ -188,7 +192,7 @@ public class ListViewFragment extends Fragment {
                     // 行を作成
                     TableRow rowHeader = new TableRow(getActivity());
                     // 行のパディングを指定(左, 上, 右, 下)
-                    rowHeader.setPadding(2, 2, 2, 2);
+                    //rowHeader.setPadding(2, 2, 2, 2);
                     rowHeader.setBackgroundResource(R.drawable.row_head);
 
                     List<HashMap<String, String>> editResultList = new ArrayList<HashMap<String, String>>();
@@ -196,7 +200,7 @@ public class ListViewFragment extends Fragment {
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
 
-                        if (helper.isTarMonthTable(db, buffer_t.toString())) {
+                        if (!helper.isTarMonthTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
                         } else {
                             final int MAX_LENGTH_I = 31;
@@ -241,17 +245,27 @@ public class ListViewFragment extends Fragment {
 
                             // 交互に行の背景を変える
                             if (colorFlg % 2 != 0) {
-                                row.setBackgroundResource(R.drawable.row_color1);
+                                textDate.setBackgroundResource(R.drawable.row_color1);
+                                textsQuitTime.setBackgroundResource(R.drawable.row_color1);
+                                textOverTime.setBackgroundResource(R.drawable.row_color1);
+                                textWeek.setBackgroundResource(R.drawable.row_color1);
                             } else {
-                                row.setBackgroundResource(R.drawable.row_color2);
+                                textDate.setBackgroundResource(R.drawable.row_color2);
+                                textsQuitTime.setBackgroundResource(R.drawable.row_color2);
+                                textOverTime.setBackgroundResource(R.drawable.row_color2);
+                                textWeek.setBackgroundResource(R.drawable.row_color2);
                             }
                             /******************* 曜日背景色ドリブン *******************/
                             textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
                             /******************* 曜日背景色ドリブン *******************/
+                            if(!onloadMap.get("overtime").toString().equals(Constants.NO_TIME)){
+                                baseTime = timeUtil.addTimeCalculation( baseTime , onloadMap.get("overtime").toString() );
+                            }
                             mTableLayoutList.addView(row);
                             colorFlg++;
                         }
                         colorFlg = 1;
+                        totalText.setText("合計残業時間 " + baseTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -263,7 +277,7 @@ public class ListViewFragment extends Fragment {
         /**期間変更ボタン**/
 
         /**合計期間テキスト**/
-        TextView totalText = (TextView) view.findViewById(R.id.totalText);
+        totalText = (TextView) view.findViewById(R.id.totalText);
         totalText.setTextColor(Color.WHITE);
         totalText.setTextSize(12);
         totalText.setBackgroundResource(R.drawable.row_footer);
@@ -315,6 +329,13 @@ public class ListViewFragment extends Fragment {
         /**一覧レイアウト**/
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
         OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
+        System.out.println(helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString()));
+        if(!helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString())){
+            perCountButton.setEnabled(false);
+            perCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+            Toast.makeText(getActivity(), "テーブルが存在しません。", Toast.LENGTH_LONG).show();
+            return view;
+        }
 //        ListView list  = new ListView(getContext());
 //        try {
 //            ListAdapter adapter = new ListAdapter(getContext(), task.execute("").get());
@@ -380,7 +401,6 @@ public class ListViewFragment extends Fragment {
                 colorFlg++;
             }
             colorFlg = 1;
-
             totalText.setText("合計残業時間 " + baseTime);
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -39,12 +39,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         builder.append(TimeUtils.getCurrentYearAndMonth());
         final TimeUtils timeUtil = new TimeUtils();
 
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.createTableName().toString()});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.getCurrentTableName().toString()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
-                    db.execSQL("CREATE TABLE "+timeUtil.createTableName().toString()+TABLE_COLUMN_NAME);
+                    db.execSQL("CREATE TABLE "+timeUtil.getCurrentTableName().toString()+TABLE_COLUMN_NAME);
                 }
             }
         } catch (SQLException ex) {
@@ -72,12 +72,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         builder.append(TimeUtils.getCurrentYearAndMonth());
         final TimeUtils timeUtil = new TimeUtils();
 
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.createTableName().toString()});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.getCurrentTableName().toString()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
-                    db.execSQL("CREATE TABLE " + timeUtil.createTableName().toString() + TABLE_COLUMN_NAME);
+                    db.execSQL("CREATE TABLE " + timeUtil.getCurrentTableName().toString() + TABLE_COLUMN_NAME);
                 }
             }
         } catch (SQLException e) {
@@ -94,13 +94,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @return boolean exitFlag 判定結果
      */
     public boolean isTarMonthTable(SQLiteDatabase db,String targMonthTable) {
-        boolean exitFlag = true;
-
+        boolean exitFlag = false;
         final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targMonthTable});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("0")){
-                exitFlag = false;
+                exitFlag = true;
             }
         } catch (SQLException e) {
             Log.e("SELECT COUNT(*) ERROR", e.toString());

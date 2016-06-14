@@ -226,7 +226,7 @@ public class EditFragment extends Fragment {
                     builder.append("time_record_");
                     builder.append(timeUtil.getTargetYYYYMM(dateTextViewTemp.getText().toString()));
                     /**DB存在判定**/
-                    if (helper.isTarMonthTable(db , builder.toString())) {
+                    if (!helper.isTarMonthTable(db , builder.toString())) {
                         helper.createMonthTable(db , builder.toString());
                     }
 
@@ -378,7 +378,7 @@ public class EditFragment extends Fragment {
                 db.beginTransaction();
                 try {
                     final TimeUtils timeUtil = new TimeUtils();
-                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.createTableName()+" SET  leaving_date=?,overtime=?,week=? WHERE basic_date = ?");
+                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.getCurrentTableName()+" SET  leaving_date=?,overtime=?,week=? WHERE basic_date = ?");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";

@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
@@ -68,7 +67,7 @@ public class MainFragment extends Fragment {
 
         final TimeUtils timeUtil = new TimeUtils();
         /** 初期表示時にボタンを非活性にする判定**/
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.createTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
@@ -95,7 +94,7 @@ public class MainFragment extends Fragment {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.createTableName()+" VALUES (?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?)");
                     try {
 //                        statement.bindString(1, randGenerat.get());
 //                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
@@ -163,13 +162,12 @@ public class MainFragment extends Fragment {
                                 db.beginTransaction();
                                 try {
                                     final TimeUtils timeUtil = new TimeUtils();
-                                    final SQLiteStatement statement = db.compileStatement("DELETE FROM "+timeUtil.createTableName()+" WHERE basic_date=?");
+                                    final SQLiteStatement statement = db.compileStatement("DELETE FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date=?");
                                     try {
                                         /**年月の判定 start**/
                                         /**年月の判定 end**/
                                         statement.bindString(1, timeUtil.getCurrentYearMonthDay());
                                         statement.executeUpdateDelete();
-                                        // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                                         Toast.makeText(getActivity(), "対象日付のデータを削除しました", Toast.LENGTH_SHORT).show();
                                     }  catch (SQLException ex) {
                                         GeneralUtils.createErrorDialog(getActivity(),"SQL DELETE エラー","delete処理に失敗しました:" + ex.getLocalizedMessage(),"OK");

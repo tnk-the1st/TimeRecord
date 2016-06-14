@@ -14,11 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
-import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> implements DialogInterface.OnCancelListener {
     ProgressDialog dialog;
@@ -44,7 +39,7 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
         /**DB接続 実行処理**/
         try {
             cursor = db.rawQuery("SELECT basic_date,leaving_date,overtime,week FROM "
-                    + timeUtil.createTableName() +
+                    + timeUtil.getCurrentTableName() +
                     " ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
         } catch (SQLException e) {

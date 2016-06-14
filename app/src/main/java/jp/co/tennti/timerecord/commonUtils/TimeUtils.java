@@ -23,7 +23,7 @@ public class TimeUtils {
     /**
      * システム日付でのテーブル作成
      */
-    public String createTableName() {
+    public String getCurrentTableName() {
         //テーブル名作成
         StringBuffer builder = new StringBuffer();
         builder.append("time_record_");

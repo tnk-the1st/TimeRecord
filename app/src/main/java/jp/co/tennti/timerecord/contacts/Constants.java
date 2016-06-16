@@ -38,4 +38,9 @@ public class Constants {
      * そのサイズを変更していない、そのコンテナの末尾にx軸の位置にオブジェクトをプッシュします
      * */
     public final static int GRAVITY_END = Gravity.END;         // Gravity.RIGHTでもよい
+    /**
+     * ラベル
+     * */
+    public final static String TOTAL_OVERTIME_LABEL = "合計残業時間 ";
+
 }

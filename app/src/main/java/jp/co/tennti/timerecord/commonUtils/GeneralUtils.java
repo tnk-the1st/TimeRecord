@@ -5,6 +5,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import jp.co.tennti.timerecord.contacts.Constants;
 
 /**
  * Created by TENNTI on 2016/04/20.
@@ -71,4 +76,23 @@ public class GeneralUtils {
     public static final String toSDCardAbsolutePath(String fileName) {
         return getSDCardDir().getAbsolutePath() + File.separator + fileName;
     }
+
+    public static final  List<HashMap<String, String>> createblankTable(StringBuffer buffer ,TimeUtils timeUtil){
+        List<HashMap<String, String>> blankResultList = new ArrayList<HashMap<String, String>>();
+        final int MAX_LENGTH_I = 31;
+        for (int i = 1; i <= MAX_LENGTH_I; i++) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            StringBuffer buffer_day = new StringBuffer();
+            if (i < 10) {
+                buffer_day.append("0");
+            }
+            map.put("basic_date", buffer.toString() + "-" + buffer_day.append(i).toString());
+            map.put("leaving_date", "");
+            map.put("overtime", Constants.NO_TIME);
+            map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer_day.append(i).toString()));
+            blankResultList.add(map);
+        }
+        return blankResultList;
+    }
+
 }

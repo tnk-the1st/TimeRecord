@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
+import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.ListViewUtils;
 import jp.co.tennti.timerecord.commonUtils.OnloadListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
@@ -202,10 +203,10 @@ public class ListViewFragment extends Fragment {
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
 
-                        if (!helper.isTarMonthTable(db, buffer_t.toString())) {
+                        if (helper.isTarMonthTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
                         } else {
-                            final int MAX_LENGTH_I = 31;
+                            /*final int MAX_LENGTH_I = 31;
                             for (int i = 1; i <= MAX_LENGTH_I; i++) {
                                 HashMap<String, String> map = new HashMap<String, String>();
                                 StringBuffer buffer_day = new StringBuffer();
@@ -217,10 +218,12 @@ public class ListViewFragment extends Fragment {
                                 map.put("overtime", Constants.NO_TIME);
                                 map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer_day.append(i).toString()));
                                 editResultList.add(map);
-                            }
+                            }*/
+                            editResultList = GeneralUtils.createblankTable(buffer, timeUtil);
                         }
-
-                        for (HashMap<String, String> onloadMap : editResultList) {
+                        ListViewUtils lv = new ListViewUtils(getContext());
+                        totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(editResultList,mTableLayoutList));
+                        /*for (HashMap<String, String> onloadMap : editResultList) {
                             TableRow row = new TableRow(getActivity());
                             // 日付
                             final TextView textDate = setTextItem(onloadMap.get("basic_date"), Constants.GRAVITY_CENTER);
@@ -230,7 +233,7 @@ public class ListViewFragment extends Fragment {
                             final TextView textOverTime = setTextItem(onloadMap.get("overtime"), Constants.GRAVITY_CENTER);
                             // 曜日
                             final TextView textWeek = setTextItem(onloadMap.get("week"), Constants.GRAVITY_CENTER);
-                            /******************* フォント調整 *******************/
+                            *//******************* フォント調整 *******************//*
                             textDate.setTextSize(11);
                             textsQuitTime.setTextSize(11);
                             textOverTime.setTextSize(11);
@@ -239,7 +242,7 @@ public class ListViewFragment extends Fragment {
                             textsQuitTime.setTypeface(meiryobType);
                             textOverTime.setTypeface(meiryobType);
                             textWeek.setTypeface(meiryobType);
-                            /******************* フォント調整 *******************/
+                            *//******************* フォント調整 *******************//*
                             row.addView(textDate, paramsDate);
                             row.addView(textsQuitTime, paramsQuitTime);
                             row.addView(textOverTime, paramsOverTime);
@@ -257,9 +260,9 @@ public class ListViewFragment extends Fragment {
                                 textOverTime.setBackgroundResource(R.drawable.row_color2);
                                 textWeek.setBackgroundResource(R.drawable.row_color2);
                             }
-                            /******************* 曜日背景色ドリブン *******************/
+                            *//******************* 曜日背景色ドリブン *******************//*
                             textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
-                            /******************* 曜日背景色ドリブン *******************/
+                            *//******************* 曜日背景色ドリブン *******************//*
                             if(!onloadMap.get("overtime").toString().equals(Constants.NO_TIME)){
                                 baseTime = timeUtil.addTimeCalculation( baseTime , onloadMap.get("overtime").toString() );
                             }
@@ -267,7 +270,7 @@ public class ListViewFragment extends Fragment {
                             colorFlg++;
                         }
                         colorFlg = 1;
-                        totalText.setText("合計残業時間 " + baseTime);
+                        totalText.setText(Constants.TOTAL_OVERTIME_LABEL + baseTime);*/
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -353,7 +356,7 @@ public class ListViewFragment extends Fragment {
             //String baseTime ="00:00:00";
             List<HashMap<String, String>> onloadResultList = task.execute("").get();
             ListViewUtils lv = new ListViewUtils(getContext());
-            totalText.setText("合計残業時間 " + lv.createTableRow(onloadResultList,mTableLayoutList));
+            totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(onloadResultList,mTableLayoutList));
            /* for (HashMap<String, String> onloadMap : onloadResultList) {
                 TableRow row = new TableRow(getActivity());
                 // 日付

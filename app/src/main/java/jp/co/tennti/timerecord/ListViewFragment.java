@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.OnloadListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -68,8 +69,8 @@ public class ListViewFragment extends Fragment {
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
         /**DB接続**/
-        final Typeface meiryobType = Typeface.createFromAsset(getResources().getAssets(), "meiryob.ttc");
-        final Typeface meiryoType = Typeface.createFromAsset(getResources().getAssets(), "meiryo.ttc");
+        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
+        final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryob_first_level.zip");
 
         final TimeUtils timeUtil = new TimeUtils();
         // Inflate the layout for this fragment

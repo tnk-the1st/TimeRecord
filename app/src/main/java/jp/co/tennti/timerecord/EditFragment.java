@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.util.Date;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
+import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -52,7 +53,7 @@ public class EditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** font 指定 */
-        final Typeface meiryobType=Typeface.createFromAsset(getResources().getAssets(), "meiryob.ttc");
+        final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryob_first_level.zip");
 
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();

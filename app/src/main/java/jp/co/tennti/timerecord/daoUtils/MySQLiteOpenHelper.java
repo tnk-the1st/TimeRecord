@@ -89,6 +89,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     /**
      * テーブル存在判定
+     * テーブルがあればresultは1、なければ0になるのでそれを利用してbooleanで返す。
      * @param  SQLiteDatabase db DBアクセッサ
      * @param  String targMonthTable テーブル名
      * @return boolean exitFlag 判定結果
@@ -98,7 +99,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targMonthTable});
         try {
             cursor.moveToFirst();
-            if(cursor.getString(0).equals("0")){
+            if(cursor.getString(0).equals("1")){
                 exitFlag = true;
             }
         } catch (SQLException e) {

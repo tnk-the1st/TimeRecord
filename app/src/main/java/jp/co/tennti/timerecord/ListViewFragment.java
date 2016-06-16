@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
+import jp.co.tennti.timerecord.commonUtils.ListViewUtils;
 import jp.co.tennti.timerecord.commonUtils.OnloadListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -330,7 +331,6 @@ public class ListViewFragment extends Fragment {
         /**一覧レイアウト**/
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
         OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
-        System.out.println(helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString()));
         if(!helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString())){
             perCountButton.setEnabled(false);
             perCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -350,9 +350,11 @@ public class ListViewFragment extends Fragment {
 //            Log.e("ExecutionException", e.toString());
 //        }
         try {
-            String baseTime ="00:00:00";
+            //String baseTime ="00:00:00";
             List<HashMap<String, String>> onloadResultList = task.execute("").get();
-            for (HashMap<String, String> onloadMap : onloadResultList) {
+            ListViewUtils lv = new ListViewUtils(getContext());
+            totalText.setText("合計残業時間 " + lv.createTableRow(onloadResultList,mTableLayoutList));
+           /* for (HashMap<String, String> onloadMap : onloadResultList) {
                 TableRow row = new TableRow(getActivity());
                 // 日付
                 final TextView textDate = setTextItem(onloadMap.get("basic_date"), Constants.GRAVITY_CENTER);
@@ -362,7 +364,7 @@ public class ListViewFragment extends Fragment {
                 final TextView textOverTime = setTextItem(onloadMap.get("overtime"), Constants.GRAVITY_CENTER);
                 // 曜日
                 final TextView textWeek = setTextItem(onloadMap.get("week"), Constants.GRAVITY_CENTER);
-                /******************* フォント調整 *******************/
+                *//******************* フォント調整 *******************//*
                 textDate.setTextSize(11);
                 textsQuitTime.setTextSize(11);
                 textOverTime.setTextSize(11);
@@ -371,7 +373,7 @@ public class ListViewFragment extends Fragment {
                 textsQuitTime.setTypeface(meiryobType);
                 textOverTime.setTypeface(meiryobType);
                 textWeek.setTypeface(meiryobType);
-                /******************* フォント調整 *******************/
+                *//******************* フォント調整 *******************//*
                 row.addView(textDate, paramsDate);
                 row.addView(textsQuitTime, paramsQuitTime);
                 row.addView(textOverTime, paramsOverTime);
@@ -391,9 +393,9 @@ public class ListViewFragment extends Fragment {
                     textWeek.setBackgroundResource(R.drawable.row_color2);
                     //row.setBackgroundResource(R.drawable.row_color2);
                 }
-                /******************* 曜日背景色ドリブン *******************/
+                *//******************* 曜日背景色ドリブン *******************//*
                 textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(onloadMap.get("week")));
-                /******************* 曜日背景色ドリブン *******************/
+                *//******************* 曜日背景色ドリブン *******************//*
                 if(!onloadMap.get("overtime").toString().equals(Constants.NO_TIME)){
                     baseTime = timeUtil.addTimeCalculation( baseTime , onloadMap.get("overtime").toString() );
                 }
@@ -402,7 +404,7 @@ public class ListViewFragment extends Fragment {
                 colorFlg++;
             }
             colorFlg = 1;
-            totalText.setText("合計残業時間 " + baseTime);
+            totalText.setText("合計残業時間 " + baseTime);*/
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.e("InterruptedException", e.toString());

@@ -72,20 +72,15 @@ public class TimeUtils {
         String minuteStr= String.valueOf(minute);
         String secondStr= String.valueOf(second);
 
-        buffer.append(yearStr);
-        buffer.append("-");
+        buffer.append(yearStr).append("-");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("-");
+        buffer.append(monthStr).append("-");
         addZeroBuf(day, buffer);
-        buffer.append(dayStr);
-        buffer.append(" ");
+        buffer.append(dayStr).append(" ");
         addZeroBuf(hour, buffer);
-        buffer.append(hourStr);
-        buffer.append(":");
+        buffer.append(hourStr).append(":");
         addZeroBuf(minute, buffer);
-        buffer.append(minuteStr);
-        buffer.append(":");
+        buffer.append(minuteStr).append(":");
         addZeroBuf(second, buffer);
         buffer.append(secondStr);
 
@@ -104,11 +99,9 @@ public class TimeUtils {
         StringBuffer buffer = new StringBuffer();
 
         addZeroBuf(hour, buffer);
-        buffer.append(String.valueOf(hour));
-        buffer.append(":");
+        buffer.append(String.valueOf(hour)).append(":");
         addZeroBuf(minute, buffer);
-        buffer.append(String.valueOf(minute));
-        buffer.append(":");
+        buffer.append(String.valueOf(minute)).append(":");
         addZeroBuf(second, buffer);
         buffer.append(String.valueOf(second));
 
@@ -169,9 +162,7 @@ public class TimeUtils {
         final int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append("(");
-        buffer.append(asList.get(week));
-        buffer.append(")");
+        buffer.append("(").append(asList.get(week)).append(")");
 
         return buffer.toString();
     }
@@ -188,10 +179,9 @@ public class TimeUtils {
         cal.set(Calendar.MONTH, Integer.parseInt(targDate.substring(5,7)) - 1);
         cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(targDate.substring(8,10)));
         final int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
+
         StringBuffer buffer = new StringBuffer();
-        buffer.append("(");
-        buffer.append(asList.get(week));
-        buffer.append(")");
+        buffer.append("(").append(asList.get(week)).append(")");
 
         return buffer.toString();
     }
@@ -210,9 +200,7 @@ public class TimeUtils {
         final int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append("(");
-        buffer.append(asList.get(week));
-        buffer.append(")");
+        buffer.append("(").append(asList.get(week)).append(")");
 
         return buffer.toString();
     }
@@ -224,18 +212,18 @@ public class TimeUtils {
      */
     public static String getCurrentYearAndMonth() {
 
-        //String JOIN_YEAR_MONTH;
         final Calendar cal = Calendar.getInstance();
         final int year     = cal.get(Calendar.YEAR);
         final int month    = cal.get(Calendar.MONTH) + 1;
-        StringBuffer builder = new StringBuffer();
+
         final String yearStr  = String.valueOf(year);
         final String monthStr = String.valueOf(month);
 
+        StringBuffer builder = new StringBuffer();
         builder.append(yearStr);
         addZeroBuf(month, builder);
         builder.append(monthStr);
-        //JOIN_YEAR_MONTH = builder.toString();
+
         return builder.toString();
     }
 
@@ -246,19 +234,18 @@ public class TimeUtils {
      */
     public String getCurrentYearMonthHyphen() {
 
-        //String JOIN_YEAR_MONTH;
         final Calendar cal = Calendar.getInstance();
         final int year     = cal.get(Calendar.YEAR);
         final int month    = cal.get(Calendar.MONTH) + 1;
-        StringBuffer buffer = new StringBuffer();
+
         final String yearStr  = String.valueOf(year);
         final String monthStr = String.valueOf(month);
 
-        buffer.append(yearStr);
-        buffer.append("-");
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("-");
         addZeroBuf(month, buffer);
         buffer.append(monthStr);
-        //JOIN_YEAR_MONTH = buffer.toString();
+
         return buffer.toString();
     }
 
@@ -269,20 +256,18 @@ public class TimeUtils {
      */
     public String getCurrentYearMonthJaCal() {
 
-        //String JOIN_YEAR_MONTH;
         final Calendar cal = Calendar.getInstance();
         final int year     = cal.get(Calendar.YEAR);
         final int month    = cal.get(Calendar.MONTH) + 1;
-        StringBuffer buffer = new StringBuffer();
+
         final String yearStr  = String.valueOf(year);
         final String monthStr = String.valueOf(month);
 
-        buffer.append(yearStr);
-        buffer.append("年");
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("年");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("月");
-        //JOIN_YEAR_MONTH = buffer.toString();
+        buffer.append(monthStr).append("月");
+
         return  buffer.toString();
     }
     /**
@@ -292,25 +277,22 @@ public class TimeUtils {
      */
     public String getCurrentYearMonthDayJaCal() {
 
-        //String JOIN_YEAR_MONTH;
         final Calendar cal = Calendar.getInstance();
         final int year     = cal.get(Calendar.YEAR);
         final int month    = cal.get(Calendar.MONTH) + 1;
         final int day      = cal.get(Calendar.DATE);
-        StringBuffer buffer = new StringBuffer();
+
         final String yearStr  = String.valueOf(year);
         final String monthStr = String.valueOf(month);
         final String dayStr   = String.valueOf(day);
 
-        buffer.append(yearStr);
-        buffer.append("年");
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("年");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("月");
+        buffer.append(monthStr).append("月");
         addZeroBuf(day, buffer);
-        buffer.append(dayStr);
-        buffer.append("日");
-        //JOIN_YEAR_MONTH = buffer.toString();
+        buffer.append(dayStr).append("日");
+
         return buffer.toString();
     }
     /**
@@ -325,19 +307,18 @@ public class TimeUtils {
         final int year     = cal.get(Calendar.YEAR);
         final int month    = cal.get(Calendar.MONTH) + 1;
         final int day      = cal.get(Calendar.DATE);
-        StringBuffer buffer = new StringBuffer();
+
         final String yearStr  = String.valueOf(year);
         final String monthStr = String.valueOf(month);
         final String dayStr   = String.valueOf(day);
 
-        buffer.append(yearStr);
-        buffer.append("-");
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("-");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("-");
+        buffer.append(monthStr).append("-");
         addZeroBuf(day, buffer);
         buffer.append(dayStr);
-        //JOIN_YEAR_MONTH = buffer.toString();
+
         return buffer.toString();
     }
 
@@ -348,22 +329,20 @@ public class TimeUtils {
      */
     public String getCurrentHourMinuteJaCal() {
 
-        //String JOIN_HOUR_MINUTE;
         final Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
-        StringBuffer buffer = new StringBuffer();
+
         final String hourStr  = String.valueOf(hour);
         final String minutehStr = String.valueOf(minute);
 
+        StringBuffer buffer = new StringBuffer();
         addZeroBuf(hour, buffer);
-        buffer.append(hourStr);
-        buffer.append("時");
+        buffer.append(hourStr).append("時");
 
         addZeroBuf(minute, buffer);
-        buffer.append(minutehStr);
-        buffer.append("分");
-        //JOIN_HOUR_MINUTE = buffer.toString();
+        buffer.append(minutehStr).append("分");
+
         return buffer.toString();
     }
 
@@ -377,11 +356,10 @@ public class TimeUtils {
         //String JOIN_HOUR_MINUTE;
         final String yearStr = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
+
         StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("-");
-        buffer.append(monthStr);
-        //JOIN_HOUR_MINUTE = buffer.toString();
+        buffer.append(yearStr).append("-").append(monthStr);
+
         return buffer.toString();
     }
     /**
@@ -391,15 +369,12 @@ public class TimeUtils {
      */
     public String conTargetYYYYMMDDHyphen( String yyyyMMdd) {
 
-        final String yearStr = yyyyMMdd.substring(0, 4);
+        final String yearStr  = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
-        final String dayStr = yyyyMMdd.substring(8, 10);
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("-");
-        buffer.append(monthStr);
-        buffer.append("-");
-        buffer.append(dayStr);
+        final String dayStr   = yyyyMMdd.substring(8, 10);
+        StringBuffer buffer   = new StringBuffer();
+        buffer.append(yearStr).append("-").append(monthStr).append("-").append(dayStr);
+
         return buffer.toString();
     }
 
@@ -409,14 +384,13 @@ public class TimeUtils {
      * @return 指定時間HH:mm:ss
      */
     public String conTargetTime( String hm) {
-        String regex = "[時分]";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(hm);
+        String regex  = "[時分]";
+        Pattern p     = Pattern.compile(regex);
+        Matcher m     = p.matcher(hm);
         String result = m.replaceAll(":");
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(result);
-        buffer.append(":");
-        buffer.append(":00");
+        buffer.append(result).append(":").append(":00");
+
         return buffer.toString();
     }
     /**
@@ -427,23 +401,15 @@ public class TimeUtils {
      */
     public String conTargetDateFullHyphen(String yyyyMMdd, String hm) {
         //String JOIN_HOUR_MINUTE;
-        final  String yearStr = yyyyMMdd.substring(0, 4);
-        final String monthStr = yyyyMMdd.substring(5, 7);
-        final String dayStr = yyyyMMdd.substring(8, 10);
-        final StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("-");
-        buffer.append(monthStr);
-        buffer.append("-");
-        buffer.append(dayStr);
-        final String hourStr = hm.substring(0, 2);
+        final  String yearStr  = yyyyMMdd.substring(0, 4);
+        final String monthStr  = yyyyMMdd.substring(5, 7);
+        final String dayStr    = yyyyMMdd.substring(8, 10);
+        final String hourStr   = hm.substring(0, 2);
         final String minuteStr = hm.substring(3, 5);
-        buffer.append(" ");
-        buffer.append(hourStr);
-        buffer.append(":");
-        buffer.append(minuteStr);
-        buffer.append(":00");
-        //JOIN_HOUR_MINUTE = buffer.toString();
+
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("-").append(monthStr).append("-").append(dayStr).append(" ").append(hourStr).append(":").append(minuteStr).append(":00");
+
         return buffer.toString();
     }
 
@@ -454,18 +420,13 @@ public class TimeUtils {
      */
     public String conTargetDateFullSlash( String yyyyMMddhms) {
 
-        final String yearStr = yyyyMMddhms.substring(0, 4);
+        final String yearStr  = yyyyMMddhms.substring(0, 4);
         final String monthStr = yyyyMMddhms.substring(5, 7);
-        final String dayStr = yyyyMMddhms.substring(8, 10);
+        final String dayStr   = yyyyMMddhms.substring(8, 10);
+        final String hms      = yyyyMMddhms.substring(11, 19);
+
         StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("/");
-        buffer.append(monthStr);
-        buffer.append("/");
-        buffer.append(dayStr);
-        buffer.append(" ");
-        final String hms = yyyyMMddhms.substring(11, 19);
-        buffer.append(hms);
+        buffer.append(yearStr).append("/").append(monthStr).append("/").append(dayStr).append(" ").append(hms);
 
         return buffer.toString();
     }
@@ -473,7 +434,7 @@ public class TimeUtils {
     /**
      * 現在年月日の取得
      * @param  yyyyMM 指定日付yyyy_MM
-     * @return 指定時刻yyyy年MM月
+     * @return 指定時刻yyyyMM
      */
     public String getTargetYYYYMM( String yyyyMM) {
 
@@ -493,12 +454,10 @@ public class TimeUtils {
 
         final String yearStr = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
-        final String dayStr = yyyyMMdd.substring(8, 10);
+
         StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("年");
-        buffer.append(monthStr);
-        buffer.append("月");
+        buffer.append(yearStr).append("年").append(monthStr).append("月");
+
         return  buffer.toString();
     }
     /**
@@ -508,13 +467,13 @@ public class TimeUtils {
      * @return 結合時刻yyyy年MM月
      */
     public String joinTarYYYYMMJaCal( String year ,int month) {
-        final StringBuffer buffer = new StringBuffer();
+
         final String monthStr     = String.valueOf(month);
-        buffer.append(year);
-        buffer.append("年");
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(year).append("年");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("月");
+        buffer.append(monthStr).append("月");
+
         return  buffer.toString();
     }
     /**
@@ -527,13 +486,10 @@ public class TimeUtils {
         final String yearStr  = yyyyMMdd.substring(0, 4);
         final String monthStr = yyyyMMdd.substring(5, 7);
         final String dayStr   = yyyyMMdd.substring(8, 10);
+
         StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("年");
-        buffer.append(monthStr);
-        buffer.append("月");
-        buffer.append(dayStr);
-        buffer.append("日");
+        buffer.append(yearStr).append("年").append(monthStr).append("月").append(dayStr).append("日");
+
         return  buffer.toString();
     }
     /**
@@ -551,14 +507,12 @@ public class TimeUtils {
         final String dayStr   = String.valueOf(day);
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append(yearStr);
-        buffer.append("年");
+        buffer.append(yearStr).append("年");
         addZeroBuf(month, buffer);
-        buffer.append(monthStr);
-        buffer.append("月");
+        buffer.append(monthStr).append("月");
         addZeroBuf(day, buffer);
-        buffer.append(dayStr);
-        buffer.append("日");
+        buffer.append(dayStr).append("日");
+
         return  buffer.toString();
     }
 
@@ -570,16 +524,14 @@ public class TimeUtils {
      */
     public String getTargetHourMinuteJaCal(int hour,int minute) {
 
-        final StringBuffer buffer = new StringBuffer();
         final String hourStr      = String.valueOf(hour);
         final String minuteStr    = String.valueOf(minute);
 
+        final StringBuffer buffer = new StringBuffer();
         addZeroBuf(hour, buffer);
-        buffer.append(hourStr);
-        buffer.append("時");
+        buffer.append(hourStr).append("時");
         addZeroBuf(minute, buffer);
-        buffer.append(minuteStr);
-        buffer.append("分");
+        buffer.append(minuteStr).append("分");
 
         return  buffer.toString();
     }
@@ -607,13 +559,13 @@ public class TimeUtils {
         String timeDiffStr;
         if (diff == 0) {
             //日付1と日付2は同じです
-            timeDiffStr=getTimeCalculation(provisDate,endDate);
+            timeDiffStr = getTimeCalculation(provisDate,endDate);
         } else if (diff > 0) {
             //日付1は日付2より未来の日付です
-            timeDiffStr=getTimeCalculation(provisDate,endDate);
+            timeDiffStr = getTimeCalculation(provisDate,endDate);
         } else {
             //日付1は日付2より過去の日付です
-            timeDiffStr="00:00:00";
+            timeDiffStr = "00:00:00";
         }
         return timeDiffStr;
     }
@@ -646,11 +598,8 @@ public class TimeUtils {
         int sttHour  = Integer.parseInt(st[0]);
         int stMinute = Integer.parseInt( st[1] );
         int stSecond = Integer.parseInt(st[2]);
-        buffer.append(ptHour + sttHour);
-        buffer.append(":");
-        buffer.append(ptMinute + stMinute);
-        buffer.append(":");
-        buffer.append(ptSecond + stSecond);
+        buffer.append(ptHour + sttHour).append(":").append(ptMinute + stMinute).append(":").append(ptSecond + stSecond);
+
         return buffer.toString();
     }
     /**

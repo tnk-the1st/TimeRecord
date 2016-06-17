@@ -77,7 +77,13 @@ public class GeneralUtils {
         return getSDCardDir().getAbsolutePath() + File.separator + fileName;
     }
 
-    public static final  List<HashMap<String, String>> createblankTable(StringBuffer buffer ,TimeUtils timeUtil){
+    /**
+     * 月分の空List作成
+     * @param  String tarDate yyyy-MM
+     * @return List<HashMap<String, String>> blankResultList 空行リスト
+     */
+    public static final  List<HashMap<String, String>> createblankTable(String tarDate){
+        TimeUtils timeUtil = new TimeUtils();
         List<HashMap<String, String>> blankResultList = new ArrayList<HashMap<String, String>>();
         final int MAX_LENGTH_I = 31;
         for (int i = 1; i <= MAX_LENGTH_I; i++) {
@@ -86,10 +92,10 @@ public class GeneralUtils {
             if (i < 10) {
                 buffer_day.append("0");
             }
-            map.put("basic_date", buffer.toString() + "-" + buffer_day.append(i).toString());
+            map.put("basic_date", tarDate + "-" + buffer_day.append(i).toString());
             map.put("leaving_date", "");
             map.put("overtime", Constants.NO_TIME);
-            map.put("week", timeUtil.getTargWeekOmit(buffer.toString() + "-" + buffer_day.append(i).toString()));
+            map.put("week", timeUtil.getTargWeekOmit(tarDate + "-" + buffer_day.append(i).toString()));
             blankResultList.add(map);
         }
         return blankResultList;

@@ -8,7 +8,14 @@ import android.view.ViewGroup;
  */
 public class Constants {
 
+    /**
+     * 文字サイズ11
+     * */
     public static final int FONT_SIZE_11 = 11;
+    /**
+     * 行高さサイズ55
+     * */
+    public static final int ROW_HIGHT_SIZE = 55;
     /**
      * 時間が無いとき用の値
      * */
@@ -26,6 +33,10 @@ public class Constants {
      * 「wrap_content」は幅を自動調整してくれます
      * */
     public final static int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * 「MATCH_PARENT」は画面いっぱいに表示
+     * */
+    public final static int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
     /**
      * 上下左右中央に配置し、サイズ変更は行いません
      * */

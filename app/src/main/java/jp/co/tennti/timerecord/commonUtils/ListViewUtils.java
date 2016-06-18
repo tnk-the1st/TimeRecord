@@ -36,10 +36,11 @@ public class ListViewUtils {
         final TimeUtils timeUtil = new TimeUtils();
         for (HashMap<String, String> tableDataMap : tableDataList) {
             TableRow row = new TableRow(context);
+
             // 日付
             final TextView textDate     = setTextItem(tableDataMap.get("basic_date"), Constants.GRAVITY_CENTER);
             // 退社時間
-            final TextView textQuitTime = setTextItem(tableDataMap.get("leaving_date"), Constants.GRAVITY_LEFT);
+            final TextView textQuitTime = setTextItem(tableDataMap.get("leaving_date"), Constants.GRAVITY_CENTER);
             // 退社時間
             final TextView textOverTime = setTextItem(tableDataMap.get("overtime"), Constants.GRAVITY_CENTER);
             // 曜日
@@ -93,8 +94,9 @@ public class ListViewUtils {
      * setParams()
      */
     private TableRow.LayoutParams setParams(float f) {
-        TableRow.LayoutParams params = new TableRow.LayoutParams(0, Constants.WRAP_CONTENT);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
         params.weight = f;
+        params.height = Constants.ROW_HIGHT_SIZE;
         return params;
     }
     /**

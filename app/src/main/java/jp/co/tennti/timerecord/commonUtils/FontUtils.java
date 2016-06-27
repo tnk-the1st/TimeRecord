@@ -12,14 +12,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * フォント関連のユーティリティ
+ * フォント関連の共通クラス
  */
 public class FontUtils {
     /**
-     * フォントファイルtt○を assets から読み込みます。
-     * @param context コンテキスト。
-     * @param path    フォント ファイルを示す assets フォルダからの相対パス。
-     * @return 成功時は Typeface インスタンス。それ以外は null。
+     * フォントファイルtt○を assets から読み込む
+     * @param context コンテキスト
+     * @param path    フォント ファイルを示す assets フォルダからの相対パス
+     * @return 成功時は Typeface インスタンス、それ以外は null
      */
     public static Typeface getTypefaceFromAssets( Context context, String path ) {
         return Typeface.createFromAsset( context.getAssets(), path );

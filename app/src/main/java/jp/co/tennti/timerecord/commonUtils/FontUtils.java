@@ -25,35 +25,32 @@ public class FontUtils {
         return Typeface.createFromAsset( context.getAssets(), path );
     }
     /**
-     * フォントZIPを assets から読み込みます。
-     * @param context コンテキスト。
-     * @param path    フォントZIP ファイルを示す assets フォルダからの相対パス。
-     * @return 成功時は Typeface インスタンス。それ以外は null。
+     * フォントZIPを assets から読み込む
+     * @param context コンテキスト
+     * @param path    フォントZIP ファイルを示す assets フォルダからの相対パス
+     * @return 成功時は Typeface インスタンス、それ以外は null
      */
-    public static Typeface getTypefaceFromAssetsZip( Context context,String path ) {
-        //zip圧縮用のメソッド
-
+    public static Typeface getTypefaceFromAssetsZip( Context context , String path ) {
         try {
-            AssetManager	am	= context.getAssets();
-            InputStream is	= null;
-            is = am.open(path, AssetManager.ACCESS_STREAMING);
-            ZipInputStream	zis	= new ZipInputStream(is);
-            ZipEntry ze	= zis.getNextEntry();
-            if (ze != null) {
-                path = context.getFilesDir().toString() + "/" + ze.getName();
-                FileOutputStream fos = new FileOutputStream(path, false);
-                byte[] buf = new byte[1024];
+            AssetManager assetManager  = context.getAssets();
+            InputStream  inputStream   = null;
+            inputStream  = assetManager.open(path, AssetManager.ACCESS_STREAMING);
+            ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+            ZipEntry zipEntry             = zipInputStream.getNextEntry();
+            if (zipEntry != null) {
+                path = context.getFilesDir().toString() + "/" + zipEntry.getName();
+                FileOutputStream fileOutputStream = new FileOutputStream( path , false );
+                byte[] buf = new byte[256];
                 int size = 0;
-                while ((size = zis.read(buf, 0, buf.length)) > -1) {
-                    fos.write(buf, 0, size);
+                while ((size = zipInputStream.read(buf, 0, buf.length)) > -1) {
+                    fileOutputStream.write(buf, 0, size);
                 }
-                fos.close();
-                zis.closeEntry();
+                fileOutputStream.close();
+                zipInputStream.closeEntry();
             }
-            zis.close();
+            zipInputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("ZIP IOException" , e.getMessage());
+            Log.e( "ZIP IOException" , e.getMessage() );
         }
         Typeface typefaceOriginal = null;
         if(path != null){

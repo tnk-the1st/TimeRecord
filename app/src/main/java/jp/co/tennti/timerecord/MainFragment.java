@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
+import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
@@ -59,7 +62,17 @@ public class MainFragment extends Fragment {
         DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-        
+
+        /************ 有給関連スイッチ start ************/
+        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
+        final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
+        holidaySwitch.setTypeface(meiryoType);
+        final Switch afternoonHalfHolidaySwitch = (Switch)view.findViewById(R.id.afternoonHalfHolidaySwitch);
+        afternoonHalfHolidaySwitch.setTypeface(meiryoType);
+        final Switch morningHalfHolidaySwitch = (Switch)view.findViewById(R.id.morningHalfHolidaySwitch);
+        morningHalfHolidaySwitch.setTypeface(meiryoType);
+        /************ 有給関連スイッチ end ************/
+
         /************ 登録ボタン start ************/
         // ボタンを設定
         final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);

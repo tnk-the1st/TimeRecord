@@ -17,12 +17,10 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,10 +31,8 @@ import java.util.concurrent.ExecutionException;
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.ListViewUtils;
-import jp.co.tennti.timerecord.commonUtils.OnloadListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
-
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
@@ -198,12 +194,15 @@ public class ListViewFragment extends Fragment {
                     TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-
                         if (helper.isTarMonthTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
+                            if ( helper.countTargetMonthData(db,buffer_t.toString()) == 0 ) {
+                                editResultList = GeneralUtils.createblankTable(buffer.toString());
+                            }
                         } else {
                             editResultList = GeneralUtils.createblankTable(buffer.toString());
                         }
+
                         ListViewUtils lv = new ListViewUtils(getContext());
                         totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(editResultList,mTableLayoutList));
                     } catch (InterruptedException e) {
@@ -280,9 +279,13 @@ public class ListViewFragment extends Fragment {
             return view;
         }
 
-        OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
+        //OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
+        TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
         try {
-            onloadResultList = task.execute("").get();
+            onloadResultList = task.execute(timeUtil.getCurrentTableName().toString()).get();
+            if(onloadResultList.size() == 0){
+                onloadResultList = GeneralUtils.createblankTable(timeUtil.getCurrentYearMonthHyphen());
+            }
             ListViewUtils lv = new ListViewUtils(getContext());
             totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(onloadResultList,mTableLayoutList));
         } catch (InterruptedException e) {

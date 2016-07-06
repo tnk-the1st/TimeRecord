@@ -9,7 +9,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +57,10 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
             } while (cursor.moveToNext());
 
         } else {
-            Log.e("SELECT ERROR", "検索結果 0件");
-            Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
+            //Log.e("SELECT ERROR", "検索結果 0件");
+            //Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
+            List<HashMap<String, String>> arrayTmp = new ArrayList<HashMap<String, String>>();
+            return arrayTmp;
         }
         /****** 空行のデータ整形 ******/
         final int MAX_LENGTH_I = 31;

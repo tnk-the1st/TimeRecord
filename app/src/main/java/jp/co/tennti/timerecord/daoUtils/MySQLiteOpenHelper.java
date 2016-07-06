@@ -91,12 +91,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * テーブル存在判定
      * テーブルがあればresultは1、なければ0になるのでそれを利用してbooleanで返す。
      * @param  SQLiteDatabase db DBアクセッサ
-     * @param  String targMonthTable テーブル名
+     * @param  String targetMonthTable テーブル名
      * @return boolean exitFlag 判定結果
      */
-    public boolean isTarMonthTable(SQLiteDatabase db,String targMonthTable) {
+    public boolean isTarMonthTable(SQLiteDatabase db,String targetMonthTable) {
         boolean exitFlag = false;
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targMonthTable});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targetMonthTable});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("1")){
@@ -108,6 +108,29 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return exitFlag;
+    }
+
+    /**
+     * テーブルデータ数取得
+     * 対象月のレコード数を返す。
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String targetMonthTable テーブル名
+     * @return int exitFlag 判定結果
+     */
+    public int countTargetMonthData(SQLiteDatabase db,String targetMonthTable) {
+        int tableDataNum = 0;
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+targetMonthTable+" ORDER BY basic_date LIMIT 31;",  new String[]{});
+        try {
+            cursor.moveToFirst();
+            if(cursor.getString(0).equals("1")){
+                tableDataNum =Integer.parseInt(cursor.getString(0));
+            }
+        } catch (SQLException e) {
+            Log.e("SELECT COUNT(*) ERROR", e.toString());
+        } finally {
+            cursor.close();
+        }
+        return tableDataNum;
     }
 
     /**

@@ -9,13 +9,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> implements DialogInterface.OnCancelListener {
     ProgressDialog dialog;
@@ -38,6 +35,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
     @Override
     protected List<HashMap<String, String>> doInBackground(String... paramsTableName) {
         final TimeUtils timeUtil = new TimeUtils();
+        List<HashMap<String, String>> arrayTmp = new ArrayList<HashMap<String, String>>();
         /**DB接続 実行処理**/
 
         try {
@@ -65,13 +63,13 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
 
         } else {
             Log.e("SELECT ERROR", "検索結果 0件");
-            Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
+            return arrayTmp;
         }
         /****** 空行のデータ整形 ******/
         final int MAX_LENGTH_I = 31;
         final int MAX_LENGTH_J = listMap.size();
         final String yearMonthOnly = listMap.get(0).get("basic_date").substring(0, 7);
-        List<HashMap<String, String>> arrayTmp = new ArrayList<HashMap<String, String>>();
         String addFlag = "0";
         for (int i = 1; i <= MAX_LENGTH_I; i++) {
             for (int j = 0; j < MAX_LENGTH_J; j++) {

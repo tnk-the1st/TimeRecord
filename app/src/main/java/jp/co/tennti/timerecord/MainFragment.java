@@ -81,6 +81,9 @@ public class MainFragment extends Fragment {
 
         final TimeUtils timeUtil = new TimeUtils();
         /** 初期表示時にボタンを非活性にする判定**/
+        if ( helper.isCurrentDate(db,timeUtil.getCurrentTableName(),timeUtil.getCurrentYearMonthDay()) ) {
+
+        }
         final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
         try {
             if (cursor.moveToNext()) {

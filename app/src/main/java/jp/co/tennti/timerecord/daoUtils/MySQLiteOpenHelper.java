@@ -20,7 +20,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME =
             DB_DIRECTORY + "time_record_db.db";
     static final int DB_VERSION = 1;
-    private static final String TABLE_COLUMN_NAME="( basic_date text not null primary key , leaving_date text not null , overtime text , week text );";
+    private static final String TABLE_COLUMN_NAME="( basic_date text not null primary key , leaving_date text not null , overtime text , week text ,holiday_flag text );";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -81,7 +81,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 }
             }
         } catch (SQLException e) {
-            Log.e("ERROR", e.toString());
+            Log.e("SQLException ERROR", e.toString());
         } finally {
             cursor.close();
         }
@@ -145,5 +145,29 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         } catch (SQLException e) {
             Log.e("CREATE ERROR", e.toString());
         }
+    }
+    /**
+     * 対象日のデータが存在するか判定する。
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String tagetTableName テーブル名
+     * @param  String targetDate 対象日付
+     */
+    public boolean isCurrentDate(SQLiteDatabase db ,String tagetTableName  , String targetDate) {
+        boolean exitFlag = false;
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+ tagetTableName +" WHERE basic_date = ?", new String[]{targetDate});
+        try {
+            if (cursor.moveToNext()) {
+                cursor.moveToFirst();
+                if(cursor.getString(0).equals("0")){
+                } else {
+                    exitFlag = true;
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("SELECT COUNT ERROR ", e.toString());
+        } finally {
+            cursor.close();
+        }
+        return exitFlag;
     }
 }

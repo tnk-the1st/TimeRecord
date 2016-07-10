@@ -67,6 +67,7 @@ public class MainFragment extends Fragment {
         final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
         final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
         holidaySwitch.setTypeface(meiryoType);
+        holidaySwitch.isChecked();
         final Switch afternoonHalfHolidaySwitch = (Switch)view.findViewById(R.id.afternoonHalfHolidaySwitch);
         afternoonHalfHolidaySwitch.setTypeface(meiryoType);
         final Switch morningHalfHolidaySwitch = (Switch)view.findViewById(R.id.morningHalfHolidaySwitch);
@@ -106,7 +107,16 @@ public class MainFragment extends Fragment {
                 try {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
-
+                    String holidayFlag= "0";
+                    if (holidaySwitch.isChecked()) {
+                        holidayFlag = "1";
+                    }
+                    if (afternoonHalfHolidaySwitch.isChecked()) {
+                        holidayFlag = "2";
+                    }
+                    if (morningHalfHolidaySwitch.isChecked()) {
+                        holidayFlag = "3";
+                    }
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?)");
                     try {
 //                        statement.bindString(1, randGenerat.get());
@@ -115,6 +125,7 @@ public class MainFragment extends Fragment {
                         statement.bindString(2, timeUtil.getCurrentDate());
                         statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());
+                        statement.bindString(5, holidayFlag);
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));

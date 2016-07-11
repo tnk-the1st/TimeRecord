@@ -82,25 +82,28 @@ public class MainFragment extends Fragment {
         final TimeUtils timeUtil = new TimeUtils();
         /** 初期表示時にボタンを非活性にする判定**/
         if ( helper.isCurrentDate(db,timeUtil.getCurrentTableName(),timeUtil.getCurrentYearMonthDay()) ) {
-
-        }
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
-        try {
-            if (cursor.moveToNext()) {
+            timeCountButton.setEnabled(false);
+            timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+            try {
                 cursor.moveToFirst();
-                if(cursor.getString(0).equals("0")){
-                    //timeCountButton.setEnabled(true);
-                } else {
-                    timeCountButton.setEnabled(false);
-                    timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                String[] columnNames = cursor.getColumnNames();
+
+                System.out.println(cursor.getString(0));
+                if(!cursor.getString(0).isEmpty()){
+                    System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+                    cursor.getColumnIndex("holiday_flag");
+                    System.out.println(cursor.getString(cursor.getColumnIndex("holiday_flag")));
                 }
+            } catch (SQLException e) {
+                GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT エラー", "活性判定時のSELECT 処理に失敗しました:" + e.getLocalizedMessage(),"OK");
+                Log.e("SELECT ERROR", e.toString());
+            } finally {
+                cursor.close();
             }
-        } catch (SQLException ex) {
-            GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT COUNTエラー", "活性判定時のSELECT COUNT処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-            Log.e("SELECT COUNT ERROR", ex.toString());
-        } finally {
-            cursor.close();
         }
+
 
         // リスナーをボタンに登録
         timeCountButton.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +123,7 @@ public class MainFragment extends Fragment {
                     if (morningHalfHolidaySwitch.isChecked()) {
                         holidayFlag = "3";
                     }
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?,?)");
                     try {
 //                        statement.bindString(1, randGenerat.get());
 //                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());

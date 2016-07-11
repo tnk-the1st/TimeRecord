@@ -147,7 +147,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
     /**
-     * 対象日のデータが存在するか判定する。
+     * 対象日のデータが存在するか判定する。あった場合TRUE
      * @param  SQLiteDatabase db DBアクセッサ
      * @param  String tagetTableName テーブル名
      * @param  String targetDate 対象日付
@@ -156,12 +156,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         boolean exitFlag = false;
         final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+ tagetTableName +" WHERE basic_date = ?", new String[]{targetDate});
         try {
-            if (cursor.moveToNext()) {
-                cursor.moveToFirst();
-                if(cursor.getString(0).equals("0")){
-                } else {
-                    exitFlag = true;
-                }
+            cursor.moveToFirst();
+            if(cursor.getString(0).equals("1")){
+                exitFlag = true;
             }
         } catch (SQLException e) {
             Log.e("SELECT COUNT ERROR ", e.toString());

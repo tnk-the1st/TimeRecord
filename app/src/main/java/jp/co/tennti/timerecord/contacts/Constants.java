@@ -17,6 +17,18 @@ public class Constants {
      * */
     public static final int ROW_HIGHT_SIZE = 55;
     /**
+     * 全休
+     * */
+    public static final String ALL_DAYS_HOLIDAY_FLAG = "1";
+    /**
+     * 午前半休
+     * */
+    public static final String AM_HALF_HOLIDAY_FLAG = "2";
+    /**
+     * 午後半休
+     * */
+    public static final String PM_HALF_HOLIDAY_FLAG = "3";
+    /**
      * 時間が無いとき用の値
      * */
     public static final String NO_TIME = "--:--:--";

@@ -28,6 +28,7 @@ import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
@@ -67,11 +68,10 @@ public class MainFragment extends Fragment {
         final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
         final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
         holidaySwitch.setTypeface(meiryoType);
-        holidaySwitch.isChecked();
-        final Switch afternoonHalfHolidaySwitch = (Switch)view.findViewById(R.id.afternoonHalfHolidaySwitch);
-        afternoonHalfHolidaySwitch.setTypeface(meiryoType);
-        final Switch morningHalfHolidaySwitch = (Switch)view.findViewById(R.id.morningHalfHolidaySwitch);
-        morningHalfHolidaySwitch.setTypeface(meiryoType);
+        final Switch amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
+        amHalfHolidaySwitch.setTypeface(meiryoType);
+        final Switch pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
+        pmHalfHolidaySwitch.setTypeface(meiryoType);
         /************ 有給関連スイッチ end ************/
 
         /************ 登録ボタン start ************/
@@ -84,17 +84,19 @@ public class MainFragment extends Fragment {
         if ( helper.isCurrentDate(db,timeUtil.getCurrentTableName(),timeUtil.getCurrentYearMonthDay()) ) {
             timeCountButton.setEnabled(false);
             timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
             try {
                 cursor.moveToFirst();
-                String[] columnNames = cursor.getColumnNames();
-
-                System.out.println(cursor.getString(0));
                 if(!cursor.getString(0).isEmpty()){
-                    System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-                    cursor.getColumnIndex("holiday_flag");
-                    System.out.println(cursor.getString(cursor.getColumnIndex("holiday_flag")));
+                    if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
+                        holidaySwitch.setChecked(true);
+                    }
+                    if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("2") ){
+                        amHalfHolidaySwitch.setChecked(true);
+                    }
+                    if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("3") ){
+                        pmHalfHolidaySwitch.setChecked(true);
+                    }
                 }
             } catch (SQLException e) {
                 GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT エラー", "活性判定時のSELECT 処理に失敗しました:" + e.getLocalizedMessage(),"OK");
@@ -115,13 +117,13 @@ public class MainFragment extends Fragment {
                     final TimeUtils timeUtil = new TimeUtils();
                     String holidayFlag= "0";
                     if (holidaySwitch.isChecked()) {
-                        holidayFlag = "1";
+                        holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
                     }
-                    if (afternoonHalfHolidaySwitch.isChecked()) {
-                        holidayFlag = "2";
+                    if (amHalfHolidaySwitch.isChecked()) {
+                        holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
                     }
-                    if (morningHalfHolidaySwitch.isChecked()) {
-                        holidayFlag = "3";
+                    if (pmHalfHolidaySwitch.isChecked()) {
+                        holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
                     }
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?,?)");
                     try {
@@ -163,6 +165,9 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 timeCountButton.setEnabled(true);
                 timeCountButton.setColorFilter(null);
+                holidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
             }
         });
         /************ 制御ボタン end ************/

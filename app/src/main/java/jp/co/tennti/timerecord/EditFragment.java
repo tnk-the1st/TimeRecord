@@ -33,6 +33,7 @@ import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
@@ -241,7 +242,7 @@ public class EditFragment extends Fragment {
                         helper.createMonthTable(db , builder.toString());
                     }
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?)");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -255,14 +256,24 @@ public class EditFragment extends Fragment {
                             yearMonthDay = timeUtil.conTargetYYYYMMDDHyphen(dateTextViewTemp.getText().toString());
                             allDate      = timeUtil.conTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
                         }
-
                         /**年月の判定 end**/
+                        String holidayFlag= "0";
+                        if (holidaySwitch.isChecked()) {
+                            holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
+                        }
+                        if (amHalfHolidaySwitch.isChecked()) {
+                            holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
+                        }
+                        if (pmHalfHolidaySwitch.isChecked()) {
+                            holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
+                        }
                         //statement.bindString(1, randGenerat.get());
                         statement.bindString(1, yearMonthDay);
                         //statement.bindString(3, yearMonth);
                         statement.bindString(2, allDate);
                         statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
                         statement.bindString(4, timeUtil.getTargetWeekOmit(yearMonthDay));
+                        statement.bindString(5, holidayFlag);
                         statement.executeInsert();
                         /*timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));*/

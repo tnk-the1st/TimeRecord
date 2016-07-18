@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -77,6 +78,15 @@ public class EditFragment extends Fragment {
         final TimeUtils timeUtil = new TimeUtils();
 
 
+        /************ 有給関連スイッチ start ************/
+        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
+        final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitchEdit);
+        holidaySwitch.setTypeface(meiryoType);
+        final Switch amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitchEdit);
+        amHalfHolidaySwitch.setTypeface(meiryoType);
+        final Switch pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
+        pmHalfHolidaySwitch.setTypeface(meiryoType);
+        /************ 有給関連スイッチ end ************/
         /**日付データ**/
         datePickerView = inflater.inflate(R.layout.date_picker_dia, null);
         /**データピッカー**/
@@ -287,6 +297,9 @@ public class EditFragment extends Fragment {
             public void onClick(View v) {
                 timeCountButton.setEnabled(true);
                 timeCountButton.setColorFilter(null);
+                holidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
             }
         });
         /************ 許可ボタン end ************/

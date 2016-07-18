@@ -69,5 +69,28 @@
         android:scaleType="fitXY"
         android:layout_alignTop="@+id/controlButton"
         android:layout_toEndOf="@+id/deleteButtonEdit" />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全休"
+        android:id="@+id/holidaySwitchEdit"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="午後休"
+        android:id="@+id/pmHalfHolidaySwitchEdit"
+        android:layout_below="@+id/holidaySwitchEdit"
+        android:layout_alignEnd="@+id/holidaySwitchEdit" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="午前休"
+        android:id="@+id/amHalfHolidaySwitchEdit"
+        android:layout_below="@+id/pmHalfHolidaySwitchEdit"
+        android:layout_alignStart="@+id/pmHalfHolidaySwitchEdit" />
 
 </RelativeLayout>

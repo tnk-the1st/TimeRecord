@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import jp.co.tennti.timerecord.contacts.Constants;
+
 public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> implements DialogInterface.OnCancelListener {
     ProgressDialog dialog;
     Context context;
@@ -40,7 +42,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
 
         try {
             db.beginTransaction();
-            cursor = db.rawQuery("SELECT basic_date,leaving_date,overtime,week FROM "
+            cursor = db.rawQuery("SELECT basic_date,leaving_date,overtime,week,holiday_flag FROM "
                     + paramsTableName[0] +
                     " ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
@@ -52,11 +54,22 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
 
         if (cursor.moveToFirst()) {
             do {
+                String holidayValue= "";
+                if (cursor.getString(cursor.getColumnIndex("holiday_flag")).equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
+                    holidayValue = Constants.ALL_DAYS_HOLIDAY_DISP;
+                }
+                if (cursor.getString(cursor.getColumnIndex("holiday_flag")).equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
+                    holidayValue = Constants.AM_HALF_HOLIDAY_DISP;
+                }
+                if (cursor.getString(cursor.getColumnIndex("holiday_flag")).equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
+                    holidayValue = Constants.PM_HALF_HOLIDAY_DISP;
+                }
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("basic_date", cursor.getString(cursor.getColumnIndex("basic_date")));
                 map.put("leaving_date", cursor.getString(cursor.getColumnIndex("leaving_date")));
                 map.put("overtime", cursor.getString(cursor.getColumnIndex("overtime")));
                 map.put("week", cursor.getString(cursor.getColumnIndex("week")));
+                map.put("holiday_flag", holidayValue);
                 /**通常処理**/
                 listMap.add(map);
             } while (cursor.moveToNext());
@@ -91,6 +104,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
                 map.put("leaving_date", "");
                 map.put("overtime", "--:--:--");
                 map.put("week", timeUtil.getTargWeekOmit(timeUtil.getCurrentYearMonthHyphen() + "-" + buffer.append(i).toString()));
+                map.put("holiday_flag", "");
                 arrayTmp.add(map);
             } else {
                 addFlag = "0";

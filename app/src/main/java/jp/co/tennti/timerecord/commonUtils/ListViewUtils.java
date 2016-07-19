@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class ListViewUtils {
     TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
     TableRow.LayoutParams paramsOverTime = setParams(0.2f);
     TableRow.LayoutParams paramsWeek     = setParams(0.1f);
+    TableRow.LayoutParams paramsHoliday  = setParams(0.1f);
 
      public String createTableRow( List<HashMap<String, String>> tableDataList , TableLayout mTableLayoutList) {
         final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(context,"font/meiryob_first_level.zip");
@@ -45,11 +46,14 @@ public class ListViewUtils {
             final TextView textOverTime = setTextItem(tableDataMap.get("overtime"), Constants.GRAVITY_CENTER);
             // 曜日
             final TextView textWeek     = setTextItem(tableDataMap.get("week"), Constants.GRAVITY_CENTER);
+            //休暇
+            final TextView textHoliday  = setTextItem(tableDataMap.get("holiday_flag"), Constants.GRAVITY_CENTER);
             /******************* フォント調整 *******************/
-            setTextViewFontInfo(textDate , meiryobType);
+            setTextViewFontInfo(textDate     , meiryobType);
             setTextViewFontInfo(textQuitTime , meiryobType);
             setTextViewFontInfo(textOverTime , meiryobType);
-            setTextViewFontInfo(textWeek , meiryobType);
+            setTextViewFontInfo(textWeek     , meiryobType);
+            setTextViewFontInfo(textHoliday  , meiryobType);
             /******************* フォント調整 *******************/
             // 交互に行の背景を変える
             if (colorFlg % 2 != 0) {
@@ -57,11 +61,13 @@ public class ListViewUtils {
                 textQuitTime.setBackgroundResource(R.drawable.row_color1);
                 textOverTime.setBackgroundResource(R.drawable.row_color1);
                 textWeek.setBackgroundResource(R.drawable.row_color1);
+                textHoliday.setBackgroundResource(R.drawable.row_color1);
             } else {
                 textDate.setBackgroundResource(R.drawable.row_color2);
                 textQuitTime.setBackgroundResource(R.drawable.row_color2);
                 textOverTime.setBackgroundResource(R.drawable.row_color2);
                 textWeek.setBackgroundResource(R.drawable.row_color2);
+                textHoliday.setBackgroundResource(R.drawable.row_color2);
             }
             /******************* 曜日背景色ドリブン *******************/
             textWeek.setBackgroundResource(timeUtil.setBackgroundWeek(tableDataMap.get("week")));
@@ -73,6 +79,7 @@ public class ListViewUtils {
             row.addView(textQuitTime, paramsQuitTime);
             row.addView(textOverTime, paramsOverTime);
             row.addView(textWeek, paramsWeek);
+            row.addView(textHoliday, paramsHoliday);
             mTableLayoutList.addView(row);
             colorFlg++;
         }

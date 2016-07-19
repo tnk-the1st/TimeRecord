@@ -46,10 +46,11 @@ public class ListViewFragment extends Fragment {
     /**
      * ヘッダーサイズ
      */
-    TableRow.LayoutParams paramsDate = setParams(0.2f);
+    TableRow.LayoutParams paramsDate     = setParams(0.2f);
     TableRow.LayoutParams paramsQuitTime = setParams(0.3f);
     TableRow.LayoutParams paramsOverTime = setParams(0.2f);
-    TableRow.LayoutParams paramsWeek = setParams(0.1f);
+    TableRow.LayoutParams paramsWeek     = setParams(0.1f);
+    TableRow.LayoutParams paramsHoliday  = setParams(0.1f);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class ListViewFragment extends Fragment {
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
         /**DB接続**/
-        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
+        //final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
         final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryob_first_level.zip");
 
         final TimeUtils timeUtil = new TimeUtils();
@@ -230,36 +231,44 @@ public class ListViewFragment extends Fragment {
         //rowHeader.setPadding(-2,-2, -2, -2);
         //rowHeader.setBackgroundResource(R.drawable.row_head);
 
-        // ヘッダー：日付
+        // ：日付
         final TextView headeDate =setTextItem("日付", Constants.GRAVITY_CENTER);
         headeDate.setTextColor(Color.WHITE);
         headeDate.setTextSize(12);
         headeDate.setTypeface(meiryobType);
         headeDate.setBackgroundResource(R.drawable.row_head);
 
-        // ヘッダー：退社時間
+        // ：退社時間
         final TextView headerQuitTime = setTextItem("退社時間", Constants.GRAVITY_CENTER);
         headerQuitTime.setTextColor(Color.WHITE);
         headerQuitTime.setTextSize(12);
         headerQuitTime.setTypeface(meiryobType);
         headerQuitTime.setBackgroundResource(R.drawable.row_head);
-        // ヘッダー：残業時間
+        // ：残業時間
         final TextView headerOverTime = setTextItem("残業時間", Constants.GRAVITY_CENTER);
         headerOverTime.setTextColor(Color.WHITE);
         headerOverTime.setTextSize(12);
         headerOverTime.setTypeface(meiryobType);
         headerOverTime.setBackgroundResource(R.drawable.row_head);
-        // ヘッダー：曜日
+        // ：曜日
         final TextView headerWeek = setTextItem("曜日", Constants.GRAVITY_CENTER);
         headerWeek.setTextColor(Color.WHITE);
         headerWeek.setTextSize(12);
         headerWeek.setTypeface(meiryobType);
         headerWeek.setBackgroundResource(R.drawable.row_head);
+        // ：休暇
+        final TextView headerhHoliday = setTextItem("休暇", Constants.GRAVITY_CENTER);
+        headerhHoliday.setTextColor(Color.WHITE);
+        headerhHoliday.setTextSize(12);
+        headerhHoliday.setTypeface(meiryobType);
+        headerhHoliday.setBackgroundResource(R.drawable.row_head);
         // rowHeaderにヘッダータイトルを追加
         rowHeader.addView(headeDate, paramsDate);                 // ヘッダー：日付
         rowHeader.addView(headerQuitTime, paramsQuitTime);        // ヘッダー：退社時間
         rowHeader.addView(headerOverTime, paramsOverTime);        // ヘッダー：残業時間
         rowHeader.addView(headerWeek, paramsWeek);                // ヘッダー：曜日
+        rowHeader.addView(headerhHoliday, paramsHoliday);         // ヘッダー：休暇
+
         //rowHeader.setBackgroundResource(R.drawable.row_deco1);  // 背景
 
         // TableLayoutにrowHeaderを追加
@@ -295,7 +304,6 @@ public class ListViewFragment extends Fragment {
             e.printStackTrace();
             Log.e("ExecutionException", e.toString());
         }
-
         return view;
     }
 

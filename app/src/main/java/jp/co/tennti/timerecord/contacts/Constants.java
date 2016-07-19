@@ -29,6 +29,18 @@ public class Constants {
      * */
     public static final String PM_HALF_HOLIDAY_FLAG = "3";
     /**
+     * 全休
+     * */
+    public static final String ALL_DAYS_HOLIDAY_DISP = "全";
+    /**
+     * 午前半休
+     * */
+    public static final String AM_HALF_HOLIDAY_DISP = "前";
+    /**
+     * 午後半休
+     * */
+    public static final String PM_HALF_HOLIDAY_DISP = "後";
+    /**
      * 時間が無いとき用の値
      * */
     public static final String NO_TIME = "--:--:--";

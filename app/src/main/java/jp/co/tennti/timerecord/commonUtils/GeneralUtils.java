@@ -96,6 +96,7 @@ public class GeneralUtils {
             map.put("leaving_date", "");
             map.put("overtime", Constants.NO_TIME);
             map.put("week", timeUtil.getTargWeekOmit(tarDate + "-" + buffer_day.append(i).toString()));
+            map.put("holiday_flag", "");
             blankResultList.add(map);
         }
         return blankResultList;

@@ -115,23 +115,25 @@ public class MainFragment extends Fragment {
                 try {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
-                    String holidayFlag= "0";
+                    String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
+                    String holidayFlag = "0";
                     if (holidaySwitch.isChecked()) {
                         holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
+                        overtime    = Constants.TIME_ZERO;
                     }
                     if (amHalfHolidaySwitch.isChecked()) {
                         holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
                     }
                     if (pmHalfHolidaySwitch.isChecked()) {
                         holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
+                        overtime    = Constants.TIME_ZERO;
                     }
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?,?)");
                     try {
 //                        statement.bindString(1, randGenerat.get());
-//                        statement.bindString(2, timeUtil.getCurrentYearMonthDay());
                         statement.bindString(1, timeUtil.getCurrentYearMonthDay());
                         statement.bindString(2, timeUtil.getCurrentDate());
-                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate())));
+                        statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());
                         statement.bindString(5, holidayFlag);
                         statement.executeInsert();

@@ -257,21 +257,24 @@ public class EditFragment extends Fragment {
                             allDate      = timeUtil.conTargetDateFullHyphen(dateTextViewTemp.getText().toString(),timeTextViewTemp.getText().toString());
                         }
                         /**年月の判定 end**/
-                        String holidayFlag= "0";
+                        /**休日**/
+                        String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate));
+                        String holidayFlag = "0";
                         if (holidaySwitch.isChecked()) {
                             holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
+                            overtime    = Constants.TIME_ZERO;
                         }
                         if (amHalfHolidaySwitch.isChecked()) {
                             holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
                         }
                         if (pmHalfHolidaySwitch.isChecked()) {
                             holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
+                            overtime    = Constants.TIME_ZERO;
                         }
                         //statement.bindString(1, randGenerat.get());
                         statement.bindString(1, yearMonthDay);
-                        //statement.bindString(3, yearMonth);
                         statement.bindString(2, allDate);
-                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
+                        statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.bindString(5, holidayFlag);
                         statement.executeInsert();

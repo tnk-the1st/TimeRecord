@@ -45,6 +45,10 @@ public class Constants {
      * */
     public static final String NO_TIME = "--:--:--";
     /**
+     * 時間が0の時用の値
+     * */
+    public static final String TIME_ZERO = "00:00:00";
+    /**
      * DBファイル名
      * */
     public static final String DB_FILE_NAME = "time_record_db.db";

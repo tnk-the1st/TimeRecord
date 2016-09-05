@@ -22,11 +22,12 @@
 
     <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
             <item android:title="" />
+            <item android:title="" />
+            <item
+                android:id="@+id/oauth_file"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/oauth_file" />
             <item
                 android:id="@+id/delete_file"
                 android:icon="@drawable/ic_menu_send"

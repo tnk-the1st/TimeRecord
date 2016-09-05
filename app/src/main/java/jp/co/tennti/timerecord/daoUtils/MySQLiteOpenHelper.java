@@ -14,13 +14,15 @@ import jp.co.tennti.timerecord.commonUtils.TimeUtils;
  * Created by TENNTI on 2016/04/09.
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
-    private static final String DB_DIRECTORY =
-            Environment.getExternalStorageDirectory() +
-                    "/time_record/db/";
-    private static final String DB_NAME =
-            DB_DIRECTORY + "time_record_db.db";
+    private static final String DB_DIRECTORY = Environment.getExternalStorageDirectory() + "/time_record/db/";
+    private static final String DB_NAME = DB_DIRECTORY + "time_record_db.db";
     static final int DB_VERSION = 1;
-    private static final String TABLE_COLUMN_NAME="( basic_date text not null primary key , leaving_date text not null , overtime text , week text ,holiday_flag text );";
+    private static final String TABLE_COLUMN_NAME = "( basic_date text not null primary key ," +
+            " leaving_date text not null ," +
+            " overtime text ," +
+            " week text ," +
+            " holiday_flag text ," +
+            " user_cd text);";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

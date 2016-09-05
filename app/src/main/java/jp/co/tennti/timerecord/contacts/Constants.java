@@ -1,5 +1,6 @@
 package jp.co.tennti.timerecord.contacts;
 
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.ViewGroup;
 
@@ -8,6 +9,10 @@ import android.view.ViewGroup;
  */
 public class Constants {
 
+    /**
+     * SQLのinsertの値の数を指定する
+     * */
+    public static final String INSERT_SQL_VALUES =" VALUES (?,?,?,?,?,?)";
     /**
      * 文字サイズ11
      * */
@@ -82,4 +87,10 @@ public class Constants {
      * */
     public final static String TOTAL_OVERTIME_LABEL = "合計残業時間 ";
 
+    /** データベースを置くSD上のフォルダのフルパス */
+    public static final String DB_DIRECTORY          = Environment.getExternalStorageDirectory() + "/time_record/db/";
+    /** アプリケーションのファイルを置くSD上のフォルダのフルパス */
+    public static final String APP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/";
+    /** 認証トークンのファイルを置くSD上のフォルダのフルパス */
+    public static final String AUTH_TOKEN_DIRECTORY  = Environment.getExternalStorageDirectory() + "/time_record/auth_token/";
 }

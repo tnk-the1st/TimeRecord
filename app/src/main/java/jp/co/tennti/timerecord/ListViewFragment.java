@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutionException;
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.ListViewUtils;
-import jp.co.tennti.timerecord.commonUtils.TargetListAsyncTask;
+import jp.co.tennti.timerecord.AsyncTaskUtils.TargetListAsyncTask;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;

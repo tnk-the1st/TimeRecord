@@ -1,11 +1,12 @@
 package jp.co.tennti.timerecord;
 
+import android.accounts.AccountManager;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,12 +23,16 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
+import jp.co.tennti.timerecord.commonUtils.GoogleOauth2Utils;
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.DatabaseAccess;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected AccountManager accountManager;
+    protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity
         helper.reloadOnFire(db);
         /******月ごとテーブル再作成 END******/
         /******基本処理******/
+        accountManager = AccountManager.get(this);
+        GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+        go2.startRequest(AUTH_TOKEN_TYPE_PROFILE);
     }
 
     @Override
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.oauth_file) {
 
         } else if (id == R.id.delete_file) {
             new AlertDialog.Builder(this)

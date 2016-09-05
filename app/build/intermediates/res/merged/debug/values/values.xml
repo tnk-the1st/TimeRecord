@@ -306,6 +306,7 @@
     <string name="main_content">登録画面</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="oauth_file">※認証ファイル削除</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_activity_list">ListActivity</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

@@ -8,6 +8,7 @@
     <string name="main_content">登録画面</string>
     <string name="list_content">一覧画面</string>
     <string name="edit_content">編集画面</string>
+    <string name="oauth_file">※認証ファイル削除</string>
     <string name="delete_file">※DBファイル削除</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_list">ListActivity</string>

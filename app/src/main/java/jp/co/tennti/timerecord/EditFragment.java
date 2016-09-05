@@ -242,7 +242,7 @@ public class EditFragment extends Fragment {
                         helper.createMonthTable(db , builder.toString());
                     }
 
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString()+" VALUES (?,?,?,?,?)");
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+builder.toString() + Constants.INSERT_SQL_VALUES);
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -271,12 +271,15 @@ public class EditFragment extends Fragment {
                             holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
                             overtime    = Constants.TIME_ZERO;
                         }
+                        //アカウント名取得
+                        TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
                         //statement.bindString(1, randGenerat.get());
                         statement.bindString(1, yearMonthDay);
                         statement.bindString(2, allDate);
                         statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.bindString(5, holidayFlag);
+                        statement.bindString(6, accountName.getText().toString());
                         statement.executeInsert();
                         /*timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));*/

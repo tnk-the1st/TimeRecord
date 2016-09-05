@@ -1,10 +1,20 @@
 package jp.co.tennti.timerecord.commonUtils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +26,8 @@ import jp.co.tennti.timerecord.contacts.Constants;
  */
 public class GeneralUtils {
 
+    /** 認証トークンのフルパス */
+    private static final String AUTH_TOKEN_FILE = Constants.AUTH_TOKEN_DIRECTORY + "auth_token.txt";
     /**
      * SQLエラー時のエラーダイアログ生成メソッド
      * @param fragActivity  フラグメントのアクティビティ
@@ -29,7 +41,6 @@ public class GeneralUtils {
                 .setMessage(messageName)
                 .setPositiveButton(buttonName, null)
                 .show();
-
     }
 
     /**
@@ -58,6 +69,27 @@ public class GeneralUtils {
         } else {
             return false;
         }
+    }
+
+    /**
+     * ファイルが存在するか判定する
+     * String filepath = this.getFilesDir().getAbsolutePath() + "/" +  "test.txt";
+     * @return boolean true isExists(file.exists());
+     */
+    public static final boolean isFileExist ( String filepath ) {
+        File file = new File(filepath);
+        //File file = this.getFileStreamPath(filepath);
+        return file.exists();
+    }
+
+    /**
+     * 認証ファイルが存在するか判定する
+     * String filepath = this.getFilesDir().getAbsolutePath() + "/" +  "test.txt";
+     * @return boolean true isExists(file.exists());
+     */
+    public static final boolean isAuthFile () {
+        File file = new File(AUTH_TOKEN_FILE);
+        return file.exists();
     }
 
     /**
@@ -101,5 +133,37 @@ public class GeneralUtils {
         }
         return blankResultList;
     }
+    /**
+     * SDCard にauthTokenを保存する(Android 用)
+     * @param  String  authToken 認証トークン
+     * @param  Context  context コンテキスト情報
+     */
+    public final void createAuthTokenSD(String authToken,Context context) {
+        try {
+            OutputStream out   = new ObjectOutputStream(context.openFileOutput(AUTH_TOKEN_FILE, Context.MODE_PRIVATE));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(out,"UTF-8"));
+            writer.append(authToken);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * SDCard に保存されているauthTokenを取得する(Android 用)
+     * @param  Context  context コンテキスト情報
+     * @return String  authTokenSD 保存されている認証トークン
+     */
+    public final String getAuthTokenSD(Context context) {
+        String authTokenSD ="";
+        try {
+            ObjectInputStream in  = new ObjectInputStream(context.openFileInput(AUTH_TOKEN_FILE));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"));
+            authTokenSD = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return authTokenSD;
+    }
 }

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
@@ -128,7 +129,10 @@ public class MainFragment extends Fragment {
                         holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
                         overtime    = Constants.TIME_ZERO;
                     }
-                    final SQLiteStatement statement = db.compileStatement("INSERT INTO "+timeUtil.getCurrentTableName()+" VALUES (?,?,?,?,?)");
+                    //アカウント名取得
+                    TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
+                    System.out.println(accountName.getText().toString());
+                    final SQLiteStatement statement = db.compileStatement("INSERT INTO " + timeUtil.getCurrentTableName() + Constants.INSERT_SQL_VALUES);
                     try {
 //                        statement.bindString(1, randGenerat.get());
                         statement.bindString(1, timeUtil.getCurrentYearMonthDay());
@@ -136,6 +140,7 @@ public class MainFragment extends Fragment {
                         statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());
                         statement.bindString(5, holidayFlag);
+                        statement.bindString(6, accountName.getText().toString());
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));

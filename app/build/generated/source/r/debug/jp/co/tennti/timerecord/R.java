@@ -2199,15 +2199,17 @@ containing a value of this type.
         public static final int item_touch_helper_swipe_escape_velocity=0x7f08006d;
         public static final int nav_header_height=0x7f08006e;
         public static final int nav_header_vertical_spacing=0x7f08006f;
-        public static final int notification_large_icon_height=0x7f080070;
-        public static final int notification_large_icon_width=0x7f080071;
-        public static final int notification_subtext_size=0x7f080072;
-        public static final int px_m=0x7f080073;
-        public static final int px_s=0x7f080074;
-        public static final int sp_l=0x7f080075;
-        public static final int sp_m=0x7f080076;
-        public static final int sp_s=0x7f080077;
-        public static final int text_margin=0x7f080078;
+        public static final int nav_header_vertical_spacing_4=0x7f080070;
+        public static final int nav_header_vertical_spacing_8=0x7f080071;
+        public static final int notification_large_icon_height=0x7f080072;
+        public static final int notification_large_icon_width=0x7f080073;
+        public static final int notification_subtext_size=0x7f080074;
+        public static final int px_m=0x7f080075;
+        public static final int px_s=0x7f080076;
+        public static final int sp_l=0x7f080077;
+        public static final int sp_m=0x7f080078;
+        public static final int sp_s=0x7f080079;
+        public static final int text_margin=0x7f08007a;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_mtrl_alpha=0x7f020000;

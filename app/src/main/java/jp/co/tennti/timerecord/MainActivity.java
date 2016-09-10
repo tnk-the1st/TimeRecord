@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_main, fragment).commit();
         }
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
         //タイトルバーの背景色セット
         Drawable titleGrad = getDrawable(R.drawable.gradient_black);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -132,15 +130,20 @@ public class MainActivity extends AppCompatActivity
         final EditFragment editFragment         = new EditFragment();
         if (id == R.id.main_content) {
             transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
-        } else if (id == R.id.list_content) {
+        }
+        if (id == R.id.list_content) {
             transaction.replace(R.id.fragment_main, listViewFragment).addToBackStack(null).commit();
-        } else if (id == R.id.edit_content) {
+        }
+        if (id == R.id.edit_content) {
             transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
-        } else if (id == R.id.nav_manage) {
+        }
+        if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.oauth_file) {
+        }
+        if (id == R.id.oauth_file) {
 
-        } else if (id == R.id.delete_file) {
+        }
+        if (id == R.id.delete_file) {
             new AlertDialog.Builder(this)
                     .setTitle("確認ダイアログ")
                     .setMessage("このアプリケーションのDBファイルを削除しますがよろしいですか?")

@@ -50,7 +50,7 @@ public class FontUtils {
             }
             zipInputStream.close();
         } catch (IOException e) {
-            Log.e( "ZIP IOException" , e.getMessage() );
+            Log.e( "IOException ZIP" , e.getMessage() );
         }
         Typeface typefaceOriginal = null;
         if(path != null){

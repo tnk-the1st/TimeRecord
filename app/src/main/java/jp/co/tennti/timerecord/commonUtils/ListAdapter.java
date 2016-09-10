@@ -77,10 +77,6 @@ public class ListAdapter extends BaseAdapter {
                 textsQuitTime.setTextSize(11);
                 textOverTime.setTextSize(11);
                 textWeek.setTextSize(11);
-//                textDate.setTypeface(meiryobType);
-//                textsQuitTime.setTypeface(meiryobType);
-//                textOverTime.setTypeface(meiryobType);
-//                textWeek.setTypeface(meiryobType);
                 /******************* フォント調整 *******************/
                 row.addView(textDate, paramsDate);
                 row.addView(textsQuitTime, paramsQuitTime);
@@ -100,7 +96,6 @@ public class ListAdapter extends BaseAdapter {
                 colorFlg++;
             }
         }
-        System.out.println("================================================================================");
         return convertView;
     }
 

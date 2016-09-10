@@ -287,7 +287,7 @@ public class EditFragment extends Fragment {
                         Toast.makeText(getActivity(), "指定時刻を登録しました", Toast.LENGTH_SHORT).show();
                     }  catch (SQLException ex) {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-                        Log.e("INSERT ERROR", ex.toString());
+                        Log.e("SQLException INSERT", ex.toString());
                     } finally {
                         statement.close();
                     }
@@ -371,7 +371,7 @@ public class EditFragment extends Fragment {
                                                 Toast.makeText(getActivity(), "指定日付のデータを登録しました", Toast.LENGTH_SHORT).show();
                                             }  catch (SQLException ex) {
                                                 GeneralUtils.createErrorDialog(getActivity(),"SQL DELETE エラー","delete処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-                                                Log.e("DELETE ERROR", ex.toString());
+                                                Log.e("SQLException DELETE", ex.toString());
                                             } finally {
                                                 statement.close();
                                             }
@@ -435,7 +435,7 @@ public class EditFragment extends Fragment {
                         Toast.makeText(getActivity(), "指定日付のデータを更新しました", Toast.LENGTH_SHORT).show();
                     }  catch (SQLException e) {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL UPDATE エラー","update処理に失敗しました:" + e.getLocalizedMessage(),"OK");
-                        Log.e("UPDATE ERROR", e.toString());
+                        Log.e("SQLException UPDATE", e.toString());
                     } finally {
                         statement.close();
                     }

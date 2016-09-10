@@ -126,7 +126,7 @@ public class ListViewFragment extends Fragment {
                                         final TimeUtils timeUtil = new TimeUtils();
                                         dateTextView.setText(timeUtil.joinTarYYYYMMJaCal(String.valueOf(datePicker.getYear()), month));
                                     } catch (NullPointerException e) {
-                                        Log.d("NullPointerException", e.getMessage());
+                                        Log.e("NullPointerException", e.getMessage());
                                     }
 
                                 }
@@ -207,9 +207,9 @@ public class ListViewFragment extends Fragment {
                         ListViewUtils lv = new ListViewUtils(getContext());
                         totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(editResultList,mTableLayoutList));
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e("InterruptedException", e.toString());
                     } catch (ExecutionException e) {
-                        e.printStackTrace();
+                        Log.e("ExecutionException", e.toString());
                     }
                 }
             }

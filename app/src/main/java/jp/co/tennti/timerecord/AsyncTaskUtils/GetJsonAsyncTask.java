@@ -49,11 +49,11 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
             }
             json = new JSONObject(new String(outputStream.toByteArray()));
         } catch (MalformedURLException e) {
-            Log.v("MalformedURLException", e.toString());
+            Log.e("MalformedURLException", e.toString());
         } catch (IOException e) {
-            Log.v("IOException", e.toString());
+            Log.e("IOException", e.toString());
         } catch (JSONException e) {
-            Log.v("JSONException", e.toString());
+            Log.e("JSONException", e.toString());
         } finally {
             if(connection != null){
                 connection.disconnect();
@@ -66,10 +66,10 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject json) {
         if (json == null) {
-            //Log.v("onPostExecute", "JSON取得失敗 JSONがNULL");
-        } else {
-            //Log.v("onPostExecute", "JSON取得成功");
-        }
+            Log.v("onPostExecute", "JSON取得失敗 JSONがNULL");
+        }/* else {
+            Log.v("onPostExecute", "JSON取得成功");
+        }*/
         if (listener != null) {
             listener.onResult(json);
         }

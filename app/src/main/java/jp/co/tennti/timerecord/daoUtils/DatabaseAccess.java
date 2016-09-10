@@ -2,6 +2,7 @@ package jp.co.tennti.timerecord.daoUtils;
 
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.io.File;
 
@@ -35,7 +36,7 @@ public class DatabaseAccess {
             try {
                 db = SQLiteDatabase.openOrCreateDatabase(DB_NAME, null);
             } catch (SQLException e) {
-                throw e;
+                Log.e("SQLException : openDatabase", "SDカード上DBのオープンに失敗", e);
             }
         }
         return true;

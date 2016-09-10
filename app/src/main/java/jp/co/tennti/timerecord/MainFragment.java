@@ -101,7 +101,7 @@ public class MainFragment extends Fragment {
                 }
             } catch (SQLException e) {
                 GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT エラー", "活性判定時のSELECT 処理に失敗しました:" + e.getLocalizedMessage(),"OK");
-                Log.e("SELECT ERROR", e.toString());
+                Log.e("SQLException SELECT", e.toString());
             } finally {
                 cursor.close();
             }
@@ -148,7 +148,7 @@ public class MainFragment extends Fragment {
                         Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
                     }  catch (SQLException ex) {
                         GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-                        Log.e("INSERT ERROR", ex.toString());
+                        Log.e("SQLException INSERT", ex.toString());
                     } finally {
                         statement.close();
                     }
@@ -213,7 +213,7 @@ public class MainFragment extends Fragment {
                                         Toast.makeText(getActivity(), "対象日付のデータを削除しました", Toast.LENGTH_SHORT).show();
                                     }  catch (SQLException ex) {
                                         GeneralUtils.createErrorDialog(getActivity(),"SQL DELETE エラー","delete処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
-                                        Log.e("DELETE ERROR", ex.toString());
+                                        Log.e("SQLException DELETE", ex.toString());
                                     } finally {
                                         statement.close();
                                     }

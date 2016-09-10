@@ -50,7 +50,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 }
             }
         } catch (SQLException ex) {
-            Log.e("ERROR", ex.toString());
+            Log.e("SQLException", ex.toString());
         }
         finally {
             cursor.close();
@@ -128,7 +128,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 tableDataNum =Integer.parseInt(cursor.getString(0));
             }
         } catch (SQLException e) {
-            Log.e("SELECT COUNT(*) ERROR", e.toString());
+            Log.e("SQLException COUNT", e.toString());
         } finally {
             cursor.close();
         }
@@ -145,7 +145,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         try {
             db.execSQL("CREATE TABLE " + targMonthTable + TABLE_COLUMN_NAME);
         } catch (SQLException e) {
-            Log.e("CREATE ERROR", e.toString());
+            Log.e("SQLException CREATE", e.toString());
         }
     }
     /**
@@ -163,7 +163,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                 exitFlag = true;
             }
         } catch (SQLException e) {
-            Log.e("SELECT COUNT ERROR ", e.toString());
+            Log.e("SQLException COUNT", e.toString());
         } finally {
             cursor.close();
         }

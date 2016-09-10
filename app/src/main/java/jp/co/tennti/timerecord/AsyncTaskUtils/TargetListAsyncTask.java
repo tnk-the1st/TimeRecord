@@ -48,7 +48,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
                     " ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
         } catch (SQLException e) {
-            Log.e("SELECT ERROR", e.toString());
+            Log.e("SQLException SELECT", e.toString());
         } finally {
             db.endTransaction();
         }
@@ -76,7 +76,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
             } while (cursor.moveToNext());
 
         } else {
-            Log.e("SELECT ERROR", "検索結果 0件");
+            Log.w("SELECT ERROR", "検索結果 0件");
             //Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
             return arrayTmp;
         }

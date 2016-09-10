@@ -77,9 +77,9 @@ public class GoogleOauth2Utils {
                 getUserInfo(); //ユーザー情報取得開始
             }
         } catch (OperationCanceledException e) {
-            Log.v("onGetAuthToken", "AuthToken取得キャンセル");
+            Log.e("onGetAuthTokenException", "AuthToken取得キャンセル",e);
         } catch (Exception e) {
-            Log.v("onGetAuthToken", "AuthToken取得失敗", e);
+            Log.e("onGetAuthToken", "AuthToken取得失敗", e);
         }
     }
 
@@ -113,7 +113,7 @@ public class GoogleOauth2Utils {
                     HttpRequestAsyncTask ahr = new HttpRequestAsyncTask(activity, json.getString("picture"), json.getString("name"), accountName);
                     ahr.execute();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("JSONException", e.toString());
                 }
             }
         });

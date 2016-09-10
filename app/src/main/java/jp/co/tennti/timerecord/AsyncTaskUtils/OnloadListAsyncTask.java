@@ -45,7 +45,7 @@ public class OnloadListAsyncTask extends AsyncTask<String, Integer, List<HashMap
                     " ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
         } catch (SQLException e) {
-            Log.e("SELECT ERROR", e.toString());
+            Log.e("SQLException SELECT", e.toString());
         }
 
         if (cursor.moveToFirst()) {

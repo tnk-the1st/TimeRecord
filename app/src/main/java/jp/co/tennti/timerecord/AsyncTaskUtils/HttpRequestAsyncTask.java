@@ -57,7 +57,7 @@ public class HttpRequestAsyncTask extends AsyncTask<Uri.Builder, Void, String> {
             bitmap = BitmapFactory.decodeStream(input);
             input.close();
         } catch (IOException e) {
-            Log.v("IOException : ", "URL to Bitmap処理の変換に失敗", e);
+            Log.e("IOException : " , "URL to Bitmap処理の変換に失敗", e);
         }
         return userName;
     }

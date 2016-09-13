@@ -100,11 +100,12 @@ public class GoogleOauth2Utils {
         try {
             Bundle bundle = future.getResult();
             accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
-            authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+            authToken   = bundle.getString(AccountManager.KEY_AUTHTOKEN);
             if (authToken == null) {
                 throw new Exception("authTokenがNULL accountName=" + accountName);
             }
             GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
+            GeneralUtils.createAuthTokenSD(accountName, activity);
             Log.v("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
                 getUserInfo(); //ユーザー情報取得開始
@@ -123,17 +124,9 @@ public class GoogleOauth2Utils {
         String authTokenStr = authToken;
 
         Log.v("getUserInfo", "ユーザー情報取得開始");
-        /*if (GeneralUtils.isAuthFile()) {
-            authToken = GeneralUtils.getAuthTokenSD(activity);
-            Log.v("aaaaaaaaaaaaa", GeneralUtils.getAuthTokenSD(activity));
-        } else {
-            GeneralUtils.createAuthTokenSD(authToken,activity);
-        }*/
-        GeneralUtils.createAuthTokenSD(accountName,activity);
-        String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + authToken + "&key=" + API_KEY;
 
+        String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + authToken + "&key=" + API_KEY;
         GetJsonAsyncTask task = new GetJsonAsyncTask();
-        Log.v("aaaaaaaaaaaaa", GeneralUtils.getAuthTokenSD(activity));
         task.setListener(new GetJsonAsyncTask.OnResultEventListener() {
             @Override
             public void onResult(JSONObject json) {

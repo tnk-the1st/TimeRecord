@@ -141,7 +141,25 @@ public class MainActivity extends AppCompatActivity
 
         }
         if (id == R.id.oauth_file) {
-
+            new AlertDialog.Builder(this)
+                    .setTitle("確認ダイアログ")
+                    .setMessage("このアプリケーションのOauth認証ファイルを削除しますがよろしいですか?")
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setNeutralButton("実行", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // OK button pressed
+                            if (!GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_DIR_SHORT + Constants.OAUTH_TOKEN_FILE_NAME)) {
+                                Toast.makeText(MainActivity.this, "認証ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).show();
         }
         if (id == R.id.delete_file) {
             new AlertDialog.Builder(this)
@@ -175,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         cleanupView(findViewById(R.id.fragment_main));
         cleanupView(findViewById(R.id.regist_screen));
+        cleanupView(findViewById(R.id.nav_view));
         cleanupView(findViewById(R.id.drawer_layout));
     }
 

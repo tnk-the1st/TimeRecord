@@ -93,4 +93,18 @@ public class Constants {
     public static final String APP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/";
     /** 認証トークンのファイルを置くSD上のフォルダのフルパス */
     public static final String AUTH_TOKEN_DIRECTORY  = Environment.getExternalStorageDirectory() + "/time_record/auth_token/";
+
+    public static final String AUTH_TOKEN_DIR_SHORT  = "/time_record/auth_token/";
+    /**
+     * Oauth2認証ファイル名
+     * */
+    public static final String OAUTH_TOKEN_FILE_NAME  = "auth_token.txt";
+    /**
+     * Oauth2認証JSONファイル名
+     * */
+    public static final String OAUTH_TOKEN_FILE_JSON  = "auth_token.json";
+    /**
+     * Oauth2認証JSONファイル名
+     * */
+    public static final String GOOGLE_USER_INFO_JSON  = "google_user_info.json";
 }

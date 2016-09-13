@@ -4,14 +4,16 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -27,7 +29,14 @@ import jp.co.tennti.timerecord.contacts.Constants;
 public class GeneralUtils {
 
     /** 認証トークンのフルパス */
-    private static final String AUTH_TOKEN_FILE = Constants.AUTH_TOKEN_DIRECTORY + "auth_token.txt";
+    private static final String AUTH_TOKEN_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_NAME;
+
+    /** 認証トークンJSONのフルパス */
+    private static final String AUTH_TOKEN_JSON_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_JSON;
+
+    /** Google Oauth取得情報JSONのフルパス */
+    private static final String GOOGLE_USER_INFO_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.GOOGLE_USER_INFO_JSON;
+
     /**
      * SQLエラー時のエラーダイアログ生成メソッド
      * @param fragActivity  フラグメントのアクティビティ
@@ -106,6 +115,7 @@ public class GeneralUtils {
      * @return String ファイルまでの絶対パス
      */
     public static final String toSDCardAbsolutePath(String fileName) {
+        System.out.println(getSDCardDir().getAbsolutePath());
         return getSDCardDir().getAbsolutePath() + File.separator + fileName;
     }
 
@@ -135,17 +145,64 @@ public class GeneralUtils {
     }
     /**
      * SDCard にauthTokenを保存する(Android 用)
-     * @param  String  authToken 認証トークン
+     * @param  String  accountName 選択ID(アドレス)
      * @param  Context  context コンテキスト情報
      */
-    public final void createAuthTokenSD(String authToken,Context context) {
+    public static final void createAuthTokenSD(String accountName,Context context) {
         try {
-            OutputStream out   = new ObjectOutputStream(context.openFileOutput(AUTH_TOKEN_FILE, Context.MODE_PRIVATE));
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(out,"UTF-8"));
-            writer.append(authToken);
+/*            if (!new File(Constants.AUTH_TOKEN_DIRECTORY).exists()) {
+                new File(Constants.AUTH_TOKEN_DIRECTORY).mkdirs();
+            }*/
+            File tokenFile = new File( AUTH_TOKEN_FILE );
+            OutputStream outStream = new FileOutputStream(tokenFile);
+           //FileOutputStream out   = context.openFileOutput(AUTH_TOKEN_FILE, Context.MODE_PRIVATE);//new ObjectOutputStream(context.openFileOutput(AUTH_TOKEN_FILE, Context.MODE_PRIVATE));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+            writer.append(accountName);
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IOException", e.toString());
+        }
+    }
+    /**
+     * SDCard にJSONファイルのauthToken情報を保存する(Android 用)
+     * @param  String  accountName 選択ID(アドレス)
+     * @param  String  authToken 認証トークン
+     */
+    public static final void createJsonAuthTokenSD(String accountName,String authToken) {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            // JSONデータの作成
+            jsonObject.accumulate("account_name", accountName);
+            jsonObject.accumulate("auth_token", authToken);
+            jsonObject.accumulate("create_date", TimeUtils.getCurrentDate());
+            File tokenFile = new File( AUTH_TOKEN_JSON_FILE );
+            OutputStream outStream = new FileOutputStream(tokenFile);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+
+            writer.print(jsonObject);
+            writer.close();
+        }catch (JSONException e) {
+            Log.e("JSONException",e.toString());
+        }catch (IOException e) {
+            Log.e("IOException", e.toString());
+        }
+    }
+
+    /**
+     * SDCard にGoogle Oauthで取得した情報をJSONファイルに保存する(Android 用)
+     * @param  JSONObject  json 取得情報
+     */
+    public static final void createJsonGoogleOauthInfo(JSONObject json) {
+
+        try {
+            File tokenFile = new File( GOOGLE_USER_INFO_FILE );
+            OutputStream outStream = new FileOutputStream(tokenFile);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+            writer.print(json);
+            writer.close();
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
         }
     }
 
@@ -154,11 +211,15 @@ public class GeneralUtils {
      * @param  Context  context コンテキスト情報
      * @return String  authTokenSD 保存されている認証トークン
      */
-    public final String getAuthTokenSD(Context context) {
+    public static final String getAuthTokenSD(Context context) {
         String authTokenSD ="";
         try {
-            ObjectInputStream in  = new ObjectInputStream(context.openFileInput(AUTH_TOKEN_FILE));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"));
+            File tokenFile = new File( AUTH_TOKEN_FILE );
+            FileReader filereader = new FileReader(tokenFile);
+            //OutputStream outStream = new FileOutputStream(tokenFile);
+            //ObjectInputStream in  = new ObjectInputStream(context.openFileInput(AUTH_TOKEN_FILE));
+            BufferedReader reader = new BufferedReader(filereader);
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(in,"UTF-8"));
             authTokenSD = reader.readLine();
             reader.close();
         } catch (IOException e) {

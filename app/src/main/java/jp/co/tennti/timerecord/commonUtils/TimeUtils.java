@@ -55,7 +55,7 @@ public class TimeUtils {
      * 現在時刻 FULL の取得
      * @return 現在時刻 yyyy-MM-dd HH:mm:ss
      */
-    public String getCurrentDate() {
+    public static final String getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;

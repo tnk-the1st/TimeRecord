@@ -20,7 +20,7 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
 
     protected HttpURLConnection connection;
     protected OnResultEventListener listener;
-
+    int status = 0;
 
     @Override
     protected void onPreExecute() {
@@ -37,6 +37,7 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
+            status = connection.getResponseCode();
 
             BufferedInputStream inputStream    = new BufferedInputStream(connection.getInputStream());
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -58,6 +59,11 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
             if(connection != null){
                 connection.disconnect();
             }
+        }
+        if (status == HttpURLConnection.HTTP_OK) {
+            return json;
+        } else {
+            Log.e("HttpURLConnection", String.valueOf(status));
         }
         return json;
     }

@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
+import java.io.IOException;
+
 import jp.co.tennti.timerecord.AsyncTaskUtils.GetJsonAsyncTask;
+import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
 
 /**
  * Created by TENNTI on 2016/08/14.
@@ -22,7 +25,7 @@ public class GoogleOauth2Utils {
 
     public Activity activity;
     protected AccountManager accountManager;
-    protected String accountName;
+    protected static String accountName;
     protected String authToken;
     protected String authTokenType;
     protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
@@ -43,7 +46,11 @@ public class GoogleOauth2Utils {
         this.authTokenType = authTokenType;
         if (accountName == null) {
             Log.v("startRequest", "アカウントが選択されていない");
-            chooseAccount();
+            if (GeneralUtils.isAuthFile()) {
+                continueAccount();
+            } else {
+                chooseAccount();
+            }
         } else {
             getAuthToken();
         }
@@ -61,6 +68,31 @@ public class GoogleOauth2Utils {
                 },
                 null);
     }
+
+    protected void continueAccount() {
+        Log.v("chooseAccount", "AuthToken取得開始（アカウント続行）");
+        String accountNameMail = GeneralUtils.getAuthTokenSD(activity);
+        accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,
+                activity, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            Bundle bundle = future.getResult();
+                            accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+                            authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                            if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
+                                getUserInfo(); //ユーザー情報取得開始
+                            }
+                        } catch (OperationCanceledException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (AuthenticatorException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, null);
+    }
     /**
      * authTokenを取得する部分
      * */
@@ -72,6 +104,7 @@ public class GoogleOauth2Utils {
             if (authToken == null) {
                 throw new Exception("authTokenがNULL accountName=" + accountName);
             }
+            GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
             Log.v("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
                 getUserInfo(); //ユーザー情報取得開始
@@ -87,12 +120,20 @@ public class GoogleOauth2Utils {
      * googleからユーザー情報を取得する部分
      * */
     public void getUserInfo() {
-        String s = authToken;
+        String authTokenStr = authToken;
 
         Log.v("getUserInfo", "ユーザー情報取得開始");
+        /*if (GeneralUtils.isAuthFile()) {
+            authToken = GeneralUtils.getAuthTokenSD(activity);
+            Log.v("aaaaaaaaaaaaa", GeneralUtils.getAuthTokenSD(activity));
+        } else {
+            GeneralUtils.createAuthTokenSD(authToken,activity);
+        }*/
+        GeneralUtils.createAuthTokenSD(accountName,activity);
         String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + authToken + "&key=" + API_KEY;
 
         GetJsonAsyncTask task = new GetJsonAsyncTask();
+        Log.v("aaaaaaaaaaaaa", GeneralUtils.getAuthTokenSD(activity));
         task.setListener(new GetJsonAsyncTask.OnResultEventListener() {
             @Override
             public void onResult(JSONObject json) {
@@ -106,6 +147,7 @@ public class GoogleOauth2Utils {
                     startRequest(AUTH_TOKEN_TYPE_PROFILE);
                 } else {
                     msg = "ユーザー情報取得成功\njson=" + json.toString();
+                    GeneralUtils.createJsonGoogleOauthInfo(json);
                     Log.v("getUserInfo", msg);
                 }
                 try {

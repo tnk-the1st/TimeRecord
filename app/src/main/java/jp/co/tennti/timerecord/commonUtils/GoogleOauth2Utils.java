@@ -25,7 +25,7 @@ public class GoogleOauth2Utils {
 
     public Activity activity;
     protected AccountManager accountManager;
-    protected static String accountName;
+    protected String accountName;
     protected String authToken;
     protected String authTokenType;
     protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
@@ -51,6 +51,7 @@ public class GoogleOauth2Utils {
             } else {
                 chooseAccount();
             }
+            //chooseAccount();
         } else {
             getAuthToken();
         }
@@ -71,7 +72,14 @@ public class GoogleOauth2Utils {
 
     protected void continueAccount() {
         Log.v("chooseAccount", "AuthToken取得開始（アカウント続行）");
-        String accountNameMail = GeneralUtils.getAuthTokenSD(activity);
+        JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
+        String accountNameMail = "";
+        try {
+            accountNameMail = jsonGoogleOauth.getString("account_name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //String accountNameMail = GeneralUtils.getAuthTokenSD(activity);
         accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,
                 activity, new AccountManagerCallback<Bundle>() {
                     @Override
@@ -105,7 +113,7 @@ public class GoogleOauth2Utils {
                 throw new Exception("authTokenがNULL accountName=" + accountName);
             }
             GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
-            GeneralUtils.createAuthTokenSD(accountName, activity);
+            //GeneralUtils.createAuthTokenSD(accountName, activity);
             Log.v("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
                 getUserInfo(); //ユーザー情報取得開始
@@ -140,7 +148,7 @@ public class GoogleOauth2Utils {
                     startRequest(AUTH_TOKEN_TYPE_PROFILE);
                 } else {
                     msg = "ユーザー情報取得成功\njson=" + json.toString();
-                    GeneralUtils.createJsonGoogleOauthInfo(json);
+                    GeneralUtils.createJsonGoogleOauthInfoSD(json);
                     Log.v("getUserInfo", msg);
                 }
                 try {

@@ -296,11 +296,11 @@ public class TimeUtils {
         return buffer.toString();
     }
     /**
-     * 現在年月の取得
+     * 現在年月日の取得
      *
      * @return 現在時刻yyyy-MM-dd
      */
-    public String getCurrentYearMonthDay(){
+    public static final String getCurrentYearMonthDay(){
 
         //String JOIN_YEAR_MONTH;
         final Calendar cal = Calendar.getInstance();
@@ -347,7 +347,7 @@ public class TimeUtils {
     }
 
     /**
-     * 現在年月の取得
+     * 現在年月日の取得
      * @param  yyyyMMdd 指定日付:yyyy_MM_dd
      * @return 指定時刻yyyy-MM
      */

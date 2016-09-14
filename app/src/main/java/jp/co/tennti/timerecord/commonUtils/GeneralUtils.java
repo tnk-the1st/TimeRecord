@@ -11,9 +11,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -97,8 +99,10 @@ public class GeneralUtils {
      * @return boolean true isExists(file.exists());
      */
     public static final boolean isAuthFile () {
-        File file = new File(AUTH_TOKEN_FILE);
-        return file.exists();
+        File authTokenFile  = new File(AUTH_TOKEN_JSON_FILE);
+        File googleUserFile = new File(GOOGLE_USER_INFO_FILE);
+
+        return authTokenFile.exists() && googleUserFile.exists();
     }
 
     /**
@@ -175,35 +179,117 @@ public class GeneralUtils {
             // JSONデータの作成
             jsonObject.accumulate("account_name", accountName);
             jsonObject.accumulate("auth_token", authToken);
-            jsonObject.accumulate("create_date", TimeUtils.getCurrentDate());
+            jsonObject.accumulate("create_date", TimeUtils.getCurrentYearMonthDay());
             File tokenFile = new File( AUTH_TOKEN_JSON_FILE );
             OutputStream outStream = new FileOutputStream(tokenFile);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
 
             writer.print(jsonObject);
             writer.close();
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e("JSONException",e.toString());
-        }catch (IOException e) {
+        } catch (IOException e) {
             Log.e("IOException", e.toString());
         }
     }
 
     /**
-     * SDCard にGoogle Oauthで取得した情報をJSONファイルに保存する(Android 用)
+     * SDCard にGoogle Oauthで取得した情報をJSONファイルに保存する
      * @param  JSONObject  json 取得情報
      */
-    public static final void createJsonGoogleOauthInfo(JSONObject json) {
+    public static final void createJsonGoogleOauthInfoSD(JSONObject json) {
 
         try {
             File tokenFile = new File( GOOGLE_USER_INFO_FILE );
             OutputStream outStream = new FileOutputStream(tokenFile);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+            json.accumulate("create_date", TimeUtils.getCurrentYearMonthDay());
             writer.print(json);
             writer.close();
+        } catch (JSONException e) {
+            Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
         }
+    }
+
+    /**
+     * 指定したパスとファイル名のJSONファイルの情報を取得する
+     * @param  String FilePath 取得JSONファイルのパスとファイル名（絶対パス）
+     * @return JSONObject  json 取得情報
+     */
+    public static final JSONObject getJsonTargetFile(String FilePath) {
+        JSONObject jsonObject= null;
+        try {
+            File tokenFile = new File( FilePath );
+            InputStream inputStream = new FileInputStream(tokenFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+
+            // Json読み込み
+            String jsonString = new String(buffer);
+            jsonObject = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            Log.e("JSONException",e.toString());
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
+        }
+        return jsonObject;
+    }
+    /**
+     * SDCard にGoogle Oauthで取得した情報をJSONから取得する
+     * @return JSONObject  json 取得情報
+     */
+    public static final JSONObject getJsonAuthToken() {
+        JSONObject jsonObject= null;
+        try {
+            File tokenFile = new File( AUTH_TOKEN_JSON_FILE );
+            InputStream inputStream = new FileInputStream(tokenFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+
+            // Json読み込み
+            String jsonString = new String(buffer);
+            jsonObject = new JSONObject(jsonString);
+
+            System.out.println(jsonObject.getString("account_name"));
+        } catch (JSONException e) {
+            Log.e("JSONException",e.toString());
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
+        }
+        return jsonObject;
+    }
+    /**
+     * SDCard にGoogle Oauthで取得した情報をJSONから取得する
+     * @return JSONObject  json 取得情報
+     */
+    public static final JSONObject getJsonGoogleOauthInfo() {
+        JSONObject jsonObject= null;
+        try {
+            File tokenFile = new File( GOOGLE_USER_INFO_FILE );
+            InputStream inputStream = new FileInputStream(tokenFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+
+            // Json読み込み
+            String jsonString = new String(buffer);
+            jsonObject = new JSONObject(jsonString);
+
+            System.out.println(jsonObject.getString("name"));
+            System.out.println(jsonObject.getString("picture"));
+        } catch (JSONException e) {
+            Log.e("JSONException",e.toString());
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
+        }
+        return jsonObject;
     }
 
     /**

@@ -19,6 +19,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -148,7 +153,7 @@ public class GeneralUtils {
         return blankResultList;
     }
     /**
-     * SDCard にauthTokenを保存する(Android 用)
+     * SDCard にauthTokenを保存する
      * @param  String  accountName 選択ID(アドレス)
      * @param  Context  context コンテキスト情報
      */
@@ -168,7 +173,7 @@ public class GeneralUtils {
         }
     }
     /**
-     * SDCard にJSONファイルのauthToken情報を保存する(Android 用)
+     * SDCard にJSONファイルのauthToken情報を保存する
      * @param  String  accountName 選択ID(アドレス)
      * @param  String  authToken 認証トークン
      */
@@ -293,7 +298,7 @@ public class GeneralUtils {
     }
 
     /**
-     * SDCard に保存されているauthTokenを取得する(Android 用)
+     * SDCard に保存されているauthTokenを取得する
      * @param  Context  context コンテキスト情報
      * @return String  authTokenSD 保存されている認証トークン
      */
@@ -309,8 +314,32 @@ public class GeneralUtils {
             authTokenSD = reader.readLine();
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("IOException", e.toString());
         }
         return authTokenSD;
+    }
+    
+    /**
+       * SDCard にGoogle認証で取得したアカウント画像を配置する
+       */
+    public static final void setImageFileSD(){
+        try {
+            URI uri = new URI("http://www.musicman-net.com/files/2016/08/f57c39a741f109.jpg");
+            URL url = uri.toURL();
+            URLConnection urlcon           = url.openConnection();
+            InputStream inputStream        = urlcon.getInputStream();
+            File saveFile                  = new File("C:\\dev\\NetBeans8.1j\\workspase\\test\\JavaApplication1\\a.jpg");
+            FileOutputStream fileOutStream = new FileOutputStream(saveFile);
+            int c;
+            while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);
+            fileOutStream.close();
+            inputStream.close();
+        } catch (URISyntaxException e) {
+           Log.e("URISyntaxException", e.toString());
+        } catch (MalformedURLException e) {
+           Log.e("MalformedURLExc", e.toString());
+        } catch (IOException e) {
+           Log.e("IOException", e.toString());
+        }
     }
 }

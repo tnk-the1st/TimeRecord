@@ -39,10 +39,10 @@ public class GeneralUtils {
     private static final String AUTH_TOKEN_FILE       = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_NAME;
 
     /** 認証トークンJSONのフルパス */
-    private static final String AUTH_TOKEN_JSON_FILE  = Constants.AUTH_TOKEN_JSON_DIR + Constants.OAUTH_TOKEN_FILE_JSON;
+    private static final String AUTH_TOKEN_JSON_FILE  = Constants.GOOGLE_INFO_JSON_DIR + Constants.OAUTH_TOKEN_FILE_JSON;
 
     /** Google Oauth取得情報JSONのフルパス */
-    private static final String GOOGLE_USER_INFO_FILE = Constants.AUTH_TOKEN_JSON_DIR + Constants.GOOGLE_USER_INFO_JSON;
+    private static final String GOOGLE_USER_INFO_FILE = Constants.GOOGLE_INFO_JSON_DIR + Constants.GOOGLE_USER_INFO_JSON;
 
     /**
      * SQLエラー時のエラーダイアログ生成メソッド
@@ -329,7 +329,7 @@ public class GeneralUtils {
             URL url = uri.toURL();
             URLConnection urlcon           = url.openConnection();
             InputStream inputStream        = urlcon.getInputStream();
-            File saveFile                  = new File(Constants.AUTH_TOKEN_JSON_DIR+"icon.jpg");
+            File saveFile                  = new File(Constants.GOOGLE_INFO_DIR + Constants.GOOGLE_USER_ICON_IMG);
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);

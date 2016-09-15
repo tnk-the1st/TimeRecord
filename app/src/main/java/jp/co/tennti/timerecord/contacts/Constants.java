@@ -94,7 +94,9 @@ public class Constants {
     /** 認証トークンのファイルを置くSD上のフォルダのフルパス */
     public static final String AUTH_TOKEN_DIRECTORY  = Environment.getExternalStorageDirectory() + "/time_record/auth_token/";
     /** 認証ファイルをjsonにし配置するSD上のフォルダのフルパス */
-    public static final String AUTH_TOKEN_JSON_DIR   = Environment.getExternalStorageDirectory() + "/time_record/auth_token/json/";
+    public static final String GOOGLE_INFO_DIR       = Environment.getExternalStorageDirectory() + "/time_record/google_info/";
+    /** 認証ファイルをjsonにし配置するSD上のフォルダのフルパス */
+    public static final String GOOGLE_INFO_JSON_DIR  = Environment.getExternalStorageDirectory() + "/time_record/google_info/json/";
 
     public static final String AUTH_TOKEN_DIR_SHORT  = "/time_record/auth_token/";
     /**
@@ -109,4 +111,8 @@ public class Constants {
      * Oauth2認証JSONファイル名
      * */
     public static final String GOOGLE_USER_INFO_JSON  = "google_user_info.json";
+    /**
+     * Oauth2認証アイコンイメージファイル名
+     * */
+    public static final String GOOGLE_USER_ICON_IMG   = "icon.jpg";
 }

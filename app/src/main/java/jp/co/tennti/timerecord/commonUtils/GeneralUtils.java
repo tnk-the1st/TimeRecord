@@ -36,13 +36,13 @@ import jp.co.tennti.timerecord.contacts.Constants;
 public class GeneralUtils {
 
     /** 認証トークンのフルパス */
-    private static final String AUTH_TOKEN_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_NAME;
+    private static final String AUTH_TOKEN_FILE       = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_NAME;
 
     /** 認証トークンJSONのフルパス */
-    private static final String AUTH_TOKEN_JSON_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.OAUTH_TOKEN_FILE_JSON;
+    private static final String AUTH_TOKEN_JSON_FILE  = Constants.AUTH_TOKEN_JSON_DIR + Constants.OAUTH_TOKEN_FILE_JSON;
 
     /** Google Oauth取得情報JSONのフルパス */
-    private static final String GOOGLE_USER_INFO_FILE = Constants.AUTH_TOKEN_DIRECTORY + Constants.GOOGLE_USER_INFO_JSON;
+    private static final String GOOGLE_USER_INFO_FILE = Constants.AUTH_TOKEN_JSON_DIR + Constants.GOOGLE_USER_INFO_JSON;
 
     /**
      * SQLエラー時のエラーダイアログ生成メソッド
@@ -321,14 +321,15 @@ public class GeneralUtils {
     
     /**
        * SDCard にGoogle認証で取得したアカウント画像を配置する
+       * @param  String filePath 取得画像のURLパス
        */
-    public static final void setImageFileSD(){
+    public static final void setImageFileSD(String filePath){
         try {
-            URI uri = new URI("http://www.musicman-net.com/files/2016/08/f57c39a741f109.jpg");
+            URI uri = new URI(filePath);
             URL url = uri.toURL();
             URLConnection urlcon           = url.openConnection();
             InputStream inputStream        = urlcon.getInputStream();
-            File saveFile                  = new File("C:\\dev\\NetBeans8.1j\\workspase\\test\\JavaApplication1\\a.jpg");
+            File saveFile                  = new File(Constants.AUTH_TOKEN_JSON_DIR+"icon.jpg");
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);

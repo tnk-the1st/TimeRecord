@@ -93,6 +93,8 @@ public class Constants {
     public static final String APP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/";
     /** 認証トークンのファイルを置くSD上のフォルダのフルパス */
     public static final String AUTH_TOKEN_DIRECTORY  = Environment.getExternalStorageDirectory() + "/time_record/auth_token/";
+    /** 認証ファイルをjsonにし配置するSD上のフォルダのフルパス */
+    public static final String AUTH_TOKEN_JSON_DIR   = Environment.getExternalStorageDirectory() + "/time_record/auth_token/json/";
 
     public static final String AUTH_TOKEN_DIR_SHORT  = "/time_record/auth_token/";
     /**

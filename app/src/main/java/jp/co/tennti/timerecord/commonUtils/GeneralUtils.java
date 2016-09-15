@@ -43,6 +43,9 @@ public class GeneralUtils {
 
     /** Google Oauth取得情報JSONのフルパス */
     private static final String GOOGLE_USER_INFO_FILE = Constants.GOOGLE_INFO_JSON_DIR + Constants.GOOGLE_USER_INFO_JSON;
+    
+    /** Google Oauth取得情報画像のフルパス */
+    private static final String GOOGLE_USER_ICON_FILE = Constants.GOOGLE_INFO_DIR + Constants.GOOGLE_USER_ICON_IMG;
 
     /**
      * SQLエラー時のエラーダイアログ生成メソッド
@@ -329,7 +332,7 @@ public class GeneralUtils {
             URL url = uri.toURL();
             URLConnection urlcon           = url.openConnection();
             InputStream inputStream        = urlcon.getInputStream();
-            File saveFile                  = new File(Constants.GOOGLE_INFO_DIR + Constants.GOOGLE_USER_ICON_IMG);
+            File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);

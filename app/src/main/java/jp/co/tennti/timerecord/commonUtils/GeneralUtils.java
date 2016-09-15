@@ -19,11 +19,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,6 +114,19 @@ public class GeneralUtils {
     }
 
     /**
+     * Google取得情報ファイルが存在するか判定する
+     * String filepath = this.getFilesDir().getAbsolutePath() + "/" +  "test.txt";
+     * @return boolean true isExists(file.exists());
+     */
+    public static final boolean isGoogleInfoFile () {
+        File authTokenFile  = new File(AUTH_TOKEN_JSON_FILE);
+        File googleUserFile = new File(GOOGLE_USER_INFO_FILE);
+
+        return authTokenFile.exists() && googleUserFile.exists();
+    }
+
+
+    /**
      * SDCard のルートディレクトリを取得(Android 用)
      * @return String ルートディレクトリパス
      */
@@ -183,6 +196,9 @@ public class GeneralUtils {
     public static final void createJsonAuthTokenSD(String accountName,String authToken) {
 
         try {
+            if (!new File(Constants.GOOGLE_INFO_JSON_DIR).exists()) {
+                new File(Constants.GOOGLE_INFO_JSON_DIR).mkdirs();
+            }
             JSONObject jsonObject = new JSONObject();
             // JSONデータの作成
             jsonObject.accumulate("account_name", accountName);
@@ -208,6 +224,9 @@ public class GeneralUtils {
     public static final void createJsonGoogleOauthInfoSD(JSONObject json) {
 
         try {
+            if (!new File(Constants.GOOGLE_INFO_JSON_DIR).exists()) {
+                new File(Constants.GOOGLE_INFO_JSON_DIR).mkdirs();
+            }
             File tokenFile = new File( GOOGLE_USER_INFO_FILE );
             OutputStream outStream = new FileOutputStream(tokenFile);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
@@ -324,14 +343,14 @@ public class GeneralUtils {
     
     /**
        * SDCard にGoogle認証で取得したアカウント画像を配置する
-       * @param  String filePath 取得画像のURLパス
+       * @param  String fileUrl 取得画像のURLパス
        */
-    public static final void setImageFileSD(String filePath){
+    public static final void setImageFileSD(String fileUrl){
         try {
-            URI uri = new URI(filePath);
+            URI uri = new URI(fileUrl);
             URL url = uri.toURL();
-            URLConnection urlcon           = url.openConnection();
-            InputStream inputStream        = urlcon.getInputStream();
+            HttpURLConnection urlCon       = (HttpURLConnection)url.openConnection();
+            InputStream inputStream        = urlCon.getInputStream();
             File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;

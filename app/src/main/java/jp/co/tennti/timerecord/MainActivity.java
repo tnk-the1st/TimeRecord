@@ -153,8 +153,9 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // OK button pressed
-                            if (!GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_DIR_SHORT + Constants.OAUTH_TOKEN_FILE_JSON)
-                                    && !GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_DIR_SHORT + Constants.GOOGLE_USER_INFO_JSON)) {
+                            if (!GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_INFO_FULL)
+                                    || !GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_JSON_FULL)
+                                    || !GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_ICON_FULL)) {
                                 Toast.makeText(MainActivity.this, "認証ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT).show();

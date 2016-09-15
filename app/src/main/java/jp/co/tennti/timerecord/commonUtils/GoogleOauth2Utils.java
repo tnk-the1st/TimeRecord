@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import jp.co.tennti.timerecord.AsyncTaskUtils.GetJsonAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
+import jp.co.tennti.timerecord.AsyncTaskUtils.SetImgAsyncTask;
 
 /**
  * Created by TENNTI on 2016/08/14.
@@ -46,7 +47,7 @@ public class GoogleOauth2Utils {
         this.authTokenType = authTokenType;
         if (accountName == null) {
             Log.v("startRequest", "アカウントが選択されていない");
-            if (GeneralUtils.isAuthFile()) {
+            if (GeneralUtils.isGoogleInfoFile()) {
                 continueAccount();
             } else {
                 chooseAccount();
@@ -92,11 +93,11 @@ public class GoogleOauth2Utils {
                                 getUserInfo(); //ユーザー情報取得開始
                             }
                         } catch (OperationCanceledException e) {
-                            e.printStackTrace();
+                            Log.e("OperationCanceledExc", e.toString());
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.e("IOException", e.toString());
                         } catch (AuthenticatorException e) {
-                            e.printStackTrace();
+                            Log.e("AuthenticatorException", e.toString());
                         }
                     }
                 }, null);
@@ -112,7 +113,7 @@ public class GoogleOauth2Utils {
             if (authToken == null) {
                 throw new Exception("authTokenがNULL accountName=" + accountName);
             }
-            GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
+            //GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
             //GeneralUtils.createAuthTokenSD(accountName, activity);
             Log.v("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
@@ -148,11 +149,13 @@ public class GoogleOauth2Utils {
                     startRequest(AUTH_TOKEN_TYPE_PROFILE);
                 } else {
                     msg = "ユーザー情報取得成功\njson=" + json.toString();
-                    GeneralUtils.createJsonGoogleOauthInfoSD(json);
                     Log.v("getUserInfo", msg);
                 }
                 try {
-                    Log.v("link", json.getString("picture"));
+                    GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
+                    GeneralUtils.createJsonGoogleOauthInfoSD(json);
+                    SetImgAsyncTask siat = new SetImgAsyncTask(json.getString("picture"));
+                    siat.execute();
                     HttpRequestAsyncTask ahr = new HttpRequestAsyncTask(activity, json.getString("picture"), json.getString("name"), accountName);
                     ahr.execute();
                 } catch (JSONException e) {

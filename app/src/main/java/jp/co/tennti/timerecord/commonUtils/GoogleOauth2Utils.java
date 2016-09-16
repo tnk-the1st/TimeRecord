@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import jp.co.tennti.timerecord.AsyncTaskUtils.GetJsonAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
-import jp.co.tennti.timerecord.AsyncTaskUtils.SetImgAsyncTask;
+import jp.co.tennti.timerecord.AsyncTaskUtils.SetImageAsyncTask;
 
 /**
  * Created by TENNTI on 2016/08/14.
@@ -154,7 +154,7 @@ public class GoogleOauth2Utils {
                 try {
                     GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
                     GeneralUtils.createJsonGoogleOauthInfoSD(json);
-                    SetImgAsyncTask siat = new SetImgAsyncTask(json.getString("picture"));
+                    SetImageAsyncTask siat = new SetImageAsyncTask(json.getString("picture"));
                     siat.execute();
                     HttpRequestAsyncTask ahr = new HttpRequestAsyncTask(activity, json.getString("picture"), json.getString("name"), accountName);
                     ahr.execute();

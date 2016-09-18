@@ -3,6 +3,7 @@ package jp.co.tennti.timerecord.AsyncTaskUtils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,10 +18,10 @@ import jp.co.tennti.timerecord.contacts.Constants;
 /**
  * Created by TENNTI on 2016/09/16.
  */
-public class SetImgAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
+public class SetImageAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
     private String fileUrl;
 
-    public SetImgAsyncTask(String fileUrl){
+    public SetImageAsyncTask(String fileUrl){
         this.fileUrl = fileUrl;
     }
 
@@ -41,12 +42,13 @@ public class SetImgAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);
+            fileOutStream.flush();
             fileOutStream.close();
             inputStream.close();
-        } catch (MalformedURLException exception){
-
-        } catch (IOException exception){
-
+        } catch (MalformedURLException e){
+            Log.e("MalformedURLException", e.toString());
+        } catch (IOException e){
+            Log.e("IOException", e.toString());
         } finally {
             if (connection != null){
                 connection.disconnect();
@@ -55,7 +57,8 @@ public class SetImgAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
                 if (inputStream != null){
                     inputStream.close();
                 }
-            } catch (IOException exception){
+            } catch (IOException e){
+                Log.e("IOException_f", e.toString());
             }
         }
         return bitmap;

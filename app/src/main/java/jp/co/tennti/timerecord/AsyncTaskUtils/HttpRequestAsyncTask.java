@@ -82,12 +82,12 @@ public class HttpRequestAsyncTask extends AsyncTask<Uri.Builder, Void, String> {
      * */
     @Override
     protected void onPostExecute(String result) {
-        ImageView accountIconView  = (ImageView)mainActivity.findViewById(R.id.accountIconView);
-        TextView accountName       = (TextView)mainActivity.findViewById(R.id.accountName);
-        TextView emailView         = (TextView)mainActivity.findViewById(R.id.accountMail);
+        ImageView accountIconView = (ImageView)mainActivity.findViewById(R.id.accountIconView);
+        TextView accountName      = (TextView)mainActivity.findViewById(R.id.accountName);
+        TextView mailView         = (TextView)mainActivity.findViewById(R.id.accountMail);
         accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
         accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(bitmap));
         accountName.setText(result);
-        emailView.setText(this.accountName);
+        mailView.setText(this.accountName);
     }
 }

@@ -117,7 +117,7 @@ public class Constants {
     /**
      * Oauth2認証アイコンイメージファイル名
      * */
-    public static final String GOOGLE_USER_ICON_IMG   = "icon.jpg";
+    public static final String GOOGLE_USER_ICON_IMG   = "icon.png";
 
     /** 認証トークンJSONのフルパス */
     public static final String AUTH_TOKEN_JSON_FULL  = GOOGLE_INFO_JSON_DIR_SHORT + OAUTH_TOKEN_FILE_JSON;

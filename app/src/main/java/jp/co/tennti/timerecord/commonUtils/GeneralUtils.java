@@ -1,6 +1,8 @@
 package jp.co.tennti.timerecord.commonUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -283,7 +286,6 @@ public class GeneralUtils {
             String jsonString = new String(buffer);
             jsonObject = new JSONObject(jsonString);
 
-            System.out.println(jsonObject.getString("account_name"));
         } catch (JSONException e) {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
@@ -291,6 +293,33 @@ public class GeneralUtils {
         }
         return jsonObject;
     }
+
+    /**
+     * SDCard にGoogle Oauthで取得した情報をJSONから取得する
+     * @return JSONObject  json 取得情報
+     */
+    public static final JSONObject getJsonGoogleInfo() {
+        JSONObject jsonObject= null;
+        try {
+            File tokenFile = new File( GOOGLE_USER_INFO_FILE );
+            InputStream inputStream = new FileInputStream(tokenFile);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+
+            // Json読み込み
+            String jsonString = new String(buffer);
+            jsonObject = new JSONObject(jsonString);
+
+        } catch (JSONException e) {
+            Log.e("JSONException",e.toString());
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
+        }
+        return jsonObject;
+    }
+
     /**
      * SDCard にGoogle Oauthで取得した情報をJSONから取得する
      * @return JSONObject  json 取得情報
@@ -351,10 +380,12 @@ public class GeneralUtils {
             URL url = uri.toURL();
             HttpURLConnection urlCon       = (HttpURLConnection)url.openConnection();
             InputStream inputStream        = urlCon.getInputStream();
+
             File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);
+            fileOutStream.flush();
             fileOutStream.close();
             inputStream.close();
         } catch (URISyntaxException e) {
@@ -363,6 +394,28 @@ public class GeneralUtils {
            Log.e("MalformedURLExc", e.toString());
         } catch (IOException e) {
            Log.e("IOException", e.toString());
+        }
+    }
+    // URLからBitmapへの変換
+    public static void getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+            File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
+            FileOutputStream fileOutStream = new FileOutputStream(saveFile);
+            myBitmap.compress(Bitmap.CompressFormat.PNG, 50, fileOutStream);
+            int c;
+            while((c =input.read()) != -1) fileOutStream.write((byte) c);
+            fileOutStream.flush();
+            fileOutStream.close();
+            input.close();
+        } catch (IOException e) {
+            Log.e("IOException", e.toString());
         }
     }
 }

@@ -71,6 +71,23 @@ public class GoogleOauth2Utils {
                 null);
     }
 
+    /**
+     * アカウントマネージャーでアカウントを選択する
+     * */
+    protected void getJsonAccount() {
+        Log.v("chooseAccount", "JSON取得開始（アカウント）");
+        JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
+        JSONObject jsonGoogleInfo  = GeneralUtils.getJsonGoogleInfo();
+        String accountNameMail     = "";
+        String accountFullName     = "";
+        try {
+            accountNameMail = jsonGoogleOauth.getString("account_name");
+            accountFullName = jsonGoogleInfo.getString("name");
+        } catch (JSONException e) {
+            Log.e("JSONException", e.toString());
+        }
+    }
+
     protected void continueAccount() {
         Log.v("chooseAccount", "AuthToken取得開始（アカウント続行）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
@@ -78,7 +95,7 @@ public class GoogleOauth2Utils {
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("JSONException", e.toString());
         }
         //String accountNameMail = GeneralUtils.getAuthTokenSD(activity);
         accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,

@@ -48,16 +48,29 @@ public class HttpRequestAsyncTask extends AsyncTask<Uri.Builder, Void, String> {
      * */
     @Override
     protected String doInBackground(Uri.Builder... builder) {
+        HttpURLConnection connection = null;
+        InputStream inputStream      = null;
         try {
             URL url = new URL(pictureUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
-            InputStream input = connection.getInputStream();
-            bitmap = BitmapFactory.decodeStream(input);
-            input.close();
+            inputStream = connection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
         } catch (IOException e) {
             Log.e("IOException : " , "URL to Bitmap処理の変換に失敗", e);
+        } finally {
+            if (connection != null){
+                connection.disconnect();
+            }
+            try {
+                if (inputStream != null){
+                    inputStream.close();
+                }
+            } catch (IOException e){
+                Log.e("IOException", e.toString());
+            }
         }
         return userName;
     }

@@ -3,7 +3,6 @@ package jp.co.tennti.timerecord.AsyncTaskUtils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,19 +37,16 @@ public class SetImgAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
             connection.setRequestMethod("GET");
             connection.connect();
             inputStream = connection.getInputStream();
-            //Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
             File saveFile                  = new File( Constants.GOOGLE_INFO_DIR + Constants.GOOGLE_USER_ICON_IMG);
             FileOutputStream fileOutStream = new FileOutputStream(saveFile);
-            //myBitmap.compress(Bitmap.CompressFormat.PNG, 50, fileOutStream);
             int c;
             while((c =inputStream.read()) != -1) fileOutStream.write((byte) c);
-            fileOutStream.flush();
             fileOutStream.close();
             inputStream.close();
-        } catch (MalformedURLException e){
-            Log.e("MalformedURLException", e.toString());
-        } catch (IOException e){
-            Log.e("IOException", e.toString());
+        } catch (MalformedURLException exception){
+
+        } catch (IOException exception){
+
         } finally {
             if (connection != null){
                 connection.disconnect();
@@ -59,8 +55,7 @@ public class SetImgAsyncTask extends AsyncTask<Uri.Builder, Void, Bitmap> {
                 if (inputStream != null){
                     inputStream.close();
                 }
-            } catch (IOException e){
-                Log.e("IOException_f", e.toString());
+            } catch (IOException exception){
             }
         }
         return bitmap;

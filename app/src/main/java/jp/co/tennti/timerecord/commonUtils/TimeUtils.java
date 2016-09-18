@@ -575,7 +575,7 @@ public class TimeUtils {
      * @param  endDate 退社時刻 yy/MM/dd HH:mm:ss
      * @return 差分時刻 HH:mm
      */
-    public String getTimeCalculation(Date provisDate,Date endDate){
+    public String getTimeCalculation(Date provisDate,Date endDate) {
         final long diffTime =  endDate.getTime()-provisDate.getTime();
         // 結果出力用フォーマット
         SimpleDateFormat timeFormatter = new SimpleDateFormat ("HH:mm:ss");
@@ -588,7 +588,7 @@ public class TimeUtils {
      * @param  endDate 退社時刻 yy/MM/dd HH:mm:ss
      * @return 差分時刻 HH:mm
      */
-    public String addTimeCalculation(String provisTime,String addTime){
+    public String addTimeCalculation(String provisTime,String addTime) {
         final StringBuffer buffer = new StringBuffer();
         String [] pt = provisTime.split(":");
         int ptHour   = Integer.parseInt(pt[0]);
@@ -607,10 +607,10 @@ public class TimeUtils {
      * @param  string 判定用曜日
      * @return boolean 判定結果
      */
-    public boolean isFriday(String tarWeek){
-        if(tarWeek.equals("(金)")){
+    public boolean isFriday(String tarWeek) {
+        if (tarWeek.equals("(金)")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -619,10 +619,10 @@ public class TimeUtils {
      * @param  string 判定用曜日
      * @return boolean 判定結果
      */
-    public boolean isSaturday(String tarWeek){
-        if(tarWeek.equals("(土)")){
+    public boolean isSaturday(String tarWeek) {
+        if (tarWeek.equals("(土)")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -631,10 +631,10 @@ public class TimeUtils {
      * @param  string 判定用曜日
      * @return boolean 判定結果
      */
-    public boolean isSunday(String tarWeek){
-        if(tarWeek.equals("(日)")){
+    public boolean isSunday(String tarWeek) {
+        if (tarWeek.equals("(日)")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -645,25 +645,25 @@ public class TimeUtils {
      * 日曜 :0 , 月曜:1 ,火曜:2 , 水曜:3 , 木曜:4 , 金曜:5, 土曜:6 , 判定不能:99
      */
     public int isWeekDrive(String tarWeek){
-        if(tarWeek.equals("(日)")){
+        if (tarWeek.equals("(日)")) {
             return 0;
         }
-        if(tarWeek.equals("(月)")){
+        if (tarWeek.equals("(月)")) {
             return 1;
         }
-        if(tarWeek.equals("(火)")){
+        if (tarWeek.equals("(火)")) {
             return 2;
         }
-        if(tarWeek.equals("(水)")){
+        if (tarWeek.equals("(水)")) {
             return 3;
         }
-        if(tarWeek.equals("(木)")){
+        if (tarWeek.equals("(木)")) {
             return 4;
         }
-        if(tarWeek.equals("(金)")){
+        if (tarWeek.equals("(金)")) {
             return 5;
         }
-        if(tarWeek.equals("(土)")){
+        if (tarWeek.equals("(土)")) {
             return 6;
         }
         return 99;

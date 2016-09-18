@@ -397,25 +397,26 @@ public class GeneralUtils {
         }
     }
     // URLからBitmapへの変換
-    public static void getBitmapFromURL(String src) {
+    public static Bitmap getBitmapFromURL() {
+        Bitmap bitmap = null;
         try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            //画像をファイルとして取り出す
+/*            File srcFile = new File(src);
+            FileInputStream fis = new FileInputStream(srcFile);
+            Bitmap bm = BitmapFactory.decodeStream(fis);*/
 
+            //bmに対する処理を書く
             File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
-            FileOutputStream fileOutStream = new FileOutputStream(saveFile);
-            myBitmap.compress(Bitmap.CompressFormat.PNG, 50, fileOutStream);
-            int c;
-            while((c =input.read()) != -1) fileOutStream.write((byte) c);
-            fileOutStream.flush();
-            fileOutStream.close();
-            input.close();
+            FileInputStream fis = new FileInputStream(saveFile);
+            //FileOutputStream fos = new FileOutputStream(saveFile);
+            bitmap = BitmapFactory.decodeStream(fis);
+            //resizedBitmap.compress(CompressFormat.JPEG, 100, fos);
+            fis.close();
         } catch (IOException e) {
             Log.e("IOException", e.toString());
-        }
+        }/* finally {
+            fis.close();
+        }*/
+        return bitmap;
     }
 }

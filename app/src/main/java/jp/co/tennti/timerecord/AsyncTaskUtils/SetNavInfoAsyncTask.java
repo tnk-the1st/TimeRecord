@@ -12,13 +12,13 @@ import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
 /**
  * Created by TENNTI on 2016/09/16.
  */
-public class SetInfoAsyncTask extends AsyncTask<String, Void, String> {
+public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
     private Activity mainActivity;
     private String mail     = "";
     private String fullName = "";
     private Bitmap bitmap   = null;
 
-    public SetInfoAsyncTask(Activity activity, String mail,String fullName,Bitmap bitmap) {
+    public SetNavInfoAsyncTask(Activity activity, String mail, String fullName, Bitmap bitmap) {
         this.mainActivity = activity;
         this.mail     = mail;
         this.fullName = fullName;

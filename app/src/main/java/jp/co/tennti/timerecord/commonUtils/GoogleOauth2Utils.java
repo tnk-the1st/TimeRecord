@@ -7,6 +7,7 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import jp.co.tennti.timerecord.AsyncTaskUtils.GetJsonAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.SetImageAsyncTask;
+import jp.co.tennti.timerecord.AsyncTaskUtils.SetNavInfoAsyncTask;
 
 /**
  * Created by TENNTI on 2016/08/14.
@@ -50,7 +52,8 @@ public class GoogleOauth2Utils {
             if (GeneralUtils.isGoogleInfoFile()) {
                 continueAccount();
             } else {
-                chooseAccount();
+                getJsonAccount();
+                //chooseAccount();
             }
             //chooseAccount();
         } else {
@@ -78,11 +81,14 @@ public class GoogleOauth2Utils {
         Log.v("chooseAccount", "JSON取得開始（アカウント）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         JSONObject jsonGoogleInfo  = GeneralUtils.getJsonGoogleInfo();
+        Bitmap bitmap = GeneralUtils.getBitmapFromURL();
         String accountNameMail     = "";
         String accountFullName     = "";
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
             accountFullName = jsonGoogleInfo.getString("name");
+            SetNavInfoAsyncTask siat = new SetNavInfoAsyncTask(activity, accountNameMail,accountFullName, bitmap);
+            siat.execute();
         } catch (JSONException e) {
             Log.e("JSONException", e.toString());
         }

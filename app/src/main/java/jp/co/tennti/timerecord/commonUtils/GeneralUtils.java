@@ -11,10 +11,11 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -397,26 +398,35 @@ public class GeneralUtils {
         }
     }
     // URLからBitmapへの変換
-    public static Bitmap getBitmapFromURL() {
-        Bitmap bitmap = null;
+    public static final Bitmap getBitmapFromURL(Context context) {
+        Bitmap mBitmap = null;
+        try {
+            FileInputStream file = new FileInputStream(GOOGLE_USER_ICON_FILE);
+            BufferedInputStream buf = new BufferedInputStream(file);
+            mBitmap = BitmapFactory.decodeStream(buf);
+            file.close();
+            buf.close();
+        } catch (FileNotFoundException e){
+            Log.e("FileNotFoundException", e.toString());
+        } catch (IOException e){
+            Log.e("IOException", e.toString());
+        }
+        return mBitmap;
+       /* Bitmap bitmap = null;
+
         try {
             //画像をファイルとして取り出す
-/*            File srcFile = new File(src);
-            FileInputStream fis = new FileInputStream(srcFile);
-            Bitmap bm = BitmapFactory.decodeStream(fis);*/
-
             //bmに対する処理を書く
             File saveFile                  = new File(GOOGLE_USER_ICON_FILE);
             FileInputStream fis = new FileInputStream(saveFile);
             //FileOutputStream fos = new FileOutputStream(saveFile);
             bitmap = BitmapFactory.decodeStream(fis);
-            //resizedBitmap.compress(CompressFormat.JPEG, 100, fos);
             fis.close();
         } catch (IOException e) {
             Log.e("IOException", e.toString());
-        }/* finally {
-            fis.close();
-        }*/
+        }
         return bitmap;
+        */
+
     }
 }

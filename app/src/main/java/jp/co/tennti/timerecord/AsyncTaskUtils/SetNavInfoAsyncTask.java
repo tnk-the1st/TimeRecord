@@ -13,10 +13,10 @@ import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
  * Created by TENNTI on 2016/09/16.
  */
 public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
-    private Activity mainActivity;
-    private String mail     = "";
-    private String fullName = "";
-    private Bitmap bitmap   = null;
+    Activity mainActivity;
+    String mail     = "";
+    String fullName = "";
+    Bitmap bitmap   = null;
 
     public SetNavInfoAsyncTask(Activity activity, String mail, String fullName, Bitmap bitmap) {
         this.mainActivity = activity;
@@ -35,9 +35,15 @@ public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
         ImageView accountIconView = (ImageView)mainActivity.findViewById(R.id.accountIconView);
         TextView accountName      = (TextView)mainActivity.findViewById(R.id.accountName);
         TextView accountMail      = (TextView)mainActivity.findViewById(R.id.accountMail);
-        accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
-        accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(bitmap));
+        if (accountIconView == null || accountName == null || accountMail == null) {
+            return;
+        }
+        //accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
+        if (this.bitmap != null) {
+            accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(this.bitmap));
+        }
         accountName.setText(this.fullName);
         accountMail.setText(this.mail);
+
     }
 }

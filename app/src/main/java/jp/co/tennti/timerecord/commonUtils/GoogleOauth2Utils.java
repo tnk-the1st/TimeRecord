@@ -34,7 +34,7 @@ public class GoogleOauth2Utils {
     protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     protected static final String ACCOUNT_TYPE            = "com.google";
     protected static final String API_KEY                 = "USE_YOUR_API_KEY";
-    protected static final String KEY_AUTH_ERROR          = "\"code\":401";
+    protected static final String KEY_AUTH_ERROR          = "\"code\": 401";
 
     public GoogleOauth2Utils(Activity activity, AccountManager accountManager) {
         this.activity = activity;
@@ -45,17 +45,28 @@ public class GoogleOauth2Utils {
      * メイン処理
      * */
     public void startRequest(String authTokenType) {
-        Log.v("startRequest", "リクエスト開始 - リクエスト先:" + authTokenType);
+        Log.d("startRequest", "リクエスト開始 - リクエスト先:" + authTokenType);
         this.authTokenType = authTokenType;
         if (accountName == null) {
-            Log.v("startRequest", "アカウントが選択されていない");
-            if (GeneralUtils.isGoogleInfoFile()) {
-                continueAccount();
-            } else {
-                getJsonAccount();
-                //chooseAccount();
+            Log.d("startRequest", "アカウントが選択されていない");
+            if (!GeneralUtils.isGoogleInfoFile()) {
+                chooseAccount();
+                return;
             }
-            //chooseAccount();
+            if (TimeUtils.isBeginningMonth()) {
+                continueAccount();
+                return;
+            }
+            getJsonAccount();
+            /*if (GeneralUtils.isGoogleInfoFile()) {
+                if (TimeUtils.isBeginningMonth()) {
+                    continueAccount();
+                    return;
+                }
+                getJsonAccount();
+            } else {
+                chooseAccount();
+            }*/
         } else {
             getAuthToken();
         }
@@ -64,7 +75,7 @@ public class GoogleOauth2Utils {
      * アカウントマネージャーでアカウントを選択する
      * */
     protected void chooseAccount() {
-        Log.v("chooseAccount", "AuthToken取得開始（アカウント選択）");
+        Log.d("chooseAccount", "AuthToken取得開始（アカウント選択）");
         accountManager.getAuthTokenByFeatures(ACCOUNT_TYPE, authTokenType, null, activity, null, null,
                 new AccountManagerCallback<Bundle>() {
                     public void run(AccountManagerFuture<Bundle> future) {
@@ -75,27 +86,27 @@ public class GoogleOauth2Utils {
     }
 
     /**
-     * アカウントマネージャーでアカウントを選択する
+     * JSONからGoogle取得情報を取得する
      * */
     protected void getJsonAccount() {
-        Log.v("chooseAccount", "JSON取得開始（アカウント）");
+        Log.d("chooseAccount", "JSON取得開始（アカウント）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         JSONObject jsonGoogleInfo  = GeneralUtils.getJsonGoogleInfo();
-        Bitmap bitmap = GeneralUtils.getBitmapFromURL();
+        Bitmap bitmap = GeneralUtils.getBitmapFromURL(this.activity);
         String accountNameMail     = "";
         String accountFullName     = "";
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
             accountFullName = jsonGoogleInfo.getString("name");
-            SetNavInfoAsyncTask siat = new SetNavInfoAsyncTask(activity, accountNameMail,accountFullName, bitmap);
-            siat.execute();
+            SetNavInfoAsyncTask sniat = new SetNavInfoAsyncTask(this.activity, accountNameMail,accountFullName, bitmap);
+            sniat.execute();
         } catch (JSONException e) {
             Log.e("JSONException", e.toString());
         }
     }
 
     protected void continueAccount() {
-        Log.v("chooseAccount", "AuthToken取得開始（アカウント続行）");
+        Log.d("chooseAccount", "AuthToken取得開始（アカウント続行）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         String accountNameMail = "";
         try {
@@ -103,7 +114,6 @@ public class GoogleOauth2Utils {
         } catch (JSONException e) {
             Log.e("JSONException", e.toString());
         }
-        //String accountNameMail = GeneralUtils.getAuthTokenSD(activity);
         accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,
                 activity, new AccountManagerCallback<Bundle>() {
                     @Override
@@ -111,7 +121,7 @@ public class GoogleOauth2Utils {
                         try {
                             Bundle bundle = future.getResult();
                             accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
-                            authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                            authToken   = bundle.getString(AccountManager.KEY_AUTHTOKEN);
                             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
                                 getUserInfo(); //ユーザー情報取得開始
                             }
@@ -125,6 +135,7 @@ public class GoogleOauth2Utils {
                     }
                 }, null);
     }
+
     /**
      * authTokenを取得する部分
      * */
@@ -138,7 +149,7 @@ public class GoogleOauth2Utils {
             }
             //GeneralUtils.createJsonAuthTokenSD(accountName,authToken);
             //GeneralUtils.createAuthTokenSD(accountName, activity);
-            Log.v("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
+            Log.d("onGetAuthToken", "AuthToken取得完了 accountName=" + accountName + " authToken=" + authToken + " authTokenType=" + authTokenType);
             if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
                 getUserInfo(); //ユーザー情報取得開始
             }
@@ -155,7 +166,7 @@ public class GoogleOauth2Utils {
     public void getUserInfo() {
         String authTokenStr = authToken;
 
-        Log.v("getUserInfo", "ユーザー情報取得開始");
+        Log.d("getUserInfo", "ユーザー情報取得開始");
 
         String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + authToken + "&key=" + API_KEY;
         GetJsonAsyncTask task = new GetJsonAsyncTask();
@@ -163,24 +174,31 @@ public class GoogleOauth2Utils {
             @Override
             public void onResult(JSONObject json) {
                 String msg = "";
-                if (json == null) {
-                    msg = "ユーザー情報取得失敗";
-                } else if (json.toString().contains(KEY_AUTH_ERROR)) {
-                    msg = "ユーザー情報取得失敗（認証エラー）";
-                    accountManager.invalidateAuthToken(ACCOUNT_TYPE, authToken);
-                    Log.v("getUserInfo", msg + " AuthTokenを破棄して再取得");
-                    startRequest(AUTH_TOKEN_TYPE_PROFILE);
-                } else {
-                    msg = "ユーザー情報取得成功\njson=" + json.toString();
-                    Log.v("getUserInfo", msg);
-                }
+                String pictureUrl = "";
+                String fullName   = "";
                 try {
+                    if (json == null) {
+                        msg = "ユーザー情報取得失敗";
+                        Log.d("getUserInfo", msg);
+                    } else if (json.toString().contains(KEY_AUTH_ERROR)) {
+                        msg = "ユーザー情報取得失敗（認証エラー）";
+                        accountManager.invalidateAuthToken(ACCOUNT_TYPE, authToken);
+                        Log.d("getUserInfo", msg + " AuthTokenを破棄して再取得");
+                        startRequest(AUTH_TOKEN_TYPE_PROFILE);
+                    } else {
+                        msg = "ユーザー情報取得成功\njson=" + json.toString();
+                        Log.d("getUserInfo", msg);
+                        pictureUrl = json.getString("picture");
+                        fullName   = json.getString("name");
+                    }
+
+                    //取得データをjsonとして保存する
                     GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
                     GeneralUtils.createJsonGoogleOauthInfoSD(json);
                     SetImageAsyncTask siat = new SetImageAsyncTask(json.getString("picture"));
                     siat.execute();
-                    HttpRequestAsyncTask ahr = new HttpRequestAsyncTask(activity, json.getString("picture"), json.getString("name"), accountName);
-                    ahr.execute();
+                    HttpRequestAsyncTask hrat = new HttpRequestAsyncTask(activity , pictureUrl , fullName , accountName);
+                    hrat.execute();
                 } catch (JSONException e) {
                     Log.e("JSONException", e.toString());
                 }
@@ -203,10 +221,10 @@ public class GoogleOauth2Utils {
             }
         }
         if (account == null) {
-            Log.v("getAuthToken", "アカウントが削除されている");
+            Log.d("getAuthToken", "アカウントが削除されている");
             chooseAccount();
             return;
         }
-        Log.v("getAuthToken", "AuthToken取得開始");
+        Log.d("getAuthToken", "AuthToken取得開始");
     }
 }

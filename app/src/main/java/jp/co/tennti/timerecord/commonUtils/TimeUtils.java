@@ -698,4 +698,17 @@ public class TimeUtils {
         }
         return R.drawable.row_color1;
     }
+
+    public static boolean isBeginningMonth(){
+        Calendar cal = Calendar.getInstance();
+        /*int year  = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MARCH, month);*/
+        int day   = cal.get(Calendar.DATE);
+        int days  = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+        return day == days;
+        /*cal.set(Calendar.DAY_OF_MONTH, days);
+        return cal;*/
+    }
 }

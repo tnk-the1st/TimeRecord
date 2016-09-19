@@ -194,9 +194,12 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         cleanupView(findViewById(R.id.fragment_main));
-        cleanupView(findViewById(R.id.regist_screen));
+
+/*        cleanupView(findViewById(R.id.accountMail));
+        cleanupView(findViewById(R.id.accountName));
+        cleanupView(findViewById(R.id.accountIconView));
         cleanupView(findViewById(R.id.nav_view));
-        cleanupView(findViewById(R.id.drawer_layout));
+        cleanupView(findViewById(R.id.drawer_layout));*/
     }
 
     /**

@@ -59,11 +59,11 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
             if(connection != null){
                 connection.disconnect();
             }
-        }
-        if (status == HttpURLConnection.HTTP_OK) {
-            return json;
-        } else {
-            Log.e("HttpURLConnection", String.valueOf(status));
+            if (status == HttpURLConnection.HTTP_OK) {
+                return json;
+            } else {
+                Log.e("HttpURLConnection", String.valueOf(status));
+            }
         }
         return json;
     }
@@ -72,7 +72,7 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject json) {
         if (json == null) {
-            Log.v("onPostExecute", "JSON取得失敗 JSONがNULL");
+            Log.d("onPostExecute", "JSON取得失敗 JSONがNULL");
         }/* else {
             Log.v("onPostExecute", "JSON取得成功");
         }*/

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:2:1-28:12
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:2:1-27:12
 	package
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:3:5-38
 		INJECTED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml
@@ -34,7 +34,7 @@ ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\Androi
 	android:name
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:8:22-78
 application
-ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:9:5-26:19
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:9:5-25:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\dev\android\AndroidStudioProjects15\TimeRecord\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] D:\dev\android\AndroidStudioProjects15\TimeRecord\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] D:\dev\android\AndroidStudioProjects15\TimeRecord\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -67,7 +67,7 @@ MERGED from [com.android.support:support-v4:23.2.1] D:\dev\android\AndroidStudio
 	android:theme
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:14:9-40
 activity#jp.co.tennti.timerecord.MainActivity
-ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:16:9-25:20
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:16:9-24:20
 	android:label
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:18:13-45
 	android:theme
@@ -75,15 +75,15 @@ ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\Androi
 	android:name
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:17:13-41
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:20:13-24:29
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:20:13-23:29
 action#android.intent.action.MAIN
 ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:22:17-77
 	android:name
-		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:22:27-74
 uses-sdk
 INJECTED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] D:\dev\android\AndroidStudioProjects15\TimeRecord\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

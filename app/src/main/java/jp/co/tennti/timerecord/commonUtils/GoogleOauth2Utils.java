@@ -26,7 +26,7 @@ import jp.co.tennti.timerecord.AsyncTaskUtils.SetNavInfoAsyncTask;
  */
 public class GoogleOauth2Utils {
 
-    public Activity activity;
+    protected Activity activity;
     protected AccountManager accountManager;
     protected String accountName;
     protected String authToken;
@@ -98,6 +98,7 @@ public class GoogleOauth2Utils {
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
             accountFullName = jsonGoogleInfo.getString("name");
+            System.out.println(this.activity);
             SetNavInfoAsyncTask sniat = new SetNavInfoAsyncTask(this.activity, accountNameMail,accountFullName, bitmap);
             sniat.execute();
         } catch (JSONException e) {

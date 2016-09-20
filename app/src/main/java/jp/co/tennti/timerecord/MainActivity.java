@@ -140,6 +140,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.holiday_content) {
 
         }
+        if (id == R.id.account_update) {
+
+        }
+        if (id == R.id.account_choice) {
+
+        }
         if (id == R.id.oauth_file) {
             new AlertDialog.Builder(this)
                     .setTitle("確認ダイアログ")

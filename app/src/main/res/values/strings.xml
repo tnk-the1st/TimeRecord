@@ -9,6 +9,8 @@
     <string name="list_content">月別一覧画面</string>
     <string name="edit_content">時刻編集画面</string>
     <string name="holiday_content">休暇登録画面</string>
+    <string name="nav_mid_title">Important</string>
+
     <string name="account_update">Δアカウント更新</string>
     <string name="account_choice">Δアカウント選択</string>
     <string name="oauth_file">※認証ファイル削除</string>

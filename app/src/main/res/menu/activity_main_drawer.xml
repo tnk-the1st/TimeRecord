@@ -20,9 +20,16 @@
             android:title="@string/holiday_content" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/nav_mid_title">
         <menu>
-            <item android:title="" />
+            <item
+                android:id="@+id/account_update"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/account_update" />
+            <item
+                android:id="@+id/account_choice"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/account_choice" />
             <item android:title="" />
             <item android:title="" />
             <item

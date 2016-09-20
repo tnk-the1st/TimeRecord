@@ -17,4 +17,8 @@
         android:id="@+id/edit_screen"
         android:orderInCategory="3"
         android:title="@string/edit_content" />
+    <item
+        android:id="@+id/holiday_content"
+        android:orderInCategory="4"
+        android:title="@string/holiday_content" />
 </menu>

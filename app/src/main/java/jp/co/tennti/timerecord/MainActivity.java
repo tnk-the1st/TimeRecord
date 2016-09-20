@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.edit_content) {
             transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
         }
-        if (id == R.id.nav_manage) {
+        if (id == R.id.holiday_content) {
 
         }
         if (id == R.id.oauth_file) {

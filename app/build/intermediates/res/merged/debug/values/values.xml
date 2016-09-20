@@ -296,15 +296,18 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="account_choice">Δアカウント選択</string>
+    <string name="account_update">Δアカウント更新</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">TimeRecord</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="delete_file">※DBファイル削除</string>
-    <string name="edit_content">編集画面</string>
+    <string name="edit_content">時刻編集画面</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="list_content">一覧画面</string>
+    <string name="holiday_content">休暇登録画面</string>
+    <string name="list_content">月別一覧画面</string>
     <string name="main_content">登録画面</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

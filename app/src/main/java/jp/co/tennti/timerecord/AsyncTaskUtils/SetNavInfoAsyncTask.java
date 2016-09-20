@@ -19,7 +19,7 @@ public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
     Bitmap bitmap   = null;
 
     public SetNavInfoAsyncTask(Activity activity, String mail, String fullName, Bitmap bitmap) {
-        this.mainActivity = activity;
+        mainActivity = activity;
         this.mail     = mail;
         this.fullName = fullName;
         this.bitmap   = bitmap;
@@ -40,6 +40,7 @@ public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
         }
         //accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
         if (this.bitmap != null) {
+            accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
             accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(this.bitmap));
         }
         accountName.setText(this.fullName);

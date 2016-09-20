@@ -2393,6 +2393,7 @@ containing a value of this type.
         public static final int headerTable=0x7f0d0083;
         public static final int holidaySwitch=0x7f0d0089;
         public static final int holidaySwitchEdit=0x7f0d007d;
+        public static final int holiday_content=0x7f0d00a1;
         public static final int home=0x7f0d0004;
         public static final int homeAsUp=0x7f0d000f;
         public static final int icon=0x7f0d0042;
@@ -2413,7 +2414,6 @@ containing a value of this type.
         public static final int middle=0x7f0d0032;
         public static final int mini=0x7f0d0030;
         public static final int multiply=0x7f0d0027;
-        public static final int nav_manage=0x7f0d00a1;
         public static final int nav_view=0x7f0d006a;
         public static final int navigation_header_container=0x7f0d0071;
         public static final int never=0x7f0d0036;
@@ -2598,21 +2598,24 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with=0x7f060010;
         public static final int abc_shareactionprovider_share_with_application=0x7f060011;
         public static final int abc_toolbar_collapse_description=0x7f060012;
-        public static final int action_settings=0x7f060014;
-        public static final int app_name=0x7f060015;
-        public static final int appbar_scrolling_view_behavior=0x7f060016;
-        public static final int bottom_sheet_behavior=0x7f060017;
-        public static final int character_counter_pattern=0x7f060018;
-        public static final int delete_file=0x7f060019;
-        public static final int edit_content=0x7f06001a;
-        public static final int hello_blank_fragment=0x7f06001b;
-        public static final int list_content=0x7f06001c;
-        public static final int main_content=0x7f06001d;
-        public static final int navigation_drawer_close=0x7f06001e;
-        public static final int navigation_drawer_open=0x7f06001f;
-        public static final int oauth_file=0x7f060020;
+        public static final int account_choice=0x7f060014;
+        public static final int account_update=0x7f060015;
+        public static final int action_settings=0x7f060016;
+        public static final int app_name=0x7f060017;
+        public static final int appbar_scrolling_view_behavior=0x7f060018;
+        public static final int bottom_sheet_behavior=0x7f060019;
+        public static final int character_counter_pattern=0x7f06001a;
+        public static final int delete_file=0x7f06001b;
+        public static final int edit_content=0x7f06001c;
+        public static final int hello_blank_fragment=0x7f06001d;
+        public static final int holiday_content=0x7f06001e;
+        public static final int list_content=0x7f06001f;
+        public static final int main_content=0x7f060020;
+        public static final int navigation_drawer_close=0x7f060021;
+        public static final int navigation_drawer_open=0x7f060022;
+        public static final int oauth_file=0x7f060023;
         public static final int status_bar_notification_info_overflow=0x7f060013;
-        public static final int title_activity_list=0x7f060021;
+        public static final int title_activity_list=0x7f060024;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f090088;

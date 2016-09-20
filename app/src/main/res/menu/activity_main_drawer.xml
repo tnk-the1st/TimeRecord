@@ -15,13 +15,14 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/edit_content" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/holiday_content"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/holiday_content" />
     </group>
 
     <item android:title="Communicate">
         <menu>
+            <item android:title="" />
             <item android:title="" />
             <item android:title="" />
             <item

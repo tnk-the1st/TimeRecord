@@ -698,7 +698,11 @@ public class TimeUtils {
         }
         return R.drawable.row_color1;
     }
-
+    /**
+     * システム日付が月初かどうか判定を行う
+     * 月初の場合true
+     * @return boolean 判定結果
+     */
     public static boolean isBeginningMonth(){
         Calendar cal = Calendar.getInstance();
         /*int year  = cal.get(Calendar.YEAR);
@@ -708,7 +712,5 @@ public class TimeUtils {
         int day   = cal.get(Calendar.DATE);
         int days  = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
         return day == days;
-        /*cal.set(Calendar.DAY_OF_MONTH, days);
-        return cal;*/
     }
 }

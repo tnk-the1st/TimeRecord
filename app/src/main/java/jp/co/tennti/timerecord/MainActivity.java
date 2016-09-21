@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         final ListViewFragment listViewFragment = new ListViewFragment();
         final MainFragment mainFragment         = new MainFragment();
         final EditFragment editFragment         = new EditFragment();
+        final HolidayFragment holidayFragment   = new HolidayFragment();
         switch (item.getItemId()) {
             case R.id.list_screen:
                 // 一覧を起動
@@ -115,6 +116,10 @@ public class MainActivity extends AppCompatActivity
                 // 編集画面を起動
                 transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
                 break;
+            case R.id.holiday_screen:
+                // 休暇画面を起動
+                transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -128,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         final MainFragment mainFragment         = new MainFragment();
         final ListViewFragment listViewFragment = new ListViewFragment();
         final EditFragment editFragment         = new EditFragment();
+        final HolidayFragment holidayFragment   = new HolidayFragment();
         if (id == R.id.main_content) {
             transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
         }
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_main, editFragment).addToBackStack(null).commit();
         }
         if (id == R.id.holiday_content) {
-
+            transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
         }
         if (id == R.id.account_update) {
 

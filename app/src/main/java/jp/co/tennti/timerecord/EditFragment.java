@@ -2,6 +2,7 @@ package jp.co.tennti.timerecord;
 
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -46,6 +47,9 @@ public class EditFragment extends Fragment {
     AlertDialog.Builder builder_t = null;
     View datePickerView = null;
     View timePickerView = null;
+    Switch holidaySwitch = null;
+    Switch amHalfHolidaySwitch = null;
+    Switch pmHalfHolidaySwitch = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class EditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** font 指定 */
         final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryob_first_level.zip");
+        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
 
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
@@ -79,15 +84,7 @@ public class EditFragment extends Fragment {
         final TimeUtils timeUtil = new TimeUtils();
 
 
-        /************ 有給関連スイッチ start ************/
-        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
-        final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitchEdit);
-        holidaySwitch.setTypeface(meiryoType);
-        final Switch amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitchEdit);
-        amHalfHolidaySwitch.setTypeface(meiryoType);
-        final Switch pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
-        pmHalfHolidaySwitch.setTypeface(meiryoType);
-        /************ 有給関連スイッチ end ************/
+
         /**日付データ**/
         datePickerView = inflater.inflate(R.layout.date_picker_dia, null);
         /**データピッカー**/
@@ -131,11 +128,12 @@ public class EditFragment extends Fragment {
                                 try{
                                     TimeUtils timeUtil = new TimeUtils();
                                     /**年月の判定 start**/
-                                    String yearMonthDay ="1999年01月01日";
+                                    String yearMonthDays ="1999年01月01日";
                                     /**年月日**/
-                                    yearMonthDay = timeUtil.getJoinYYYYMMDDJaCal(datePicker.getYear(),datePicker.getMonth()+1,datePicker.getDayOfMonth());
+                                    yearMonthDays = timeUtil.getJoinYYYYMMDDJaCal(datePicker.getYear(),datePicker.getMonth()+1,datePicker.getDayOfMonth());
                                     /**年月の判定 end**/
-                                    dateTextView.setText(yearMonthDay);
+                                    dateTextView.setText(yearMonthDays);
+                                    setHolidayFlag(db, yearMonthDays);
                                 } catch (NullPointerException e){
                                     Log.d("NullPointerException",e.getMessage());
                                 }
@@ -218,6 +216,17 @@ public class EditFragment extends Fragment {
             }
         });
 
+
+        /************ 有給関連スイッチ start ************/
+        holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitchEdit);
+        holidaySwitch.setTypeface(meiryoType);
+        amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitchEdit);
+        amHalfHolidaySwitch.setTypeface(meiryoType);
+        pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
+        pmHalfHolidaySwitch.setTypeface(meiryoType);
+        final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+        setHolidayFlag(db, dateTextViewTemp.getText().toString());
+        /************ 有給関連スイッチ end ************/
 
         /************ 新規登録ボタン start ************/
         // ボタンを設定
@@ -319,6 +328,7 @@ public class EditFragment extends Fragment {
                 pmHalfHolidaySwitch.setChecked(false);
             }
         });
+
         /************ 許可ボタン end ************/
         /************ 削除ボタン start ************/
         // ボタンを設定
@@ -515,5 +525,35 @@ public class EditFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public void setHolidayFlag(SQLiteDatabase db ,String targetDate){
+        TimeUtils timeUtil = new TimeUtils();
+        String targetDateHyphen = timeUtil.conTargetYYYYMMDDHyphen(targetDate);
+        final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{targetDateHyphen});
+        try {
+            if(cursor != null && cursor.moveToNext()){
+                cursor.moveToFirst();
+                if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
+                    holidaySwitch.setChecked(true);
+                }
+                if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("2") ){
+                    amHalfHolidaySwitch.setChecked(true);
+                }
+                if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("3") ){
+                    pmHalfHolidaySwitch.setChecked(true);
+                }
+            } else {
+                holidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        } catch (SQLException e) {
+            GeneralUtils.createErrorDialog(getActivity(), "SQL SELECT エラー", "活性判定時のSELECT 処理に失敗しました:" + e.getLocalizedMessage(),"OK");
+            Log.e("SQLException SELECT", e.toString());
+        } finally {
+            cursor.close();
+        }
+        return;
     }
 }

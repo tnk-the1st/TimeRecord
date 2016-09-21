@@ -33,7 +33,7 @@ import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
-public class MainFragment extends Fragment {
+public class HolidayFragment extends Fragment {
 
     private Bitmap mainImage               = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
 
@@ -87,8 +87,8 @@ public class MainFragment extends Fragment {
             timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
             final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
             try {
-                if(cursor != null && cursor.moveToNext()){
-                    cursor.moveToFirst();
+                cursor.moveToFirst();
+                if(!cursor.getString(0).isEmpty()){
                     if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
                         holidaySwitch.setChecked(true);
                     }

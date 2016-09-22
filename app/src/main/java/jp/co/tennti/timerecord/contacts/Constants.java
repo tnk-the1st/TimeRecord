@@ -127,4 +127,7 @@ public class Constants {
 
     /** Google Oauth取得情報画像のフルパス */
     public static final String GOOGLE_USER_ICON_FULL = GOOGLE_INFO_DIR_SHORT + GOOGLE_USER_ICON_IMG;
+
+    /** Google Oauth2認証のユーザープロファイル取得のURL */
+    public static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
 }

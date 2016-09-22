@@ -31,7 +31,7 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected AccountManager accountManager;
+    protected static AccountManager accountManager;
     protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
 
     @Override
@@ -147,10 +147,12 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
         }
         if (id == R.id.account_update) {
-
+            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+            go2.continueAccount("out");
         }
         if (id == R.id.account_choice) {
-
+            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+            go2.chooseAccount("out");
         }
         if (id == R.id.oauth_file) {
             new AlertDialog.Builder(this)

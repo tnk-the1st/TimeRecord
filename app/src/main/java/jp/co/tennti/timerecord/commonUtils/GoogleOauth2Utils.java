@@ -50,11 +50,11 @@ public class GoogleOauth2Utils {
         if (accountName == null) {
             Log.d("startRequest", "アカウントが選択されていない");
             if (!GeneralUtils.isGoogleInfoFile()) {
-                chooseAccount();
+                chooseAccount("in");
                 return;
             }
             if (TimeUtils.isBeginningMonth()) {
-                continueAccount();
+                continueAccount("in");
                 return;
             }
             getJsonAccount();
@@ -73,8 +73,14 @@ public class GoogleOauth2Utils {
     }
     /**
      * アカウントマネージャーでアカウントを選択する
+     * @param String insideOutsideFlag 内部外部呼出し判定
+     *         in  : 内部呼出し
+     *         out : 外部呼出し
      * */
-    protected void chooseAccount() {
+    public void chooseAccount(String insideOutsideFlag) {
+        if (!insideOutsideFlag.equals("in")) {
+            this.authTokenType = AUTH_TOKEN_TYPE_PROFILE;
+        }
         Log.d("chooseAccount", "AuthToken取得開始（アカウント選択）");
         accountManager.getAuthTokenByFeatures(ACCOUNT_TYPE, authTokenType, null, activity, null, null,
                 new AccountManagerCallback<Bundle>() {
@@ -89,7 +95,7 @@ public class GoogleOauth2Utils {
      * JSONからGoogle取得情報を取得する
      * */
     protected void getJsonAccount() {
-        Log.d("chooseAccount", "JSON取得開始（アカウント）");
+        Log.d("getJsonAccount", "JSON取得開始（アカウント）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         JSONObject jsonGoogleInfo  = GeneralUtils.getJsonGoogleInfo();
         Bitmap bitmap = GeneralUtils.getBitmapFromURL(this.activity);
@@ -106,8 +112,17 @@ public class GoogleOauth2Utils {
         }
     }
 
-    protected void continueAccount() {
-        Log.d("chooseAccount", "AuthToken取得開始（アカウント続行）");
+    /**
+     * JSONに保存されているアカウントを更新する
+     * @param String insideOutsideFlag 内部外部呼出し判定
+     *         in  : 内部呼出し
+     *         out : 外部呼出し
+     * */
+    public void continueAccount(String insideOutsideFlag) {
+        if (!insideOutsideFlag.equals("in")) {
+            this.authTokenType = AUTH_TOKEN_TYPE_PROFILE;
+        }
+        Log.d("continueAccount", "AuthToken取得開始（アカウント続行）");
         JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         String accountNameMail = "";
         try {
@@ -136,6 +151,8 @@ public class GoogleOauth2Utils {
                     }
                 }, null);
     }
+
+
 
     /**
      * authTokenを取得する部分
@@ -223,9 +240,61 @@ public class GoogleOauth2Utils {
         }
         if (account == null) {
             Log.d("getAuthToken", "アカウントが削除されている");
-            chooseAccount();
+            chooseAccount("in");
             return;
         }
         Log.d("getAuthToken", "AuthToken取得開始");
     }
+
+/*    *//**
+     * ※外部から直接呼び出す
+     * アカウントマネージャーでアカウントを選択する
+     * *//*
+    public void outChooseAccount(String authTokenType) {
+        this.authTokenType = authTokenType;
+        Log.d("chooseAccount", "AuthToken取得開始（アカウント選択）");
+        accountManager.getAuthTokenByFeatures(ACCOUNT_TYPE, authTokenType, null, activity, null, null,
+                new AccountManagerCallback<Bundle>() {
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        onGetAuthToken(future);
+                    }
+                },
+                null);
+    }
+    *//**
+     * ※外部から直接呼び出す
+     * JSONに保存されているアカウントを更新する
+     * *//*
+    public void outContinueAccount(String authTokenType) {
+        this.authTokenType = authTokenType;
+        Log.d("outContinueAccount", "AuthToken取得開始（アカウント続行）");
+        JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
+        String accountNameMail = "";
+        try {
+            accountNameMail = jsonGoogleOauth.getString("account_name");
+        } catch (JSONException e) {
+            Log.e("JSONException", e.toString());
+        }
+        accountManager.getAuthToken(new Account(accountNameMail, "com.google"), this.authTokenType, null,
+                activity, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            Bundle bundle = future.getResult();
+                            accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+                            authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+*//*                            if (this.authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
+                                getUserInfo(); //ユーザー情報取得開始
+                            }*//*
+                            getUserInfo(); //ユーザー情報取得開始
+                        } catch (OperationCanceledException e) {
+                            Log.e("OperationCanceledExc", e.toString());
+                        } catch (IOException e) {
+                            Log.e("IOException", e.toString());
+                        } catch (AuthenticatorException e) {
+                            Log.e("AuthenticatorException", e.toString());
+                        }
+                    }
+                }, null);
+    }*/
 }

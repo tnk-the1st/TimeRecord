@@ -27,7 +27,6 @@ import android.widget.Toast;
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
-import jp.co.tennti.timerecord.commonUtils.RandGeneratUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
@@ -35,7 +34,14 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 public class HolidayFragment extends Fragment {
 
-    private Bitmap mainImage               = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
+    private Bitmap mainImage = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
+    private static ImageButton allHolidayRegistrButton = null;
+    private static ImageButton amHolidayRegistrButton = null;
+    private static ImageButton pmHolidayRegistrButton = null;
+    private static Switch allHolidaySwitch    = null;
+    private static Switch amHalfHolidaySwitch = null;
+    private static Switch pmHalfHolidaySwitch = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,9 @@ public class HolidayFragment extends Fragment {
 
 
         MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
-        final SQLiteDatabase db = helper.getWritableDatabase();
-
-        final View view = inflater.inflate(R.layout.fragment_main, container, false);
+        final SQLiteDatabase db  = helper.getWritableDatabase();
+        final TimeUtils timeUtil = new TimeUtils();
+        final View view          = inflater.inflate(R.layout.fragment_holiday, container, false);
 
         final Resources resource = getResources();
         if(mainImage != null){
@@ -65,32 +71,40 @@ public class HolidayFragment extends Fragment {
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
+        final Typeface meiryoType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
         /************ 有給関連スイッチ start ************/
-        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
-        final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
-        holidaySwitch.setTypeface(meiryoType);
-        final Switch amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
+        allHolidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
+        allHolidaySwitch.setTypeface(meiryoType);
+        amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
         amHalfHolidaySwitch.setTypeface(meiryoType);
-        final Switch pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
+        pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
         pmHalfHolidaySwitch.setTypeface(meiryoType);
         /************ 有給関連スイッチ end ************/
 
-        /************ 登録ボタン start ************/
+        /************ ボタン設定 start ************/
         // ボタンを設定
-        final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);
-        timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+        allHolidayRegistrButton = (ImageButton)view.findViewById(R.id.allHolidayRegistrButton);
+        amHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.amHolidayRegistrButton);
+        pmHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.pmHolidayRegistrButton);
+        allHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+        amHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+        pmHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
 
-        final TimeUtils timeUtil = new TimeUtils();
+
         /** 初期表示時にボタンを非活性にする判定**/
         if ( helper.isCurrentDate(db,timeUtil.getCurrentTableName(),timeUtil.getCurrentYearMonthDay()) ) {
-            timeCountButton.setEnabled(false);
-            timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+            allHolidayRegistrButton.setEnabled(false);
+            allHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
+            amHolidayRegistrButton.setEnabled(false);
+            amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
+            pmHolidayRegistrButton.setEnabled(false);
+            pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
             final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
             try {
-                cursor.moveToFirst();
-                if(!cursor.getString(0).isEmpty()){
+                if(cursor != null && cursor.moveToNext()){
+                    cursor.moveToFirst();
                     if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
-                        holidaySwitch.setChecked(true);
+                        allHolidaySwitch.setChecked(true);
                     }
                     if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("2") ){
                         amHalfHolidaySwitch.setChecked(true);
@@ -106,19 +120,21 @@ public class HolidayFragment extends Fragment {
                 cursor.close();
             }
         }
+        /************ ボタン設定 end ************/
 
-
+        /************ 全休登録ボタン start ************/
         // リスナーをボタンに登録
-        timeCountButton.setOnClickListener(new View.OnClickListener() {
+        allHolidayRegistrButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.beginTransaction();
+                insertTimeRecord(db , Constants.ALL_DAYS_HOLIDAY_FLAG);
+                /*db.beginTransaction();
                 try {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
-                    String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
-                    String holidayFlag = "0";
-                    if (holidaySwitch.isChecked()) {
+                    String overtime = Constants.TIME_ZERO;//timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
+                    String holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
+*//*                    if (holidaySwitch.isChecked()) {
                         holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
                         overtime    = Constants.TIME_ZERO;
                     }
@@ -128,13 +144,12 @@ public class HolidayFragment extends Fragment {
                     if (pmHalfHolidaySwitch.isChecked()) {
                         holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
                         overtime    = Constants.TIME_ZERO;
-                    }
+                    }*//*
                     //アカウント名取得
-                    TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
+                    TextView accountName = (TextView) getActivity().findViewById(R.id.accountName);
                     System.out.println(accountName.getText().toString());
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO " + timeUtil.getCurrentTableName() + Constants.INSERT_SQL_VALUES);
                     try {
-//                        statement.bindString(1, randGenerat.get());
                         statement.bindString(1, timeUtil.getCurrentYearMonthDay());
                         statement.bindString(2, timeUtil.getCurrentDate());
                         statement.bindString(3, overtime);
@@ -142,12 +157,12 @@ public class HolidayFragment extends Fragment {
                         statement.bindString(5, holidayFlag);
                         statement.bindString(6, accountName.getText().toString());
                         statement.executeInsert();
-                        timeCountButton.setEnabled(false);
-                        timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                        allHolidayRegistrButton.setEnabled(false);
+                        allHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                         Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
-                    }  catch (SQLException ex) {
-                        GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
+                    } catch (SQLException ex) {
+                        GeneralUtils.createErrorDialog(getActivity(), "SQL INSERT エラー", "insert処理に失敗しました:" + ex.getLocalizedMessage(), "OK");
                         Log.e("SQLException INSERT", ex.toString());
                     } finally {
                         statement.close();
@@ -155,10 +170,30 @@ public class HolidayFragment extends Fragment {
                     db.setTransactionSuccessful();
                 } finally {
                     db.endTransaction();
-                }
+                }*/
             }
         });
-        /************ 登録ボタン end ************/
+        /************ 全休登録ボタン end ************/
+
+        /************ 午前休登録ボタン start ************/
+        // リスナーをボタンに登録
+        amHolidayRegistrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertTimeRecord(db , Constants.AM_HALF_HOLIDAY_FLAG);
+            }
+        });
+        /************ 午前休登録ボタン end ************/
+        /************ 午後休登録ボタン start ************/
+        // リスナーをボタンに登録
+        pmHolidayRegistrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertTimeRecord(db , Constants.PM_HALF_HOLIDAY_FLAG);
+            }
+        });
+        /************ 午後休登録ボタン end ************/
+
         /************ 制御ボタン start ************/
         // ボタンを設定
         final ImageButton controlButton = (ImageButton)view.findViewById(R.id.controlButton);
@@ -170,9 +205,13 @@ public class HolidayFragment extends Fragment {
         controlButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timeCountButton.setEnabled(true);
-                timeCountButton.setColorFilter(null);
-                holidaySwitch.setChecked(false);
+                allHolidayRegistrButton.setEnabled(true);
+                allHolidayRegistrButton.setColorFilter(null);
+                amHolidayRegistrButton.setEnabled(true);
+                amHolidayRegistrButton.setColorFilter(null);
+                pmHolidayRegistrButton.setEnabled(true);
+                pmHolidayRegistrButton.setColorFilter(null);
+                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
                 pmHalfHolidaySwitch.setChecked(false);
             }
@@ -261,10 +300,21 @@ public class HolidayFragment extends Fragment {
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
         /************ 登録ボタン ************/
-        ImageButton timeCountButton = (ImageButton)getActivity().findViewById(R.id.timeCountButton);
-        timeCountButton.setImageDrawable(null);
-        timeCountButton.setImageBitmap(null);
-        timeCountButton.setOnClickListener(null);
+        allHolidayRegistrButton = (ImageButton)getActivity().findViewById(R.id.allHolidayRegistrButton);
+        allHolidayRegistrButton.setImageDrawable(null);
+        allHolidayRegistrButton.setImageBitmap(null);
+        allHolidayRegistrButton.setOnClickListener(null);
+        allHolidayRegistrButton = null;
+        amHolidayRegistrButton = (ImageButton)getActivity().findViewById(R.id.amHolidayRegistrButton);
+        amHolidayRegistrButton.setImageDrawable(null);
+        amHolidayRegistrButton.setImageBitmap(null);
+        amHolidayRegistrButton.setOnClickListener(null);
+        amHolidayRegistrButton = null;
+        pmHolidayRegistrButton = (ImageButton)getActivity().findViewById(R.id.pmHolidayRegistrButton);
+        pmHolidayRegistrButton.setImageDrawable(null);
+        pmHolidayRegistrButton.setImageBitmap(null);
+        pmHolidayRegistrButton.setOnClickListener(null);
+        pmHolidayRegistrButton = null;
         /************ 制御ボタン ************/
         ImageButton controlButton = (ImageButton)getActivity().findViewById(R.id.controlButton);
         controlButton.setImageBitmap(null);
@@ -274,6 +324,19 @@ public class HolidayFragment extends Fragment {
         ImageButton deleteButton = (ImageButton) getActivity().findViewById(R.id.deleteButtonMain);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
+        /************ 休暇関連スイッチ ************/
+        allHolidaySwitch = (Switch)getActivity().findViewById(R.id.holidaySwitch);
+        allHolidaySwitch.setOnClickListener(null);
+        allHolidaySwitch.setTypeface(null);
+        allHolidaySwitch = null;
+        amHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.amHalfHolidaySwitch);
+        amHalfHolidaySwitch.setOnClickListener(null);
+        amHalfHolidaySwitch.setTypeface(null);
+        amHalfHolidaySwitch = null;
+        pmHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
+        pmHalfHolidaySwitch.setOnClickListener(null);
+        pmHalfHolidaySwitch.setTypeface(null);
+        pmHalfHolidaySwitch = null;
 
         BitmapUtils.cleanupView(getView());
     }
@@ -292,5 +355,63 @@ public class HolidayFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    /***
+     * 3種類のボタンごとのデータ登録
+     */
+    public void insertTimeRecord(SQLiteDatabase db ,String holidayFlag) {
+        db.beginTransaction();
+        try {
+            final TimeUtils timeUtil = new TimeUtils();
+            String overtime = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
+            if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
+                overtime = Constants.TIME_ZERO;
+            }
+            if (holidayFlag.equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
+                //holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
+            }
+            if (holidayFlag.equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
+                overtime = Constants.TIME_ZERO;
+            }
+            //アカウント名取得
+            TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
+            final SQLiteStatement statement = db.compileStatement("INSERT INTO " + timeUtil.getCurrentTableName() + Constants.INSERT_SQL_VALUES);
+            try {
+                statement.bindString(1, timeUtil.getCurrentYearMonthDay());
+                statement.bindString(2, timeUtil.getCurrentDate());
+                statement.bindString(3, overtime);
+                statement.bindString(4, timeUtil.getCurrentWeekOmit());
+                statement.bindString(5, holidayFlag);
+                statement.bindString(6, accountName.getText().toString());
+                statement.executeInsert();
+                allHolidayRegistrButton.setEnabled(false);
+                allHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                amHolidayRegistrButton.setEnabled(false);
+                amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                pmHolidayRegistrButton.setEnabled(false);
+                pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
+                if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
+                    allHolidaySwitch.setChecked(true);
+                }
+                if (holidayFlag.equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
+                    amHalfHolidaySwitch.setChecked(true);
+                }
+                if (holidayFlag.equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
+                    pmHalfHolidaySwitch.setChecked(true);
+                }
+                // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
+                Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
+            }  catch (SQLException ex) {
+                GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
+                Log.e("SQLException INSERT", ex.toString());
+            } finally {
+                statement.close();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        return;
     }
 }

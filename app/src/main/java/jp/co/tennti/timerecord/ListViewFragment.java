@@ -40,7 +40,7 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 public class ListViewFragment extends Fragment {
     private Bitmap mainImage = Bitmap.createBitmap(64, 64, Bitmap.Config.RGB_565);
     TextView dateTextView = null;
-    AlertDialog.Builder builder = null;
+    AlertDialog.Builder alertDialogBuilder = null;
     View contentView = null;
     TextView totalText = null;
     /**
@@ -107,15 +107,15 @@ public class ListViewFragment extends Fragment {
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (builder == null) {
+                if (alertDialogBuilder == null) {
 
                     // 確認ダイアログの生成
-                    builder = new AlertDialog.Builder(getContext());
-                    builder.setView(contentView);
+                    alertDialogBuilder = new AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setView(contentView);
                     final TimeUtils timeUtil = new TimeUtils();
-                    builder.setTitle(timeUtil.getCurrentDate());
-                    builder.setMessage("メッセージ");
-                    builder.setPositiveButton(
+                    alertDialogBuilder.setTitle(timeUtil.getCurrentDate());
+                    alertDialogBuilder.setMessage("メッセージ");
+                    alertDialogBuilder.setPositiveButton(
                             "設定",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -131,14 +131,14 @@ public class ListViewFragment extends Fragment {
 
                                 }
                             });
-                    builder.setNegativeButton(
+                    alertDialogBuilder.setNegativeButton(
                             "閉じる",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Cancel ボタンクリック処理
                                 }
                             });
-                    builder.create().show();
+                    alertDialogBuilder.create().show();
                 } else {
 
                     final android.view.ViewParent parent = contentView.getParent();
@@ -146,8 +146,8 @@ public class ListViewFragment extends Fragment {
                         final android.view.ViewManager viewManager = (android.view.ViewManager) parent;
                         viewManager.removeView(contentView);
                     }
-                    builder.setView(contentView);
-                    builder.show();
+                    alertDialogBuilder.setView(contentView);
+                    alertDialogBuilder.show();
                 }
             }
         });
@@ -354,8 +354,9 @@ public class ListViewFragment extends Fragment {
         dateTextView.setOnClickListener(null);
         /************ グローバル変数 ************/
         dateTextView = null;
-        builder = null;
+        alertDialogBuilder = null;
         contentView = null;
+        totalText = null;
         TableLayout mTableLayoutList = (TableLayout) getActivity().findViewById(R.id.tableLayoutList);
         mTableLayoutList.removeAllViews();mTableLayoutList.setBackground(null);
         mTableLayoutList = null;

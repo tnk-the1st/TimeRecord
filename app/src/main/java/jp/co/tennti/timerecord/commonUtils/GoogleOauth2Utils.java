@@ -7,6 +7,7 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ import jp.co.tennti.timerecord.AsyncTaskUtils.SetNavInfoAsyncTask;
  * Created by TENNTI on 2016/08/14.
  */
 public class GoogleOauth2Utils {
-
+    protected ProgressDialog dialog;
     protected Activity activity;
     protected AccountManager accountManager;
     protected String accountName;
@@ -193,7 +194,7 @@ public class GoogleOauth2Utils {
             public void onResult(JSONObject json) {
                 String msg = "";
                 String pictureUrl = "";
-                String fullName   = "";
+                String fullName = "";
                 try {
                     if (json == null) {
                         msg = "ユーザー情報取得失敗";
@@ -207,7 +208,7 @@ public class GoogleOauth2Utils {
                         msg = "ユーザー情報取得成功\njson=" + json.toString();
                         Log.d("getUserInfo", msg);
                         pictureUrl = json.getString("picture");
-                        fullName   = json.getString("name");
+                        fullName = json.getString("name");
                     }
 
                     //取得データをjsonとして保存する
@@ -215,14 +216,22 @@ public class GoogleOauth2Utils {
                     GeneralUtils.createJsonGoogleOauthInfoSD(json);
                     SetImageAsyncTask siat = new SetImageAsyncTask(json.getString("picture"));
                     siat.execute();
-                    HttpRequestAsyncTask hrat = new HttpRequestAsyncTask(activity , pictureUrl , fullName , accountName);
+                    HttpRequestAsyncTask hrat = new HttpRequestAsyncTask(activity, pictureUrl, fullName, accountName);
                     hrat.execute();
                 } catch (JSONException e) {
                     Log.e("JSONException", e.toString());
+                } finally {
+                    dialog.dismiss();
                 }
             }
         });
         task.execute(url);
+        dialog = new ProgressDialog(activity);
+        dialog.setMessage("User information during the acquisition...");
+        //dialog.setContentView(R.layout.loading);
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
 

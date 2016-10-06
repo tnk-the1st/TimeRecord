@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="全休"
-        android:id="@+id/holidaySwitchEdit"
+        android:id="@+id/allHolidaySwitchEdit"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
@@ -82,8 +82,8 @@
         android:layout_height="wrap_content"
         android:text="午後休"
         android:id="@+id/pmHalfHolidaySwitchEdit"
-        android:layout_below="@+id/holidaySwitchEdit"
-        android:layout_alignEnd="@+id/holidaySwitchEdit" />
+        android:layout_below="@+id/allHolidaySwitchEdit"
+        android:layout_alignEnd="@+id/allHolidaySwitchEdit" />
 
     <Switch
         android:layout_width="wrap_content"

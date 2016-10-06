@@ -39,28 +39,37 @@
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="61dp" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/allHolidaySwitch"
         android:text="全休"
-        android:id="@+id/holidaySwitch"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:thumb="@drawable/switch_thumb"
+        app:track="@drawable/switch_background"/>
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="午後休"
         android:id="@+id/pmHalfHolidaySwitch"
-        android:layout_below="@+id/holidaySwitch"
-        android:layout_alignEnd="@+id/holidaySwitch" />
+        android:text="午後休"
+        android:layout_below="@+id/allHolidaySwitch"
+        android:layout_alignEnd="@+id/allHolidaySwitch"
+        android:background="@null"
+        android:thumb="@drawable/switch_thumb"
+        app:track="@drawable/switch_background"/>
 
-    <Switch
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/amHalfHolidaySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="午前休"
-        android:id="@+id/amHalfHolidaySwitch"
         android:layout_below="@+id/pmHalfHolidaySwitch"
-        android:layout_alignStart="@+id/pmHalfHolidaySwitch" />
-
+        android:layout_alignStart="@+id/pmHalfHolidaySwitch"
+        android:background="@null"
+        android:thumb="@drawable/switch_thumb"
+        app:track="@drawable/switch_background" />
 </RelativeLayout>

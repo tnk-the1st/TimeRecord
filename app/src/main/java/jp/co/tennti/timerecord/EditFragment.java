@@ -47,7 +47,7 @@ public class EditFragment extends Fragment {
     AlertDialog.Builder builder_t = null;
     View datePickerView = null;
     View timePickerView = null;
-    Switch holidaySwitch = null;
+    Switch allHolidaySwitch = null;
     Switch amHalfHolidaySwitch = null;
     Switch pmHalfHolidaySwitch = null;
 
@@ -177,55 +177,80 @@ public class EditFragment extends Fragment {
                 builder_t.setTitle("登録時間の選択(時分)");
                 //builder.setMessage("メッセージ");
                 builder_t.setPositiveButton(
-                            "設定",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // OK ボタンクリック処理
-                                    try {
-                                        final TimePicker timePicker = (TimePicker) timePickerView.findViewById(R.id.timePickerDia);
-                                        int hour;
-                                        int minute;
-                                        int currentApiVersion = Build.VERSION.SDK_INT;
-                                        if ( currentApiVersion > Build.VERSION_CODES.LOLLIPOP_MR1 ) {
-                                            hour = timePicker.getHour();
-                                            minute = timePicker.getMinute();
-                                        } else {
-                                            hour = timePicker.getCurrentHour();
-                                            minute = timePicker.getCurrentMinute();
-                                        }
-                                        final TimeUtils timeUtil = new TimeUtils();
-                                        /**時分の判定 start**/
-                                        String hourMinute ="00時00分";
-                                        hourMinute = timeUtil.getTargetHourMinuteJaCal(hour,minute);
-                                        /**時分の判定 end**/
-                                        timeTextView.setText(hourMinute);
-                                    } catch (NullPointerException e) {
-                                        Log.d("NullPointerException", e.getMessage());
+                        "設定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // OK ボタンクリック処理
+                                try {
+                                    final TimePicker timePicker = (TimePicker) timePickerView.findViewById(R.id.timePickerDia);
+                                    int hour;
+                                    int minute;
+                                    int currentApiVersion = Build.VERSION.SDK_INT;
+                                    if (currentApiVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                                        hour = timePicker.getHour();
+                                        minute = timePicker.getMinute();
+                                    } else {
+                                        hour = timePicker.getCurrentHour();
+                                        minute = timePicker.getCurrentMinute();
                                     }
+                                    final TimeUtils timeUtil = new TimeUtils();
+                                    /**時分の判定 start**/
+                                    String hourMinute = "00時00分";
+                                    hourMinute = timeUtil.getTargetHourMinuteJaCal(hour, minute);
+                                    /**時分の判定 end**/
+                                    timeTextView.setText(hourMinute);
+                                } catch (NullPointerException e) {
+                                    Log.d("NullPointerException", e.getMessage());
                                 }
-                            });
+                            }
+                        });
                 builder_t.setNegativeButton(
-                            "閉じる",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Cancel ボタンクリック処理
-                                }
-                            });
-                    // 表示
+                        "閉じる",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Cancel ボタンクリック処理
+                            }
+                        });
+                // 表示
                 builder_t.create().show();
             }
         });
 
 
         /************ 有給関連スイッチ start ************/
-        holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitchEdit);
-        holidaySwitch.setTypeface(meiryoType);
+        allHolidaySwitch = (Switch)view.findViewById(R.id.allHolidaySwitchEdit);
+        allHolidaySwitch.setTypeface(meiryoType);
         amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitchEdit);
         amHalfHolidaySwitch.setTypeface(meiryoType);
         pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
         pmHalfHolidaySwitch.setTypeface(meiryoType);
         final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
         setHolidayFlag(db, dateTextViewTemp.getText().toString());
+        // リスナーをボタンに登録
+        allHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(true);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        amHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(true);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        pmHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(true);
+            }
+        });
         /************ 有給関連スイッチ end ************/
 
         /************ 新規登録ボタン start ************/
@@ -269,7 +294,7 @@ public class EditFragment extends Fragment {
                         /**休日**/
                         String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate));
                         String holidayFlag = "0";
-                        if (holidaySwitch.isChecked()) {
+                        if (allHolidaySwitch.isChecked()) {
                             holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
                             overtime    = Constants.TIME_ZERO;
                         }
@@ -323,7 +348,7 @@ public class EditFragment extends Fragment {
             public void onClick(View v) {
                 timeCountButton.setEnabled(true);
                 timeCountButton.setColorFilter(null);
-                holidaySwitch.setChecked(false);
+                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
                 pmHalfHolidaySwitch.setChecked(false);
             }
@@ -419,7 +444,8 @@ public class EditFragment extends Fragment {
                 db.beginTransaction();
                 try {
                     final TimeUtils timeUtil = new TimeUtils();
-                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.getCurrentTableName()+" SET  leaving_date=?,overtime=?,week=? WHERE basic_date = ?");
+                    final SQLiteStatement statement = db.compileStatement("UPDATE "+timeUtil.getCurrentTableName()+" SET "+
+                            " leaving_date=?,overtime=?,week=?,holiday_flag=?,user_cd=? WHERE basic_date = ?");
                     try {
                         /**年月の判定 start**/
                         String yearMonth    ="1999-01";
@@ -436,10 +462,27 @@ public class EditFragment extends Fragment {
                         }
                         /**年月の判定 end**/
 
+                        String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate));
+                        String holidayFlag = "0";
+                        if (allHolidaySwitch.isChecked()) {
+                            holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
+                            overtime    = Constants.TIME_ZERO;
+                        }
+                        if (amHalfHolidaySwitch.isChecked()) {
+                            holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
+                        }
+                        if (pmHalfHolidaySwitch.isChecked()) {
+                            holidayFlag = Constants.PM_HALF_HOLIDAY_FLAG;
+                            overtime    = Constants.TIME_ZERO;
+                        }
+                        //アカウント名取得
+                        TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
                         statement.bindString(1, allDate);
-                        statement.bindString(2, yearMonth);
-                        statement.bindString(3, timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(allDate)));
-                        statement.bindString(4, yearMonthDay);
+                        statement.bindString(2, overtime);
+                        statement.bindString(3, timeUtil.getTargetWeekOmit(yearMonthDay));
+                        statement.bindString(4, holidayFlag);
+                        statement.bindString(5, accountName.getText().toString());
+                        statement.bindString(6, yearMonthDay);
                         statement.executeInsert();
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                         Toast.makeText(getActivity(), "指定日付のデータを更新しました", Toast.LENGTH_SHORT).show();
@@ -508,6 +551,12 @@ public class EditFragment extends Fragment {
         timeTextView = null;
         builder_d = null;
         builder_t = null;
+        allHolidaySwitch.setOnClickListener(null);
+        allHolidaySwitch = null;
+        amHalfHolidaySwitch.setOnClickListener(null);
+        amHalfHolidaySwitch = null;
+        pmHalfHolidaySwitch.setOnClickListener(null);
+        pmHalfHolidaySwitch = null;
         BitmapUtils.cleanupView(getView());
     }
 
@@ -535,7 +584,7 @@ public class EditFragment extends Fragment {
             if(cursor != null && cursor.moveToNext()){
                 cursor.moveToFirst();
                 if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
-                    holidaySwitch.setChecked(true);
+                    allHolidaySwitch.setChecked(true);
                 }
                 if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("2") ){
                     amHalfHolidaySwitch.setChecked(true);
@@ -544,7 +593,7 @@ public class EditFragment extends Fragment {
                     pmHalfHolidaySwitch.setChecked(true);
                 }
             } else {
-                holidaySwitch.setChecked(false);
+                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
                 pmHalfHolidaySwitch.setChecked(false);
             }

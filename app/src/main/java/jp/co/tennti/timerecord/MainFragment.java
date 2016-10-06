@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,12 +67,37 @@ public class MainFragment extends Fragment {
 
         /************ 有給関連スイッチ start ************/
         final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
-        final Switch holidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
-        holidaySwitch.setTypeface(meiryoType);
-        final Switch amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
+        final SwitchCompat allHolidaySwitch = (SwitchCompat)view.findViewById(R.id.allHolidaySwitch);
+        allHolidaySwitch.setTypeface(meiryoType);
+        final SwitchCompat amHalfHolidaySwitch = (SwitchCompat)view.findViewById(R.id.amHalfHolidaySwitch);
         amHalfHolidaySwitch.setTypeface(meiryoType);
-        final Switch pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
+        final SwitchCompat pmHalfHolidaySwitch = (SwitchCompat)view.findViewById(R.id.pmHalfHolidaySwitch);
         pmHalfHolidaySwitch.setTypeface(meiryoType);
+        // リスナーをボタンに登録
+        allHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //allHolidaySwitch.setChecked(true);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        amHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                //amHalfHolidaySwitch.setChecked(true);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        pmHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                //pmHalfHolidaySwitch.setChecked(true);
+            }
+        });
         /************ 有給関連スイッチ end ************/
 
         /************ 登録ボタン start ************/
@@ -90,7 +115,7 @@ public class MainFragment extends Fragment {
                 if(cursor != null && cursor.moveToNext()){
                     cursor.moveToFirst();
                     if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
-                        holidaySwitch.setChecked(true);
+                        allHolidaySwitch.setChecked(true);
                     }
                     if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("2") ){
                         amHalfHolidaySwitch.setChecked(true);
@@ -118,7 +143,7 @@ public class MainFragment extends Fragment {
                     final TimeUtils timeUtil = new TimeUtils();
                     String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
                     String holidayFlag = "0";
-                    if (holidaySwitch.isChecked()) {
+                    if (allHolidaySwitch.isChecked()) {
                         holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
                         overtime    = Constants.TIME_ZERO;
                     }
@@ -172,7 +197,7 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 timeCountButton.setEnabled(true);
                 timeCountButton.setColorFilter(null);
-                holidaySwitch.setChecked(false);
+                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
                 pmHalfHolidaySwitch.setChecked(false);
             }

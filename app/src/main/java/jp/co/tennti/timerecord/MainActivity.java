@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
         Drawable titleGrad = getDrawable(R.drawable.gradient_black);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackground(titleGrad);
+        toolbar.setTitle("");//TIME RECORD
+        toolbar.setLogo(R.mipmap.title_name);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

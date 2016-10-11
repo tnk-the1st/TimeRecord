@@ -53,6 +53,7 @@ public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
             accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(this.bitmap));
             accountName.setText(this.fullName);
             accountMail.setText(this.mail);
+            accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
             return;
         }
         //accountIconView.setScaleType(ImageView.ScaleType.FIT_START);

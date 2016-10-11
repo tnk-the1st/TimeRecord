@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,15 +40,15 @@ import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 public class EditFragment extends Fragment {
     private Bitmap mainImage = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
 
-    TextView dateTextView = null;
-    TextView timeTextView = null;
+    TextView dateTextView         = null;
+    TextView timeTextView         = null;
     AlertDialog.Builder builder_d = null;
     AlertDialog.Builder builder_t = null;
-    View datePickerView = null;
-    View timePickerView = null;
-    Switch allHolidaySwitch = null;
-    Switch amHalfHolidaySwitch = null;
-    Switch pmHalfHolidaySwitch = null;
+    View datePickerView           = null;
+    View timePickerView           = null;
+    android.support.v7.widget.SwitchCompat allHolidaySwitch       = null;
+    android.support.v7.widget.SwitchCompat amHalfHolidaySwitch    = null;
+    android.support.v7.widget.SwitchCompat pmHalfHolidaySwitch    = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -218,11 +217,11 @@ public class EditFragment extends Fragment {
 
 
         /************ 有給関連スイッチ start ************/
-        allHolidaySwitch = (Switch)view.findViewById(R.id.allHolidaySwitchEdit);
+        allHolidaySwitch    = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.allHolidaySwitchEdit);
+        amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.amHalfHolidaySwitchEdit);
+        pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
         allHolidaySwitch.setTypeface(meiryoType);
-        amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitchEdit);
         amHalfHolidaySwitch.setTypeface(meiryoType);
-        pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitchEdit);
         pmHalfHolidaySwitch.setTypeface(meiryoType);
         final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
         setHolidayFlag(db, dateTextViewTemp.getText().toString());
@@ -230,7 +229,6 @@ public class EditFragment extends Fragment {
         allHolidaySwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allHolidaySwitch.setChecked(true);
                 amHalfHolidaySwitch.setChecked(false);
                 pmHalfHolidaySwitch.setChecked(false);
             }
@@ -239,7 +237,6 @@ public class EditFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 allHolidaySwitch.setChecked(false);
-                amHalfHolidaySwitch.setChecked(true);
                 pmHalfHolidaySwitch.setChecked(false);
             }
         });
@@ -248,7 +245,6 @@ public class EditFragment extends Fragment {
             public void onClick(View v) {
                 allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
-                pmHalfHolidaySwitch.setChecked(true);
             }
         });
         /************ 有給関連スイッチ end ************/

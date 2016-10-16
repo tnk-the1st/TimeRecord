@@ -196,7 +196,7 @@ public class ListViewFragment extends Fragment {
                     TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db, buffer.toString());
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-                        if (helper.isTarMonthTable(db, buffer_t.toString())) {
+                        if (helper.isTargetTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
                             if ( helper.countTargetMonthData(db,buffer_t.toString()) == 0 ) {
                                 editResultList = GeneralUtils.createblankTable(buffer.toString());
@@ -279,7 +279,7 @@ public class ListViewFragment extends Fragment {
         /**一覧レイアウト**/
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
 
-        if(!helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString())){
+        if(!helper.isTargetTable(db, timeUtil.getCurrentTableName().toString())){
             //perCountButton.setEnabled(false);
             //perCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
             onloadResultList = GeneralUtils.createblankTable(timeUtil.getCurrentYearMonthHyphen());

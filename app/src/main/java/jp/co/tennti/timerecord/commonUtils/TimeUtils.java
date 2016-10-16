@@ -451,6 +451,18 @@ public class TimeUtils {
     }
 
     /**
+     * 現在年の取得
+     * @param  yyyyMM 指定日付yyyy
+     * @return 指定時刻yyyy
+     */
+    public String getTargetYYYY( String yyyyMM) {
+
+        final String yearStr  = yyyyMM.substring(0, 4);
+        StringBuffer buffer   = new StringBuffer();
+        buffer.append(yearStr);
+        return  buffer.toString();
+    }
+    /**
      * 現在年月日の取得
      * @param  yyyyMM 指定日付yyyy_MM
      * @return 指定時刻yyyyMM

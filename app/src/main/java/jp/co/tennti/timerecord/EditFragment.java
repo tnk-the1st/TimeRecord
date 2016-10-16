@@ -266,9 +266,9 @@ public class EditFragment extends Fragment {
                     final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
                     final StringBuilder builder = new StringBuilder();
                     builder.append("time_record_");
-                    builder.append(timeUtil.getTargetYYYYMM(dateTextViewTemp.getText().toString()));
+                    builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
                     /**DB存在判定**/
-                    if (!helper.isTarMonthTable(db , builder.toString())) {
+                    if (!helper.isTargetTable(db, builder.toString())) {
                         helper.createMonthTable(db , builder.toString());
                     }
 
@@ -302,14 +302,14 @@ public class EditFragment extends Fragment {
                             overtime    = Constants.TIME_ZERO;
                         }
                         //アカウント名取得
-                        TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
+                        TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
                         //statement.bindString(1, randGenerat.get());
                         statement.bindString(1, yearMonthDay);
                         statement.bindString(2, allDate);
                         statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.bindString(5, holidayFlag);
-                        statement.bindString(6, accountName.getText().toString());
+                        statement.bindString(6, accountCd.getText().toString());
                         statement.executeInsert();
                         /*timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));*/
@@ -383,7 +383,7 @@ public class EditFragment extends Fragment {
 
                                             StringBuilder builder = new StringBuilder();
                                             builder.append("time_record_");
-                                            builder.append(timeUtil.getTargetYYYYMM(dateTextViewTemp.getText().toString()));
+                                            builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
 
                                             final SQLiteStatement statement = db.compileStatement("DELETE FROM "+builder.toString()+" WHERE basic_date=?");
 
@@ -472,12 +472,12 @@ public class EditFragment extends Fragment {
                             overtime    = Constants.TIME_ZERO;
                         }
                         //アカウント名取得
-                        TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
+                        TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
                         statement.bindString(1, allDate);
                         statement.bindString(2, overtime);
                         statement.bindString(3, timeUtil.getTargetWeekOmit(yearMonthDay));
                         statement.bindString(4, holidayFlag);
-                        statement.bindString(5, accountName.getText().toString());
+                        statement.bindString(5, accountCd.getText().toString());
                         statement.bindString(6, yearMonthDay);
                         statement.executeInsert();
                         // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）

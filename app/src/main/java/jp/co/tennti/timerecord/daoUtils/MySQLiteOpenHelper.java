@@ -15,14 +15,14 @@ import jp.co.tennti.timerecord.commonUtils.TimeUtils;
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String DB_DIRECTORY = Environment.getExternalStorageDirectory() + "/time_record/db/";
-    private static final String DB_NAME = DB_DIRECTORY + "time_record_db.db";
-    static final int DB_VERSION = 1;
+    private static final String DB_NAME      = DB_DIRECTORY + "time_record_db.db";
+    static final int DB_VERSION              = 1;
     private static final String TABLE_COLUMN_NAME = "( basic_date text not null primary key ," +
-            " leaving_date text not null ," +
-            " overtime text ," +
-            " week text ," +
-            " holiday_flag text ," +
-            " user_cd text);";
+                                                    " leaving_date text not null ," +
+                                                    " overtime text ," +
+                                                    " week text ," +
+                                                    " holiday_flag text ," +
+                                                    " user_cd text);";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -55,7 +55,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         finally {
             cursor.close();
         }
-        //db.execSQL("create table person(" + " name text not null," + "age text" + ");");
     }
 
     @Override
@@ -96,9 +95,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targetMonthTable テーブル名
      * @return boolean exitFlag 判定結果
      */
-    public boolean isTarMonthTable(SQLiteDatabase db,String targetMonthTable) {
+    public boolean isTargetTable(SQLiteDatabase db, String targetTable) {
         boolean exitFlag = false;
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targetMonthTable});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targetTable});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("1")){

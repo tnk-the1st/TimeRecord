@@ -27,7 +27,8 @@ public class TimeUtils {
         //テーブル名作成
         StringBuffer builder = new StringBuffer();
         builder.append("time_record_");
-        builder.append(getCurrentYearAndMonth());
+        //builder.append(getCurrentYearAndMonth());
+        builder.append(getCurrentYear());
         //String CUR_TIME_TABLE_NAME =  builder.toString();
         return builder.toString();
     }
@@ -203,6 +204,24 @@ public class TimeUtils {
         buffer.append("(").append(asList.get(week)).append(")");
 
         return buffer.toString();
+    }
+
+    /**
+     * 現在年の取得
+     *
+     * @return 現在時刻yyyy
+     */
+    public static String getCurrentYear() {
+
+        final Calendar cal = Calendar.getInstance();
+        final int year     = cal.get(Calendar.YEAR);
+
+        final String yearStr  = String.valueOf(year);
+
+        StringBuffer builder = new StringBuffer();
+        builder.append(yearStr);
+
+        return builder.toString();
     }
 
     /**

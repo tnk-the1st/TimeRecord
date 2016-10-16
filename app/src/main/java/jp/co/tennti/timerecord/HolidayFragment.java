@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +37,9 @@ public class HolidayFragment extends Fragment {
     private static ImageButton allHolidayRegistrButton = null;
     private static ImageButton amHolidayRegistrButton = null;
     private static ImageButton pmHolidayRegistrButton = null;
-    private static Switch allHolidaySwitch    = null;
-    private static Switch amHalfHolidaySwitch = null;
-    private static Switch pmHalfHolidaySwitch = null;
+    private static android.support.v7.widget.SwitchCompat allHolidaySwitch    = null;
+    private static android.support.v7.widget.SwitchCompat amHalfHolidaySwitch = null;
+    private static android.support.v7.widget.SwitchCompat pmHalfHolidaySwitch = null;
 
 
     @Override
@@ -73,12 +72,37 @@ public class HolidayFragment extends Fragment {
 
         final Typeface meiryoType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
         /************ 有給関連スイッチ start ************/
-        allHolidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
+        allHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.allHolidaySwitch);
         allHolidaySwitch.setTypeface(meiryoType);
-        amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
+        amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.amHalfHolidaySwitch);
         amHalfHolidaySwitch.setTypeface(meiryoType);
-        pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
+        pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.pmHalfHolidaySwitch);
         pmHalfHolidaySwitch.setTypeface(meiryoType);
+        // リスナーをボタンに登録
+        allHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //allHolidaySwitch.setChecked(true);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        amHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                //amHalfHolidaySwitch.setChecked(true);
+                pmHalfHolidaySwitch.setChecked(false);
+            }
+        });
+        pmHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allHolidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                //pmHalfHolidaySwitch.setChecked(true);
+            }
+        });
         /************ 有給関連スイッチ end ************/
 
         /************ ボタン設定 start ************/
@@ -86,9 +110,9 @@ public class HolidayFragment extends Fragment {
         allHolidayRegistrButton = (ImageButton)view.findViewById(R.id.allHolidayRegistrButton);
         amHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.amHolidayRegistrButton);
         pmHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.pmHolidayRegistrButton);
-        allHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
-        amHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
-        pmHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+        allHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_allholiday));
+        amHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_amhalfholiday));
+        pmHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_pmhalfholiday));
 
 
         /** 初期表示時にボタンを非活性にする判定**/
@@ -325,15 +349,15 @@ public class HolidayFragment extends Fragment {
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
         /************ 休暇関連スイッチ ************/
-        allHolidaySwitch = (Switch)getActivity().findViewById(R.id.holidaySwitch);
+        allHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.allHolidaySwitch);
         allHolidaySwitch.setOnClickListener(null);
         allHolidaySwitch.setTypeface(null);
         allHolidaySwitch = null;
-        amHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.amHalfHolidaySwitch);
+        amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.amHalfHolidaySwitch);
         amHalfHolidaySwitch.setOnClickListener(null);
         amHalfHolidaySwitch.setTypeface(null);
         amHalfHolidaySwitch = null;
-        pmHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
+        pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
         pmHalfHolidaySwitch.setOnClickListener(null);
         pmHalfHolidaySwitch.setTypeface(null);
         pmHalfHolidaySwitch = null;

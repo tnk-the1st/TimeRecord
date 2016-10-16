@@ -21,11 +21,13 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
     ProgressDialog dialog;
     Context context;
     SQLiteDatabase db;
+    String targetDate;
     List<HashMap<String, String>> listMap = new ArrayList<HashMap<String, String>>();
 
-    public TargetListAsyncTask(Context context, SQLiteDatabase db) {
+    public TargetListAsyncTask(Context context, SQLiteDatabase db, String targetDate) {
         this.context = context;
         this.db = db;
+        this.targetDate = targetDate;
     }
 
     Cursor cursor = null;

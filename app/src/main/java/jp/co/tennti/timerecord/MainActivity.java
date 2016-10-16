@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity
 
 
         /******基本処理******/
-        DatabaseAccess aba = new DatabaseAccess();
-        aba.openDatabase();
+        DatabaseAccess dba = new DatabaseAccess();
+        dba.openDatabase();
         /******月ごとテーブル再作成 START******/
         /**DB接続**/
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());

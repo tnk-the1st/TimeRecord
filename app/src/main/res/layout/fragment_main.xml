@@ -60,6 +60,7 @@
         app:track="@drawable/switch_background"
         android:layout_below="@+id/allHolidaySwitch"
         android:layout_alignEnd="@+id/allHolidaySwitch"
+        android:layout_marginTop="2dp"
         />
 
 
@@ -72,5 +73,6 @@
         android:thumb="@drawable/switch_thumb"
         app:track="@drawable/switch_background"
         android:layout_below="@+id/pmHalfHolidaySwitch"
-        android:layout_alignStart="@+id/pmHalfHolidaySwitch"/>
+        android:layout_alignStart="@+id/pmHalfHolidaySwitch"
+        android:layout_marginTop="2dp" />
 </RelativeLayout>

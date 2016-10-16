@@ -171,11 +171,12 @@ public class ListViewFragment extends Fragment {
                     final String yearStr  = dateTextView.getText().toString().substring(0, 4);
                     final String monthStr = dateTextView.getText().toString().substring(5, 7);
 
+                    //年月yyyy-MM
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(yearStr);
                     buffer.append("-");
                     buffer.append(monthStr);
-
+                    //appp名年月time_record_yyyyMM
                     StringBuffer buffer_t = new StringBuffer();
                     buffer_t.append("time_record_");
                     buffer_t.append(yearStr);
@@ -192,7 +193,7 @@ public class ListViewFragment extends Fragment {
                     rowHeader.setBackgroundResource(R.drawable.row_head);
 
                     List<HashMap<String, String>> editResultList = new ArrayList<HashMap<String, String>>();
-                    TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
+                    TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db, buffer.toString());
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
                         if (helper.isTarMonthTable(db, buffer_t.toString())) {
@@ -289,7 +290,7 @@ public class ListViewFragment extends Fragment {
         }
 
         //OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
-        TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
+        TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db ,timeUtil.getCurrentYearMonthHyphen());
         try {
             onloadResultList = task.execute(timeUtil.getCurrentTableName().toString()).get();
             if(onloadResultList.size() == 0){

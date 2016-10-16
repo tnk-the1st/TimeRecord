@@ -10,8 +10,8 @@
                     <corners android:radius="3dp"/>
                     <gradient
                         android:angle="90"
-                        android:endColor="#606060"
-                        android:startColor="#323232" />
+                        android:endColor="#0092D6"
+                        android:startColor="#4A56F9" />
                 </shape>
             </item>
         </layer-list>
@@ -26,8 +26,8 @@
                     <corners android:radius="3dp"/>
                     <gradient
                         android:angle="90"
-                        android:endColor="#606060"
-                        android:startColor="#323232" />
+                        android:endColor="#C4C4C4"
+                        android:startColor="#EAEAEA" />
                 </shape>
             </item>
         </layer-list>

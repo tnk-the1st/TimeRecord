@@ -141,7 +141,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targMonthTable テーブル名
      */
     public void createMonthTable(SQLiteDatabase db,String targMonthTable) {
-        /*final Cursor cursor =*/
         try {
             db.execSQL("CREATE TABLE " + targMonthTable + TABLE_COLUMN_NAME);
         } catch (SQLException e) {

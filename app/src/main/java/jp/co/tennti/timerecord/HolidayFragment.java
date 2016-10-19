@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
-import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
@@ -69,41 +67,6 @@ public class HolidayFragment extends Fragment {
         DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        final Typeface meiryoType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
-        /************ 有給関連スイッチ start ************/
-        allHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.allHolidaySwitch);
-        allHolidaySwitch.setTypeface(meiryoType);
-        amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.amHalfHolidaySwitch);
-        amHalfHolidaySwitch.setTypeface(meiryoType);
-        pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)view.findViewById(R.id.pmHalfHolidaySwitch);
-        pmHalfHolidaySwitch.setTypeface(meiryoType);
-        // リスナーをボタンに登録
-        allHolidaySwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //allHolidaySwitch.setChecked(true);
-                amHalfHolidaySwitch.setChecked(false);
-                pmHalfHolidaySwitch.setChecked(false);
-            }
-        });
-        amHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allHolidaySwitch.setChecked(false);
-                //amHalfHolidaySwitch.setChecked(true);
-                pmHalfHolidaySwitch.setChecked(false);
-            }
-        });
-        pmHalfHolidaySwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allHolidaySwitch.setChecked(false);
-                amHalfHolidaySwitch.setChecked(false);
-                //pmHalfHolidaySwitch.setChecked(true);
-            }
-        });
-        /************ 有給関連スイッチ end ************/
 
         /************ ボタン設定 start ************/
         // ボタンを設定

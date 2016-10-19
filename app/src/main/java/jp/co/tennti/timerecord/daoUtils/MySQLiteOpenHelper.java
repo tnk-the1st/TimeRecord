@@ -118,9 +118,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targetMonthTable テーブル名
      * @return int exitFlag 判定結果
      */
-    public int countTargetMonthData(SQLiteDatabase db,String targetMonthTable) {
+    public int countTargetMonthData(SQLiteDatabase db,String targetTable,String targetMonth) {
         int tableDataNum = 0;
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+targetMonthTable+" ORDER BY basic_date LIMIT 31;",  new String[]{});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+targetTable+" WHERE basic_date LIKE \""+targetMonth+"%\";",  new String[]{});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("1")){

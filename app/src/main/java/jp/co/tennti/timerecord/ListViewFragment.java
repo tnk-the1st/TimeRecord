@@ -180,7 +180,7 @@ public class ListViewFragment extends Fragment {
                     StringBuffer buffer_t = new StringBuffer();
                     buffer_t.append("time_record_");
                     buffer_t.append(yearStr);
-                    buffer_t.append(monthStr);
+                    //buffer_t.append(monthStr);
 
                     /**一覧レイアウト**/
                     final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
@@ -198,9 +198,12 @@ public class ListViewFragment extends Fragment {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
                         if (helper.isTargetTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
-                            if ( helper.countTargetMonthData(db,buffer_t.toString()) == 0 ) {
+                            if(editResultList.size() == 0){
                                 editResultList = GeneralUtils.createblankTable(buffer.toString());
                             }
+                            /*if ( helper.countTargetMonthData(db , buffer_t.toString() , buffer.toString()) == 0 ) {
+                                editResultList = GeneralUtils.createblankTable(buffer.toString());
+                            }*/
                         } else {
                             editResultList = GeneralUtils.createblankTable(buffer.toString());
                         }
@@ -280,8 +283,6 @@ public class ListViewFragment extends Fragment {
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
 
         if(!helper.isTargetTable(db, timeUtil.getCurrentTableName().toString())){
-            //perCountButton.setEnabled(false);
-            //perCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
             onloadResultList = GeneralUtils.createblankTable(timeUtil.getCurrentYearMonthHyphen());
             ListViewUtils lv = new ListViewUtils(getContext());
             totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(onloadResultList,mTableLayoutList));
@@ -289,7 +290,6 @@ public class ListViewFragment extends Fragment {
             return view;
         }
 
-        //OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
         TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db ,timeUtil.getCurrentYearMonthHyphen());
         try {
             onloadResultList = task.execute(timeUtil.getCurrentTableName().toString()).get();

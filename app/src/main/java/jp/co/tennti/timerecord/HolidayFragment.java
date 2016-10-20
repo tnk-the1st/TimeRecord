@@ -2,7 +2,6 @@ package jp.co.tennti.timerecord;
 
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -35,9 +34,6 @@ public class HolidayFragment extends Fragment {
     private static ImageButton allHolidayRegistrButton = null;
     private static ImageButton amHolidayRegistrButton = null;
     private static ImageButton pmHolidayRegistrButton = null;
-    private static android.support.v7.widget.SwitchCompat allHolidaySwitch    = null;
-    private static android.support.v7.widget.SwitchCompat amHalfHolidaySwitch = null;
-    private static android.support.v7.widget.SwitchCompat pmHalfHolidaySwitch = null;
 
 
     @Override
@@ -86,7 +82,7 @@ public class HolidayFragment extends Fragment {
             amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
             pmHolidayRegistrButton.setEnabled(false);
             pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
-            final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+/*            final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
             try {
                 if(cursor != null && cursor.moveToNext()){
                     cursor.moveToFirst();
@@ -105,7 +101,7 @@ public class HolidayFragment extends Fragment {
                 Log.e("SQLException SELECT", e.toString());
             } finally {
                 cursor.close();
-            }
+            }*/
         }
         /************ ボタン設定 end ************/
 
@@ -198,9 +194,9 @@ public class HolidayFragment extends Fragment {
                 amHolidayRegistrButton.setColorFilter(null);
                 pmHolidayRegistrButton.setEnabled(true);
                 pmHolidayRegistrButton.setColorFilter(null);
-                allHolidaySwitch.setChecked(false);
+/*                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
-                pmHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);*/
             }
         });
         /************ 制御ボタン end ************/
@@ -312,18 +308,18 @@ public class HolidayFragment extends Fragment {
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
         /************ 休暇関連スイッチ ************/
-        allHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.allHolidaySwitch);
-        allHolidaySwitch.setOnClickListener(null);
+        //allHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.allHolidaySwitch);
+        /*allHolidaySwitch.setOnClickListener(null);
         allHolidaySwitch.setTypeface(null);
-        allHolidaySwitch = null;
-        amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.amHalfHolidaySwitch);
-        amHalfHolidaySwitch.setOnClickListener(null);
+        allHolidaySwitch = null;*/
+        //amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.amHalfHolidaySwitch);
+        /*amHalfHolidaySwitch.setOnClickListener(null);
         amHalfHolidaySwitch.setTypeface(null);
-        amHalfHolidaySwitch = null;
-        pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
-        pmHalfHolidaySwitch.setOnClickListener(null);
+        amHalfHolidaySwitch = null;*/
+        //pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
+        /*pmHalfHolidaySwitch.setOnClickListener(null);
         pmHalfHolidaySwitch.setTypeface(null);
-        pmHalfHolidaySwitch = null;
+        pmHalfHolidaySwitch = null;*/
 
         BitmapUtils.cleanupView(getView());
     }
@@ -378,7 +374,7 @@ public class HolidayFragment extends Fragment {
                 amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
                 pmHolidayRegistrButton.setEnabled(false);
                 pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
-                if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
+                /*if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
                     allHolidaySwitch.setChecked(true);
                 }
                 if (holidayFlag.equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
@@ -386,7 +382,7 @@ public class HolidayFragment extends Fragment {
                 }
                 if (holidayFlag.equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
                     pmHalfHolidaySwitch.setChecked(true);
-                }
+                }*/
                 // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                 Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
             }  catch (SQLException ex) {

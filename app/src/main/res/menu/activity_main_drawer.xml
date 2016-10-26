@@ -30,6 +30,10 @@
                 android:id="@+id/account_choice"
                 android:icon="@drawable/fi_shuffle"
                 android:title="@string/account_choice" />
+            <item
+                android:id="@+id/csv_export"
+                android:icon="@drawable/fi_page_export_csv"
+                android:title="@string/csv_export" />
             <item android:title="" />
             <item android:title="" />
             <item

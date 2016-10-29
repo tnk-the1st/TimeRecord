@@ -1,6 +1,10 @@
 package jp.co.tennti.timerecord.commonUtils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -13,11 +17,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import jp.co.tennti.timerecord.contacts.Constants;
+import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 /**
  * Created by TENNTI on 2016/04/20.
@@ -428,5 +435,60 @@ public class GeneralUtils {
         return bitmap;
         */
 
+    }
+
+    /**
+     * CSVファイルをSDCard 内に出力(Android 用)
+     * @param  String fileName ファイル名
+     * @return String ファイルまでの絶対パス
+     */
+    public static final void exportCSV(Activity activity) {
+        try {
+            final TimeUtils timeUtil = new TimeUtils();
+            //出力先を作成する
+            FileWriter fw  = new FileWriter( Constants.DB_DIRECTORY+timeUtil.getCurrentTableName().toString()+".csv" , false);
+            PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
+            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity.getApplicationContext());
+            final SQLiteDatabase db         = helper.getWritableDatabase();
+            Cursor cursor                   = MySQLiteOpenHelper.getCurrentList(db, timeUtil.getCurrentTableName().toString());
+            if (cursor != null) {
+                int startPosition = cursor.getPosition(); // Cursorをいじる前に現在のPositionを一旦変数に保持
+                if (cursor.moveToFirst()) {
+                    String[] columnNames = cursor.getColumnNames();
+                    int length = columnNames.length;
+                    for (int i = 0; i < length; i++) {
+                        pw.print(columnNames[i]);
+                        if( i != length-1 ){
+                            pw.print(",");
+                        }
+                    }
+                    pw.println();
+                    do {
+                        for (int i = 0; i < length; i++) {
+                            String columnValue;
+                            try {
+                                columnValue = cursor.getString(i);
+                                pw.print(columnValue);
+                                if( i != length-1 ){
+                                    pw.print(",");
+                                }
+                            } catch (SQLiteException e) {
+                                Log.e("SQLiteException", e.toString());
+                            }
+                        }
+                        pw.println();
+                    } while (cursor.moveToNext());
+                }
+                cursor.moveToPosition(startPosition); // Cursorをいじり終わったら元のPositionに戻してあげる
+            }
+            db.close();
+            //ファイルに書き出す
+            pw.close();
+            //終了メッセージを画面に出力する
+            //System.out.println("出力が完了しました。");
+        } catch (IOException e) {
+            //例外時処理
+            Log.e("IOException", e.toString());
+        }
     }
 }

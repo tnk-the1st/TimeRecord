@@ -156,6 +156,10 @@ public class MainActivity extends AppCompatActivity
             GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
             go2.chooseAccount("out");
         }
+        if (id == R.id.csv_export) {
+            GeneralUtils.exportCSV(MainActivity.this);
+            //transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
+        }
         if (id == R.id.oauth_file) {
             new AlertDialog.Builder(this)
                     .setTitle("確認ダイアログ")

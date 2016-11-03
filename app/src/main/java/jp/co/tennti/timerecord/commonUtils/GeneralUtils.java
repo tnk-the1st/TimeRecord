@@ -439,18 +439,25 @@ public class GeneralUtils {
 
     /**
      * CSVファイルをSDCard 内に出力(Android 用)
-     * @param  String fileName ファイル名
+     * @param  String tableName 対象テーブル名
      * @return String ファイルまでの絶対パス
      */
-    public static final void exportCSV(Activity activity) {
+    public static final void exportCSV(Activity activity , String tableName) {
         try {
             final TimeUtils timeUtil = new TimeUtils();
+            if (tableName.isEmpty()) {
+                tableName = timeUtil.getCurrentTableName().toString();
+            }
             //出力先を作成する
-            FileWriter fw  = new FileWriter( Constants.DB_DIRECTORY+timeUtil.getCurrentTableName().toString()+".csv" , false);
+            FileWriter fw  = new FileWriter( Constants.DB_DIRECTORY + tableName +".csv" , false);
             PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
             final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity.getApplicationContext());
             final SQLiteDatabase db         = helper.getWritableDatabase();
-            Cursor cursor                   = MySQLiteOpenHelper.getCurrentList(db, timeUtil.getCurrentTableName().toString());
+            Cursor cursor                   = MySQLiteOpenHelper.getCurrentList(db, tableName);
+            if(cursor == null){
+                pw.print("basic_date,leaving_date,overtime,week,holiday_flag,user_cd");
+                pw.close();
+            }
             if (cursor != null) {
                 int startPosition = cursor.getPosition(); // Cursorをいじる前に現在のPositionを一旦変数に保持
                 if (cursor.moveToFirst()) {
@@ -490,5 +497,23 @@ public class GeneralUtils {
             //例外時処理
             Log.e("IOException", e.toString());
         }
+    }
+
+    /**
+     * SDCard 内のCSVファイルを削除(Android 用)
+     * @param  String tableName 対象テーブル名
+     * @return String ファイルまでの絶対パス
+     */
+    public static final void deleteCSV(String tableName) {
+            final TimeUtils timeUtil = new TimeUtils();
+            if (tableName.isEmpty()) {
+                tableName = timeUtil.getCurrentTableName().toString();
+            }
+            //出力先を作成する
+            File file  = new File( Constants.DB_DIRECTORY + tableName +".csv");
+            if (file.exists()) {
+                file.delete();
+            }
+        return;
     }
 }

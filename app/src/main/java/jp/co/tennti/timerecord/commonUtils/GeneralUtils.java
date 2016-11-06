@@ -448,8 +448,11 @@ public class GeneralUtils {
             if (tableName.isEmpty()) {
                 tableName = timeUtil.getCurrentTableName().toString();
             }
+            if (!new File(Constants.CSV_DIRECTORY).exists()) {
+                new File(Constants.CSV_DIRECTORY).mkdirs();
+            }
             //出力先を作成する
-            FileWriter fw  = new FileWriter( Constants.DB_DIRECTORY + tableName +".csv" , false);
+            FileWriter fw  = new FileWriter( Constants.CSV_DIRECTORY + tableName +".csv" , false);
             PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
             final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity.getApplicationContext());
             final SQLiteDatabase db         = helper.getWritableDatabase();
@@ -514,6 +517,17 @@ public class GeneralUtils {
             if (file.exists()) {
                 file.delete();
             }
+        return;
+    }
+
+    /**
+     * SDCard 内のCSVフォルダを削除(Android 用)
+     * @return String ファイルまでの絶対パス
+     */
+    public static final void deleteDirCSV() {
+        if (!new File(Constants.CSV_DIRECTORY).exists()) {
+            new File(Constants.CSV_DIRECTORY).delete();
+        }
         return;
     }
 }

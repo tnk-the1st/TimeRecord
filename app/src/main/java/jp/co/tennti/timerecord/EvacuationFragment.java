@@ -38,10 +38,6 @@ public class EvacuationFragment extends Fragment {
     AlertDialog.Builder builder_d = null;
     AlertDialog.Builder builder_t = null;
     View datePickerView           = null;
-    View timePickerView           = null;
-    android.support.v7.widget.SwitchCompat allHolidaySwitch       = null;
-    android.support.v7.widget.SwitchCompat amHalfHolidaySwitch    = null;
-    android.support.v7.widget.SwitchCompat pmHalfHolidaySwitch    = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +48,7 @@ public class EvacuationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** font 指定 */
         final Typeface meiryobType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryob_first_level.zip");
-        final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
+        //final Typeface meiryoType  = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
 
         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity().getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
@@ -96,8 +92,8 @@ public class EvacuationFragment extends Fragment {
         dateTextView = (TextView)view.findViewById(R.id.editDateTextView);
         dateTextView.setText(timeUtil.getCurrentYearJaCal());
         dateTextView.setTypeface(meiryobType);
-        dateTextView.setTextColor(Color.BLACK);
-        dateTextView.setTextSize(18);
+        dateTextView.setTextColor(Color.LTGRAY);
+        dateTextView.setTextSize(22);
 
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,8 +150,8 @@ public class EvacuationFragment extends Fragment {
 
         /************ 退避ボタン start ************/
         // ボタンを設定
-        final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.timeCountButton);
-        timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_edit_times_day_switch));
+        final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.evacuationButton);
+        timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_evacuation_switch));
         // リスナーをボタンに登録
         timeCountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,10 +172,10 @@ public class EvacuationFragment extends Fragment {
 
         /************ 削除ボタン start ************/
         // ボタンを設定
-        final ImageButton deleteButton = (ImageButton)view.findViewById(R.id.deleteButtonEdit);
+        final ImageButton deleteButton = (ImageButton)view.findViewById(R.id.deleteButtonEvacuation);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
-        deleteButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_switch));
+        deleteButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_evacuation_switch));
 
         // リスナーをボタンに登録
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -193,21 +189,21 @@ public class EvacuationFragment extends Fragment {
                 final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
                 final TimeUtils timeUtil = new TimeUtils();
 
-                alertDialogBuilder.setMessage(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString())+"のデータ削除を行いますがよろしいですか。");
+                alertDialogBuilder.setMessage(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString())+"年のデータ削除を行いますがよろしいですか。");
                 // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
                 alertDialogBuilder.setNeutralButton("実行",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        TimeUtils timeUtil = new TimeUtils();
-                                        final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
-                                        StringBuffer builder = new StringBuffer();
-                                        builder.append("time_record_");
-                                        builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
-                                        GeneralUtils.deleteCSV(builder.toString());
-                                        Toast.makeText(getActivity(), dateTextViewTemp.getText().toString() + "のデータを削除しました", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TimeUtils timeUtil = new TimeUtils();
+                                final TextView dateTextViewTemp = (TextView) view.findViewById(R.id.editDateTextView);
+                                StringBuffer builder = new StringBuffer();
+                                builder.append("time_record_");
+                                builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
+                                GeneralUtils.deleteCSV(builder.toString());
+                                Toast.makeText(getActivity(), dateTextViewTemp.getText().toString() + "年のデータを削除しました", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                          alertDialogBuilder.setNegativeButton(
                                  "CANCEL", new DialogInterface.OnClickListener() {
                                      @Override
@@ -222,6 +218,46 @@ public class EvacuationFragment extends Fragment {
             }
         });
         /************ 削除ボタン end ************/
+
+        /************ 全削除ボタン start ************/
+        // ボタンを設定
+        final ImageButton deleteDirButton = (ImageButton)view.findViewById(R.id.deleteDirButtonEvacuation);
+        deleteDirButton.setImageBitmap(null);
+        deleteDirButton.setImageDrawable(null);
+        deleteDirButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_evacuation_switch));
+        // リスナーをボタンに登録
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ダイアログの生成
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                // アラートダイアログのタイトルを設定します
+                alertDialogBuilder.setTitle("指定日削除ダイアログ");
+                // アラートダイアログのメッセージを設定します
+                alertDialogBuilder.setMessage("CSVフォルダの削除を行いますがよろしいですか。");
+                // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+                alertDialogBuilder.setNeutralButton("実行",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GeneralUtils.deleteDirCSV();
+                                Toast.makeText(getActivity(), "CSVフォルダを削除しました", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                alertDialogBuilder.setNegativeButton(
+                        "CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                // アラートダイアログのキャンセルが可能かどうかを設定します
+                alertDialogBuilder.setCancelable(true);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // アラートダイアログを表示します
+                alertDialog.show();
+            }
+        });
+        /************ 全削除ボタン end ************/
         return view;
     }
     /***
@@ -247,20 +283,23 @@ public class EvacuationFragment extends Fragment {
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
         /************ 登録ボタン ************/
-        ImageButton timeCountButton = (ImageButton)getActivity().findViewById(R.id.timeCountButton);
+        ImageButton timeCountButton = (ImageButton)getActivity().findViewById(R.id.evacuationButton);
         timeCountButton.setImageDrawable(null);
         timeCountButton.setImageBitmap(null);
         timeCountButton.setOnClickListener(null);
         /************ 削除ボタン ************/
-        ImageButton deleteButton = (ImageButton)getActivity().findViewById(R.id.deleteButtonEdit);
+        ImageButton deleteButton = (ImageButton)getActivity().findViewById(R.id.deleteButtonEvacuation);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
         deleteButton.setOnClickListener(null);
+        /************ 全削除ボタン ************/
+        ImageButton deleteDirButton = (ImageButton)getActivity().findViewById(R.id.deleteDirButtonEvacuation);
+        deleteDirButton.setImageBitmap(null);
+        deleteDirButton.setImageDrawable(null);
+        deleteDirButton.setOnClickListener(null);
 
         datePickerView.setOnClickListener(null);
         datePickerView = null;
-        timePickerView.setOnClickListener(null);
-        timePickerView = null;
         dateTextView = null;
         timeTextView = null;
         builder_d = null;

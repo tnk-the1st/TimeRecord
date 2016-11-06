@@ -18,46 +18,35 @@
         android:textColor="#FFFFFF"
         android:layout_gravity="left|center_vertical"
         android:gravity="center"
-        android:layout_above="@+id/timeCountButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="75dp" />
+        android:layout_above="@+id/evacuationButton"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/timeCountButton"
+        android:id="@+id/evacuationButton"
         android:background="#00000000"
         android:scaleType="fitXY"
-        android:layout_above="@+id/controlButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/controlButton"
-        android:background="#00000000"
-        android:scaleType="fitXY"
-        android:layout_marginBottom="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/timeCountButton" />
-
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/deleteButtonEdit"
+        android:id="@+id/deleteButtonEvacuation"
         android:background="#00000000"
         android:scaleType="fitCenter"
-        android:layout_alignTop="@+id/updateButtonEdit"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/editDateTextView"
+        android:layout_marginBottom="60dp" />
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/updateButtonEdit"
+        android:id="@+id/deleteDirButtonEvacuation"
         android:background="#00000000"
-        android:scaleType="fitXY"
-        android:layout_alignTop="@+id/controlButton"
-        android:layout_toEndOf="@+id/deleteButtonEdit" />
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/deleteButtonEvacuation"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -21,11 +21,13 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
     ProgressDialog dialog;
     Context context;
     SQLiteDatabase db;
+    String targetDate;
     List<HashMap<String, String>> listMap = new ArrayList<HashMap<String, String>>();
 
-    public TargetListAsyncTask(Context context, SQLiteDatabase db) {
+    public TargetListAsyncTask(Context context, SQLiteDatabase db, String targetDate) {
         this.context = context;
         this.db = db;
+        this.targetDate = targetDate;
     }
 
     Cursor cursor = null;
@@ -45,8 +47,9 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
             db.beginTransaction();
             cursor = db.rawQuery("SELECT basic_date,leaving_date,overtime,week,holiday_flag FROM "
                     + paramsTableName[0] +
-                    " ORDER BY basic_date LIMIT 31;", new String[]{});
+                    " WHERE basic_date LIKE \""+this.targetDate+"%\" ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
+            //System.out.println(this.targetDate);
         } catch (SQLException e) {
             Log.e("SQLException SELECT", e.toString());
         } finally {

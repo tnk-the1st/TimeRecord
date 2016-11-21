@@ -15,14 +15,14 @@ import jp.co.tennti.timerecord.commonUtils.TimeUtils;
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String DB_DIRECTORY = Environment.getExternalStorageDirectory() + "/time_record/db/";
-    private static final String DB_NAME = DB_DIRECTORY + "time_record_db.db";
-    static final int DB_VERSION = 1;
+    private static final String DB_NAME      = DB_DIRECTORY + "time_record_db.db";
+    static final int DB_VERSION              = 1;
     private static final String TABLE_COLUMN_NAME = "( basic_date text not null primary key ," +
-            " leaving_date text not null ," +
-            " overtime text ," +
-            " week text ," +
-            " holiday_flag text ," +
-            " user_cd text);";
+                                                    " leaving_date text not null ," +
+                                                    " overtime text ," +
+                                                    " week text ," +
+                                                    " holiday_flag text ," +
+                                                    " user_cd text);";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -55,7 +55,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         finally {
             cursor.close();
         }
-        //db.execSQL("create table person(" + " name text not null," + "age text" + ");");
     }
 
     @Override
@@ -96,9 +95,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targetMonthTable テーブル名
      * @return boolean exitFlag 判定結果
      */
-    public boolean isTarMonthTable(SQLiteDatabase db,String targetMonthTable) {
+    public boolean isTargetTable(SQLiteDatabase db, String targetTable) {
         boolean exitFlag = false;
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targetMonthTable});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{targetTable});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("1")){
@@ -119,9 +118,9 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targetMonthTable テーブル名
      * @return int exitFlag 判定結果
      */
-    public int countTargetMonthData(SQLiteDatabase db,String targetMonthTable) {
+    public int countTargetMonthData(SQLiteDatabase db,String targetTable,String targetMonth) {
         int tableDataNum = 0;
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+targetMonthTable+" ORDER BY basic_date LIMIT 31;",  new String[]{});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+targetTable+" WHERE basic_date LIKE \""+targetMonth+"%\";",  new String[]{});
         try {
             cursor.moveToFirst();
             if(cursor.getString(0).equals("1")){
@@ -141,7 +140,6 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
      * @param  String targMonthTable テーブル名
      */
     public void createMonthTable(SQLiteDatabase db,String targMonthTable) {
-        /*final Cursor cursor =*/
         try {
             db.execSQL("CREATE TABLE " + targMonthTable + TABLE_COLUMN_NAME);
         } catch (SQLException e) {
@@ -168,5 +166,28 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return exitFlag;
+    }
+
+    /**
+     * 対象年のテーブルデータを取得する。
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String tagetTableName テーブル名
+     * @param  Cursor cursor データ結果の構造
+     */
+    public static Cursor getCurrentList(SQLiteDatabase db ,String tagetTableName ) {
+        Cursor cursor = null;
+        try {
+            db.beginTransaction();
+            cursor = db.rawQuery("SELECT * FROM "
+                    + tagetTableName +
+                    ";", new String[]{});
+            // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
+            //System.out.println(cursor.getCount());
+        } catch (SQLException e) {
+            Log.e("SQLException SELECT", e.toString());
+        } finally {
+            db.endTransaction();
+        }
+        return cursor;
     }
 }

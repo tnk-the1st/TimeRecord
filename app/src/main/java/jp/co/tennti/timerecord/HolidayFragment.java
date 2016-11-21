@@ -2,14 +2,12 @@ package jp.co.tennti.timerecord;
 
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -20,12 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
-import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
@@ -38,9 +34,6 @@ public class HolidayFragment extends Fragment {
     private static ImageButton allHolidayRegistrButton = null;
     private static ImageButton amHolidayRegistrButton = null;
     private static ImageButton pmHolidayRegistrButton = null;
-    private static Switch allHolidaySwitch    = null;
-    private static Switch amHalfHolidaySwitch = null;
-    private static Switch pmHalfHolidaySwitch = null;
 
 
     @Override
@@ -61,7 +54,7 @@ public class HolidayFragment extends Fragment {
         if(mainImage != null){
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.fleet_kirishima);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
@@ -71,24 +64,14 @@ public class HolidayFragment extends Fragment {
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        final Typeface meiryoType = FontUtils.getTypefaceFromAssetsZip(getContext(),"font/meiryo_first_level.zip");
-        /************ 有給関連スイッチ start ************/
-        allHolidaySwitch = (Switch)view.findViewById(R.id.holidaySwitch);
-        allHolidaySwitch.setTypeface(meiryoType);
-        amHalfHolidaySwitch = (Switch)view.findViewById(R.id.amHalfHolidaySwitch);
-        amHalfHolidaySwitch.setTypeface(meiryoType);
-        pmHalfHolidaySwitch = (Switch)view.findViewById(R.id.pmHalfHolidaySwitch);
-        pmHalfHolidaySwitch.setTypeface(meiryoType);
-        /************ 有給関連スイッチ end ************/
-
         /************ ボタン設定 start ************/
         // ボタンを設定
         allHolidayRegistrButton = (ImageButton)view.findViewById(R.id.allHolidayRegistrButton);
         amHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.amHolidayRegistrButton);
         pmHolidayRegistrButton  = (ImageButton)view.findViewById(R.id.pmHolidayRegistrButton);
-        allHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
-        amHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
-        pmHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_times_day_switch));
+        allHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_allholiday));
+        amHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_amhalfholiday));
+        pmHolidayRegistrButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_pmhalfholiday));
 
 
         /** 初期表示時にボタンを非活性にする判定**/
@@ -99,7 +82,7 @@ public class HolidayFragment extends Fragment {
             amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
             pmHolidayRegistrButton.setEnabled(false);
             pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
-            final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
+/*            final Cursor cursor = db.rawQuery("SELECT * FROM "+timeUtil.getCurrentTableName()+" WHERE basic_date = ?", new String[]{timeUtil.getCurrentYearMonthDay()});
             try {
                 if(cursor != null && cursor.moveToNext()){
                     cursor.moveToFirst();
@@ -118,7 +101,7 @@ public class HolidayFragment extends Fragment {
                 Log.e("SQLException SELECT", e.toString());
             } finally {
                 cursor.close();
-            }
+            }*/
         }
         /************ ボタン設定 end ************/
 
@@ -211,9 +194,9 @@ public class HolidayFragment extends Fragment {
                 amHolidayRegistrButton.setColorFilter(null);
                 pmHolidayRegistrButton.setEnabled(true);
                 pmHolidayRegistrButton.setColorFilter(null);
-                allHolidaySwitch.setChecked(false);
+/*                allHolidaySwitch.setChecked(false);
                 amHalfHolidaySwitch.setChecked(false);
-                pmHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);*/
             }
         });
         /************ 制御ボタン end ************/
@@ -325,18 +308,18 @@ public class HolidayFragment extends Fragment {
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
         /************ 休暇関連スイッチ ************/
-        allHolidaySwitch = (Switch)getActivity().findViewById(R.id.holidaySwitch);
-        allHolidaySwitch.setOnClickListener(null);
+        //allHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.allHolidaySwitch);
+        /*allHolidaySwitch.setOnClickListener(null);
         allHolidaySwitch.setTypeface(null);
-        allHolidaySwitch = null;
-        amHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.amHalfHolidaySwitch);
-        amHalfHolidaySwitch.setOnClickListener(null);
+        allHolidaySwitch = null;*/
+        //amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.amHalfHolidaySwitch);
+        /*amHalfHolidaySwitch.setOnClickListener(null);
         amHalfHolidaySwitch.setTypeface(null);
-        amHalfHolidaySwitch = null;
-        pmHalfHolidaySwitch = (Switch)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
-        pmHalfHolidaySwitch.setOnClickListener(null);
+        amHalfHolidaySwitch = null;*/
+        //pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
+        /*pmHalfHolidaySwitch.setOnClickListener(null);
         pmHalfHolidaySwitch.setTypeface(null);
-        pmHalfHolidaySwitch = null;
+        pmHalfHolidaySwitch = null;*/
 
         BitmapUtils.cleanupView(getView());
     }
@@ -391,7 +374,7 @@ public class HolidayFragment extends Fragment {
                 amHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
                 pmHolidayRegistrButton.setEnabled(false);
                 pmHolidayRegistrButton.setColorFilter(Color.argb(100, 0, 0, 0));
-                if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
+                /*if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
                     allHolidaySwitch.setChecked(true);
                 }
                 if (holidayFlag.equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
@@ -399,7 +382,7 @@ public class HolidayFragment extends Fragment {
                 }
                 if (holidayFlag.equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
                     pmHalfHolidaySwitch.setChecked(true);
-                }
+                }*/
                 // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                 Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
             }  catch (SQLException ex) {

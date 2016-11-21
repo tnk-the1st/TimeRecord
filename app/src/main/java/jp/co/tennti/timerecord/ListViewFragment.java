@@ -76,7 +76,7 @@ public class ListViewFragment extends Fragment {
         if (mainImage != null) {
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resM, R.mipmap.list_disp_all);
+        mainImage = BitmapFactory.decodeResource(resM, R.mipmap.fleet_kongou_all);
         ImageView imgView = (ImageView) view.findViewById(R.id.listImageView);
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
@@ -171,15 +171,16 @@ public class ListViewFragment extends Fragment {
                     final String yearStr  = dateTextView.getText().toString().substring(0, 4);
                     final String monthStr = dateTextView.getText().toString().substring(5, 7);
 
+                    //年月yyyy-MM
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(yearStr);
                     buffer.append("-");
                     buffer.append(monthStr);
-
+                    //appp名年月time_record_yyyyMM
                     StringBuffer buffer_t = new StringBuffer();
                     buffer_t.append("time_record_");
                     buffer_t.append(yearStr);
-                    buffer_t.append(monthStr);
+                    //buffer_t.append(monthStr);
 
                     /**一覧レイアウト**/
                     final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
@@ -192,14 +193,17 @@ public class ListViewFragment extends Fragment {
                     rowHeader.setBackgroundResource(R.drawable.row_head);
 
                     List<HashMap<String, String>> editResultList = new ArrayList<HashMap<String, String>>();
-                    TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
+                    TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db, buffer.toString());
                     try {
                         final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(getActivity());
-                        if (helper.isTarMonthTable(db, buffer_t.toString())) {
+                        if (helper.isTargetTable(db, buffer_t.toString())) {
                             editResultList = task.execute(buffer_t.toString()).get();
-                            if ( helper.countTargetMonthData(db,buffer_t.toString()) == 0 ) {
+                            if(editResultList.size() == 0){
                                 editResultList = GeneralUtils.createblankTable(buffer.toString());
                             }
+                            /*if ( helper.countTargetMonthData(db , buffer_t.toString() , buffer.toString()) == 0 ) {
+                                editResultList = GeneralUtils.createblankTable(buffer.toString());
+                            }*/
                         } else {
                             editResultList = GeneralUtils.createblankTable(buffer.toString());
                         }
@@ -278,9 +282,7 @@ public class ListViewFragment extends Fragment {
         /**一覧レイアウト**/
         final TableLayout mTableLayoutList = (TableLayout) view.findViewById(R.id.tableLayoutList);
 
-        if(!helper.isTarMonthTable(db,timeUtil.getCurrentTableName().toString())){
-            //perCountButton.setEnabled(false);
-            //perCountButton.setColorFilter(Color.argb(100, 0, 0, 0));
+        if(!helper.isTargetTable(db, timeUtil.getCurrentTableName().toString())){
             onloadResultList = GeneralUtils.createblankTable(timeUtil.getCurrentYearMonthHyphen());
             ListViewUtils lv = new ListViewUtils(getContext());
             totalText.setText(Constants.TOTAL_OVERTIME_LABEL + lv.createTableRow(onloadResultList,mTableLayoutList));
@@ -288,8 +290,7 @@ public class ListViewFragment extends Fragment {
             return view;
         }
 
-        //OnloadListAsyncTask task = new OnloadListAsyncTask(getActivity(), db);
-        TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db);
+        TargetListAsyncTask task = new TargetListAsyncTask(getActivity(), db ,timeUtil.getCurrentYearMonthHyphen());
         try {
             onloadResultList = task.execute(timeUtil.getCurrentTableName().toString()).get();
             if(onloadResultList.size() == 0){

@@ -3,14 +3,10 @@ package jp.co.tennti.timerecord;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.Date;
 
@@ -28,7 +24,7 @@ public class DatePickerDiaFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.date_picker_dia, container,false);
 
-        /*DatePicker datePicker = (DatePicker)contentView.findViewById(R.id.datePickerDia);
+        DatePicker datePicker = (DatePicker)contentView.findViewById(R.id.datePickerDia);
         // 年を取得
         int year = datePicker.getYear();
         // 月を取得 0～11
@@ -45,7 +41,7 @@ public class DatePickerDiaFragment  extends Fragment {
         datePicker.setMinDate(minDate.getTime());
         datePicker.setMaxDate(maxDate.getTime());
         int day_id = Resources.getSystem().getIdentifier("day", "id", "android");
-        datePicker.findViewById(day_id).setVisibility(View.GONE);*/
+        datePicker.findViewById(day_id).setVisibility(View.GONE);
 
         return contentView;
     }

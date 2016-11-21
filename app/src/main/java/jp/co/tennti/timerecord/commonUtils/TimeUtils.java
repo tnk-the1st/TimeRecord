@@ -27,7 +27,8 @@ public class TimeUtils {
         //テーブル名作成
         StringBuffer builder = new StringBuffer();
         builder.append("time_record_");
-        builder.append(getCurrentYearAndMonth());
+        //builder.append(getCurrentYearAndMonth());
+        builder.append(getCurrentYear());
         //String CUR_TIME_TABLE_NAME =  builder.toString();
         return builder.toString();
     }
@@ -206,6 +207,24 @@ public class TimeUtils {
     }
 
     /**
+     * 現在年の取得
+     *
+     * @return 現在時刻yyyy
+     */
+    public static String getCurrentYear() {
+
+        final Calendar cal = Calendar.getInstance();
+        final int year     = cal.get(Calendar.YEAR);
+
+        final String yearStr  = String.valueOf(year);
+
+        StringBuffer builder = new StringBuffer();
+        builder.append(yearStr);
+
+        return builder.toString();
+    }
+
+    /**
      * 現在年月の取得
      *
      * @return 現在時刻yyyymm
@@ -252,6 +271,24 @@ public class TimeUtils {
     /**
      * 現在年月の取得
      *
+     * @return 現在時刻yyyy年
+     */
+    public String getCurrentYearJaCal() {
+
+        final Calendar cal = Calendar.getInstance();
+        final int year     = cal.get(Calendar.YEAR);
+
+        final String yearStr  = String.valueOf(year);
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("年");
+
+        return  buffer.toString();
+    }
+
+    /**
+     * 現在年月の取得
+     *
      * @return 現在時刻yyyy年MM月
      */
     public String getCurrentYearMonthJaCal() {
@@ -273,7 +310,7 @@ public class TimeUtils {
     /**
      * 現在年月の取得
      *
-     * @return 現在時刻yyyy年MM月
+     * @return 現在時刻yyyy年MM月dd日
      */
     public String getCurrentYearMonthDayJaCal() {
 
@@ -431,6 +468,18 @@ public class TimeUtils {
         return buffer.toString();
     }
 
+    /**
+     * 現在年の取得
+     * @param  yyyyMM 指定日付yyyy
+     * @return 指定時刻yyyy
+     */
+    public String getTargetYYYY( String yyyyMM) {
+
+        final String yearStr  = yyyyMM.substring(0, 4);
+        StringBuffer buffer   = new StringBuffer();
+        buffer.append(yearStr);
+        return  buffer.toString();
+    }
     /**
      * 現在年月日の取得
      * @param  yyyyMM 指定日付yyyy_MM

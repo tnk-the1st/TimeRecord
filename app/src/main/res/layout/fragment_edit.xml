@@ -79,7 +79,8 @@
         android:layout_alignParentEnd="true"
         android:background="@null"
         android:thumb="@drawable/switch_thumb"
-        app:track="@drawable/switch_background"/>
+        app:track="@drawable/switch_background"
+        android:layout_marginTop="2dp"/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/pmHalfHolidaySwitchEdit"
@@ -90,7 +91,8 @@
         android:thumb="@drawable/switch_thumb"
         app:track="@drawable/switch_background"
         android:layout_below="@+id/allHolidaySwitchEdit"
-        android:layout_alignEnd="@+id/allHolidaySwitchEdit" />
+        android:layout_alignEnd="@+id/allHolidaySwitchEdit"
+        android:layout_marginTop="2dp"/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/amHalfHolidaySwitchEdit"
@@ -101,6 +103,7 @@
         android:thumb="@drawable/switch_thumb"
         app:track="@drawable/switch_background"
         android:layout_below="@+id/pmHalfHolidaySwitchEdit"
-        android:layout_alignStart="@+id/pmHalfHolidaySwitchEdit" />
+        android:layout_alignStart="@+id/pmHalfHolidaySwitchEdit"
+        android:layout_marginTop="2dp"/>
 
 </RelativeLayout>

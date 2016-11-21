@@ -17,17 +17,16 @@
         android:id="@+id/allHolidayRegistrButton"
         android:background="#00000000"
         android:scaleType="fitXY"
-        android:layout_above="@+id/amHolidayRegistrButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48dp" />
+        android:layout_above="@+id/pmHolidayRegistrButton"
+        android:layout_centerHorizontal="true" />
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/amHolidayRegistrButton"
         android:background="#00000000"
         android:scaleType="fitXY"
-        android:layout_alignTop="@+id/pmHolidayRegistrButton"
-        android:layout_alignStart="@+id/deleteButtonMain" />
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/allHolidayRegistrButton" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -35,7 +34,7 @@
         android:id="@+id/pmHolidayRegistrButton"
         android:background="#00000000"
         android:scaleType="fitXY"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/amHolidayRegistrButton"
         android:layout_alignStart="@+id/controlButton" />
 
     <ImageButton

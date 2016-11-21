@@ -271,6 +271,24 @@ public class TimeUtils {
     /**
      * 現在年月の取得
      *
+     * @return 現在時刻yyyy年
+     */
+    public String getCurrentYearJaCal() {
+
+        final Calendar cal = Calendar.getInstance();
+        final int year     = cal.get(Calendar.YEAR);
+
+        final String yearStr  = String.valueOf(year);
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(yearStr).append("年");
+
+        return  buffer.toString();
+    }
+
+    /**
+     * 現在年月の取得
+     *
      * @return 現在時刻yyyy年MM月
      */
     public String getCurrentYearMonthJaCal() {
@@ -292,7 +310,7 @@ public class TimeUtils {
     /**
      * 現在年月の取得
      *
-     * @return 現在時刻yyyy年MM月
+     * @return 現在時刻yyyy年MM月dd日
      */
     public String getCurrentYearMonthDayJaCal() {
 

@@ -70,7 +70,7 @@ public class EditFragment extends Fragment {
         if(mainImage!=null){
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.edit_disp_hiei);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.fleet_hiei);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);

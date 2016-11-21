@@ -167,4 +167,27 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         }
         return exitFlag;
     }
+
+    /**
+     * 対象年のテーブルデータを取得する。
+     * @param  SQLiteDatabase db DBアクセッサ
+     * @param  String tagetTableName テーブル名
+     * @param  Cursor cursor データ結果の構造
+     */
+    public static Cursor getCurrentList(SQLiteDatabase db ,String tagetTableName ) {
+        Cursor cursor = null;
+        try {
+            db.beginTransaction();
+            cursor = db.rawQuery("SELECT * FROM "
+                    + tagetTableName +
+                    ";", new String[]{});
+            // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
+            //System.out.println(cursor.getCount());
+        } catch (SQLException e) {
+            Log.e("SQLException SELECT", e.toString());
+        } finally {
+            db.endTransaction();
+        }
+        return cursor;
+    }
 }

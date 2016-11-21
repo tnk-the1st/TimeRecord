@@ -18,6 +18,10 @@
             android:id="@+id/holiday_content"
             android:icon="@drawable/fi_local_hotel_black"
             android:title="@string/holiday_content" />
+        <item
+            android:id="@+id/evacuation_content"
+            android:icon="@drawable/ic_perm_data_setting"
+            android:title="@string/evacuation_content" />
     </group>
 
     <item android:title="@string/nav_mid_title">
@@ -30,6 +34,10 @@
                 android:id="@+id/account_choice"
                 android:icon="@drawable/fi_shuffle"
                 android:title="@string/account_choice" />
+            <item
+                android:id="@+id/csv_export"
+                android:icon="@drawable/fi_page_export_csv"
+                android:title="@string/csv_export" />
             <item android:title="" />
             <item android:title="" />
             <item

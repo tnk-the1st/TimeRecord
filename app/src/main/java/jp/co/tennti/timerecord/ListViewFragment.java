@@ -76,7 +76,7 @@ public class ListViewFragment extends Fragment {
         if (mainImage != null) {
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resM, R.mipmap.list_disp_all);
+        mainImage = BitmapFactory.decodeResource(resM, R.mipmap.fleet_kongou_all);
         ImageView imgView = (ImageView) view.findViewById(R.id.listImageView);
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);

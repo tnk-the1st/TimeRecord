@@ -55,7 +55,7 @@ public class MainFragment extends Fragment {
         if(mainImage != null){
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.main_disp_kongou);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.fleet_kongou);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
@@ -141,8 +141,8 @@ public class MainFragment extends Fragment {
                 try {
                     final RandGeneratUtils randGenerat = new RandGeneratUtils();
                     final TimeUtils timeUtil = new TimeUtils();
-                    String overtime    = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
-                    String holidayFlag = "0";
+                    String overtime          = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
+                    String holidayFlag       = "0";
                     if (allHolidaySwitch.isChecked()) {
                         holidayFlag = Constants.ALL_DAYS_HOLIDAY_FLAG;
                         overtime    = Constants.TIME_ZERO;
@@ -155,8 +155,7 @@ public class MainFragment extends Fragment {
                         overtime    = Constants.TIME_ZERO;
                     }
                     //アカウント名取得
-                    TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
-                    System.out.println(accountName.getText().toString());
+                    TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO " + timeUtil.getCurrentTableName() + Constants.INSERT_SQL_VALUES);
                     try {
 //                        statement.bindString(1, randGenerat.get());
@@ -165,7 +164,7 @@ public class MainFragment extends Fragment {
                         statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());
                         statement.bindString(5, holidayFlag);
-                        statement.bindString(6, accountName.getText().toString());
+                        statement.bindString(6, accountCd.getText().toString());
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));

@@ -48,7 +48,8 @@
         android:layout_alignParentEnd="true"
         android:background="@null"
         android:thumb="@drawable/switch_thumb"
-        app:track="@drawable/switch_background"/>
+        app:track="@drawable/switch_background"
+        android:layout_marginTop="2dp"/>
 
     <android.support.v7.widget.SwitchCompat
         android:layout_width="wrap_content"

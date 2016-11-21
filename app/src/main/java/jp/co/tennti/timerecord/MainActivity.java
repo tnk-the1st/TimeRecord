@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         final MainFragment mainFragment         = new MainFragment();
         final EditFragment editFragment         = new EditFragment();
         final HolidayFragment holidayFragment   = new HolidayFragment();
+        final EvacuationFragment evacuationFragment   = new EvacuationFragment();
         switch (item.getItemId()) {
             case R.id.list_screen:
                 // 一覧を起動
@@ -122,6 +123,10 @@ public class MainActivity extends AppCompatActivity
                 // 休暇画面を起動
                 transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
                 break;
+            case R.id.evacuation_screen:
+                // 退避処理を起動
+                transaction.replace(R.id.fragment_main, evacuationFragment).addToBackStack(null).commit();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -136,6 +141,7 @@ public class MainActivity extends AppCompatActivity
         final ListViewFragment listViewFragment = new ListViewFragment();
         final EditFragment editFragment         = new EditFragment();
         final HolidayFragment holidayFragment   = new HolidayFragment();
+        final EvacuationFragment evacuationFragment   = new EvacuationFragment();
         if (id == R.id.main_content) {
             transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
         }
@@ -148,6 +154,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.holiday_content) {
             transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
         }
+        if (id == R.id.evacuation_content) {
+            transaction.replace(R.id.fragment_main, evacuationFragment).addToBackStack(null).commit();
+        }
         if (id == R.id.account_update) {
             GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
             go2.continueAccount("out");
@@ -155,6 +164,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.account_choice) {
             GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
             go2.chooseAccount("out");
+        }
+        if (id == R.id.csv_export) {
+            GeneralUtils.exportCSV(MainActivity.this,"");
+            //transaction.replace(R.id.fragment_main, holidayFragment).addToBackStack(null).commit();
         }
         if (id == R.id.oauth_file) {
             new AlertDialog.Builder(this)

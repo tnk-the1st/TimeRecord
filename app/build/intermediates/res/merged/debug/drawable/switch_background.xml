@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <!-- 角丸付きの黒いグラデーションの背景(Shapeで書いてみた) -->
+            <!-- item android:drawable="@color/colorPrimary" /-->
+            <item >
+                <shape>
+                    <!--size android:height="10dp"  /-->
+                    <corners android:radius="3dp"/>
+                    <gradient
+                        android:angle="90"
+                        android:endColor="#0092D6"
+                        android:startColor="#4A56F9" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <!-- 角丸付きの黒いグラデーションの背景(Shapeで書いてみた) -->
+            <!-- item android:drawable="@color/colorPrimary" /-->
+            <item>
+                <shape>
+                    <!--size android:height="10dp"  /-->
+                    <corners android:radius="3dp"/>
+                    <gradient
+                        android:angle="90"
+                        android:endColor="#C4C4C4"
+                        android:startColor="#EAEAEA" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- ボタンがONの状態 -->
+    <item
+        android:state_checked="true"
+        android:state_pressed="true"
+        android:drawable="@mipmap/switch_midstream" />
+    <!-- ボタンがONかつ押されている状態 -->
+    <item
+        android:state_checked="true"
+        android:drawable="@mipmap/switch_on" />
+    <!-- ボタンがOFFかつ押されている状態 -->
+    <item
+        android:state_checked="false"
+        android:state_pressed="true"
+        android:drawable="@mipmap/switch_midstream" />
+    <!-- ボタンがOFFの状態 -->
+    <item
+        android:state_checked="false"
+        android:drawable="@mipmap/switch_off" />
+</selector>

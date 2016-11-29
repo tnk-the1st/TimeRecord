@@ -18,15 +18,19 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.List;
 
 import jp.co.tennti.timerecord.commonUtils.BitmapUtils;
 import jp.co.tennti.timerecord.commonUtils.FontUtils;
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 
@@ -89,7 +93,7 @@ public class EvacuationFragment extends Fragment {
         datePicker.findViewById( day_id ).setVisibility( View.GONE );
         datePicker.findViewById( month_id ).setVisibility( View.GONE );
         /**データピッカー**/
-        dateTextView = (TextView)view.findViewById(R.id.editDateTextView);
+        dateTextView = (TextView)view.findViewById(R.id.evacuationDateTextView);
         dateTextView.setText(timeUtil.getCurrentYearJaCal());
         dateTextView.setTypeface(meiryobType);
         dateTextView.setTextColor(Color.LTGRAY);
@@ -146,7 +150,27 @@ public class EvacuationFragment extends Fragment {
         /**日付データ**/
         /**データピッカー**/
 
+        /************ 一覧レイアウト start ************/
+        final TableLayout csvConfirmList = (TableLayout) view.findViewById(R.id.csvConfirmList);
+        csvConfirmList.removeAllViews();
 
+        List<String> cstList = GeneralUtils.getDirCSVList();
+        for(String csvName :cstList){
+            TableRow row = new TableRow(getContext());
+            System.out.println(csvName);
+            final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
+            params.weight = 0.1f;
+            params.height = Constants.ROW_HIGHT_SIZE;
+            TextView title = new TextView(getContext());
+            title.setTextSize(10.0f);
+            title.setTextColor(Color.BLACK);
+            title.setTypeface(meiryobType);
+            title.setGravity(Constants.GRAVITY_CENTER);
+            title.setText(csvName);
+            row.addView(title, params);
+            csvConfirmList.addView(row);
+        }
+        /************ 一覧レイアウト end ************/
 
         /************ 退避ボタン start ************/
         // ボタンを設定
@@ -158,7 +182,7 @@ public class EvacuationFragment extends Fragment {
             public void onClick(View v) {
                 final TimeUtils timeUtil = new TimeUtils();
                 /**年月日**/
-                final TextView dateTextViewTemp = (TextView) view.findViewById(R.id.editDateTextView);
+                final TextView dateTextViewTemp = (TextView) view.findViewById(R.id.evacuationDateTextView);
                 StringBuffer builder = new StringBuffer();
                 builder.append("time_record_");
                 builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
@@ -186,7 +210,7 @@ public class EvacuationFragment extends Fragment {
                 // アラートダイアログのタイトルを設定します
                 alertDialogBuilder.setTitle("指定日削除ダイアログ");
                 // アラートダイアログのメッセージを設定します
-                final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.editDateTextView);
+                final TextView dateTextViewTemp = (TextView)view.findViewById(R.id.evacuationDateTextView);
                 final TimeUtils timeUtil = new TimeUtils();
 
                 alertDialogBuilder.setMessage(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString())+"年のデータ削除を行いますがよろしいですか。");
@@ -196,7 +220,7 @@ public class EvacuationFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 TimeUtils timeUtil = new TimeUtils();
-                                final TextView dateTextViewTemp = (TextView) view.findViewById(R.id.editDateTextView);
+                                final TextView dateTextViewTemp = (TextView) view.findViewById(R.id.evacuationDateTextView);
                                 StringBuffer builder = new StringBuffer();
                                 builder.append("time_record_");
                                 builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
@@ -260,6 +284,8 @@ public class EvacuationFragment extends Fragment {
         /************ 全削除ボタン end ************/
         return view;
     }
+
+
     /***
      * フォアグラウンドでなくなった場合に呼び出される
      */
@@ -297,6 +323,9 @@ public class EvacuationFragment extends Fragment {
         deleteDirButton.setImageBitmap(null);
         deleteDirButton.setImageDrawable(null);
         deleteDirButton.setOnClickListener(null);
+        /************ 一覧ビュー ************/
+        TableLayout csvConfirmList = (TableLayout) getActivity().findViewById(R.id.csvConfirmList);
+        csvConfirmList.removeAllViews();
 
         datePickerView.setOnClickListener(null);
         datePickerView = null;

@@ -513,7 +513,7 @@ public class GeneralUtils {
                 tableName = timeUtil.getCurrentTableName().toString();
             }
             //出力先を作成する
-            File file  = new File( Constants.DB_DIRECTORY + tableName +".csv");
+            File file  = new File( Constants.CSV_DIRECTORY + tableName +".csv");
             if (file.exists()) {
                 file.delete();
             }
@@ -529,5 +529,25 @@ public class GeneralUtils {
             new File(Constants.CSV_DIRECTORY).delete();
         }
         return;
+    }
+
+    /**
+     * SDCard 内のCSVフォルダを削除(Android 用)
+     * @return String ファイルまでの絶対パス
+     */
+    public static final List<String> getDirCSVList() {
+        File dir = new File(Constants.CSV_DIRECTORY);
+        List<String> listValues = new ArrayList<String>();
+
+        if (!dir.isDirectory()) {
+            return listValues;
+        }
+        File[] files = dir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            listValues.add(file.getName());
+            //System.out.println((i + 1) + ":    " + file);
+        }
+        return listValues;
     }
 }

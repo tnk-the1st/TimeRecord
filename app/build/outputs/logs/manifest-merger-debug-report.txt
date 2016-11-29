@@ -61,7 +61,7 @@ MERGED from [com.android.support:support-v4:23.2.1] D:\dev\android\AndroidStudio
 	android:allowBackup
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:10:9-35
 	android:icon
-		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:11:9-38
+		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:11:9-41
 	android:largeHeap
 		ADDED from D:\dev\android\AndroidStudioProjects15\TimeRecord\app\src\main\AndroidManifest.xml:15:9-33
 	android:theme

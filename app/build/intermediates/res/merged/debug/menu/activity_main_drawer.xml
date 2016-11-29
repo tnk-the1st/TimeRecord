@@ -4,34 +4,49 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/main_content"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/fi_input_black"
             android:title="@string/main_content" />
         <item
             android:id="@+id/list_content"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/fi_graph_bar"
             android:title="@string/list_content" />
         <item
             android:id="@+id/edit_content"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/fi_page_edit"
             android:title="@string/edit_content" />
         <item
             android:id="@+id/holiday_content"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/fi_local_hotel_black"
             android:title="@string/holiday_content" />
+        <item
+            android:id="@+id/evacuation_content"
+            android:icon="@drawable/ic_perm_data_setting"
+            android:title="@string/evacuation_content" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/nav_mid_title">
         <menu>
-            <item android:title="" />
+            <item
+                android:id="@+id/account_update"
+                android:icon="@drawable/fi_loop"
+                android:title="@string/account_update" />
+            <item
+                android:id="@+id/account_choice"
+                android:icon="@drawable/fi_shuffle"
+                android:title="@string/account_choice" />
+            <item
+                android:id="@+id/csv_export"
+                android:icon="@drawable/fi_page_export_csv"
+                android:title="@string/csv_export" />
             <item android:title="" />
             <item android:title="" />
             <item
                 android:id="@+id/oauth_file"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/fi_delete_forever_black"
                 android:title="@string/oauth_file" />
             <item
                 android:id="@+id/delete_file"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/fi_biohazard"
                 android:title="@string/delete_file" />
         </menu>
     </item>

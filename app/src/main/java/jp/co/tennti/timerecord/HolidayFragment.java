@@ -348,14 +348,18 @@ public class HolidayFragment extends Fragment {
         try {
             final TimeUtils timeUtil = new TimeUtils();
             String overtime = timeUtil.getTimeDiff(timeUtil.conTargetDateFullSlash(timeUtil.getCurrentDate()));
+            String toastMessage = "";
             if (holidayFlag.equals(Constants.ALL_DAYS_HOLIDAY_FLAG)) {
                 overtime = Constants.TIME_ZERO;
+                toastMessage = "全休を登録しました";
             }
             if (holidayFlag.equals(Constants.AM_HALF_HOLIDAY_FLAG)) {
                 //holidayFlag = Constants.AM_HALF_HOLIDAY_FLAG;
+                toastMessage = "午前半休を登録しました";
             }
             if (holidayFlag.equals(Constants.PM_HALF_HOLIDAY_FLAG)) {
                 overtime = Constants.TIME_ZERO;
+                toastMessage = "午後半休を登録しました";
             }
             //アカウント名取得
             TextView accountName = (TextView)getActivity().findViewById(R.id.accountName);
@@ -384,7 +388,7 @@ public class HolidayFragment extends Fragment {
                     pmHalfHolidaySwitch.setChecked(true);
                 }*/
                 // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
-                Toast.makeText(getActivity(), "現在時刻を登録しました", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
             }  catch (SQLException ex) {
                 GeneralUtils.createErrorDialog(getActivity(),"SQL INSERT エラー","insert処理に失敗しました:" + ex.getLocalizedMessage(),"OK");
                 Log.e("SQLException INSERT", ex.toString());

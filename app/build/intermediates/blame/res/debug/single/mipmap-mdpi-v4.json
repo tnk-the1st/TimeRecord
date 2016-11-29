@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\yariha.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\yariha.png"
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_kongou.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_kongou.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_times_day.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_times_day.png"
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\switch_off.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\switch_off.png"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_edit_times_day_dep.png",
@@ -20,20 +20,16 @@
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_times_day_dep.png"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_permit_disallowed.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_permit_disallowed.png"
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_amhalfholiday_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_amhalfholiday_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_allholiday_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_allholiday_dep.png"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\kakugane.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\kakugane.png"
-    },
-    {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_period_change_dep.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_period_change_dep.png"
-    },
-    {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_period_change.png",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_period_change.png"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_udate_btn.png",
@@ -42,6 +38,74 @@
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_delete_btn_dep.png",
         "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_delete_btn_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\title_name.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\title_name.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_file_delete_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_file_delete_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\yariha.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\yariha.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\switch_on.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\switch_on.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_times_day.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_times_day.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_allholiday.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_allholiday.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\switch_midstream.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\switch_midstream.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_evacuation.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_evacuation.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_amhalfholiday.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_amhalfholiday.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_file_delete.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_file_delete.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_pmhalfholiday.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_pmhalfholiday.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_permit_disallowed.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_permit_disallowed.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_pmhalfholiday_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_pmhalfholiday_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_period_change_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_period_change_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_evacuation_dep.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_evacuation_dep.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_period_change.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_period_change.png"
+    },
+    {
+        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_syarin.png",
+        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\src\\main\\res\\mipmap-mdpi\\ic_syarin.png"
     },
     {
         "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi-v4\\ic_edit_times_day.png",

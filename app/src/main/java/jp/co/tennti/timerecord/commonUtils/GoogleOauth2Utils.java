@@ -105,7 +105,7 @@ public class GoogleOauth2Utils {
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
             accountFullName = jsonGoogleInfo.getString("name");
-            System.out.println(this.activity);
+
             SetNavInfoAsyncTask sniat = new SetNavInfoAsyncTask(this.activity, accountNameMail,accountFullName, bitmap);
             sniat.execute();
         } catch (JSONException e) {

@@ -32,14 +32,11 @@ public class SetNavInfoAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... builder){
-        System.out.println("----------------------------------------------------0");
         return "";
     }
 
     @Override
     protected void onPostExecute(String result){
-        System.out.println(mainActivity);
-        System.out.println("----------------------------------------------------");
         accountIconView  = (ImageView)mainActivity.findViewById(R.id.accountIconView);
         accountName      = (TextView)mainActivity.findViewById(R.id.accountName);
         accountMail      = (TextView)mainActivity.findViewById(R.id.accountMail);

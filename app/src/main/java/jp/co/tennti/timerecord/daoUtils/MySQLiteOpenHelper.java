@@ -180,7 +180,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             db.beginTransaction();
             cursor = db.rawQuery("SELECT * FROM "
                     + tagetTableName +
-                    ";", new String[]{});
+                    " ORDER BY basic_date ASC;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
             //System.out.println(cursor.getCount());
         } catch (SQLException e) {

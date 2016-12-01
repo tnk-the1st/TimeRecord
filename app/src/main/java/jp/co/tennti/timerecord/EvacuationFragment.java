@@ -157,7 +157,6 @@ public class EvacuationFragment extends Fragment {
         List<String> cstList = GeneralUtils.getDirCSVList();
         for(String csvName :cstList){
             TableRow row = new TableRow(getContext());
-            System.out.println(csvName);
             final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
             params.weight = 0.1f;
             params.height = Constants.ROW_HIGHT_SIZE;

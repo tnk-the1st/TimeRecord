@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 
 import jp.co.tennti.timerecord.contacts.Constants;
 
@@ -35,8 +36,16 @@ public class DatabaseAccess {
 
             try {
                 db = SQLiteDatabase.openOrCreateDatabase(DB_NAME, null);
+                try{
+                    final String command = "chmod 777 " + DB_NAME;
+                    Runtime.getRuntime().exec(command);
+                } catch (IOException e){
+                    Log.e("IOException " , e.toString());
+                }
             } catch (SQLException e) {
-                Log.e("SQLException : openDatabase", "SDカード上DBのオープンに失敗", e);
+                Log.e("SQLException : openDB", "SDカード上DBのオープンに失敗", e);
+            } finally {
+                db.close();
             }
         }
         return true;

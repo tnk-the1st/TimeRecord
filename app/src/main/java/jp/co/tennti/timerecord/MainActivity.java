@@ -2,10 +2,13 @@ package jp.co.tennti.timerecord;
 
 import android.accounts.AccountManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,20 +16,26 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
+import java.util.List;
 
 import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.GoogleOauth2Utils;
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.DatabaseAccess;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,12 +76,12 @@ public class MainActivity extends AppCompatActivity
         /******基本処理******/
         DatabaseAccess dba = new DatabaseAccess();
         dba.openDatabase();
-        /******月ごとテーブル再作成 START******/
+        /******テーブル再作成 START******/
         /**DB接続**/
-        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this.getApplicationContext());
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
         final SQLiteDatabase db = helper.getWritableDatabase();
         helper.reloadOnFire(db);
-        /******月ごとテーブル再作成 END******/
+        /******テーブル再作成 END******/
         /******基本処理******/
         accountManager = AccountManager.get(this);
         GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
@@ -99,6 +108,12 @@ public class MainActivity extends AppCompatActivity
     // メニューアイテム選択イベント
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //Activity activity = (Activity) mFooViewInstance.getContext();
+        if (getContext() != null) {
+
+            Log.i("foo", this.getLocalClassName());
+        }
+
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         final ListViewFragment listViewFragment = new ListViewFragment();
         final MainFragment mainFragment         = new MainFragment();
@@ -192,6 +207,12 @@ public class MainActivity extends AppCompatActivity
                         }
                     }).show();
         }
+        if (id == R.id.delete_table) {
+            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
+            final SQLiteDatabase db = helper.getWritableDatabase();
+            List<String> list = helper.getTableName(db);
+            helper.dropTableAll(db,list);
+        }
         if (id == R.id.delete_file) {
             new AlertDialog.Builder(this)
                     .setTitle("確認ダイアログ")
@@ -207,8 +228,24 @@ public class MainActivity extends AppCompatActivity
                             // OK button pressed
                             if (!GeneralUtils.deleteSDCardFile(Constants.APP_FOLDER_DIR + Constants.DB_FILE_NAME)) {
                                 Toast.makeText(MainActivity.this, "DBファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(MainActivity.this, "DBファイルを削除しました。", Toast.LENGTH_SHORT).show();
+                            } else {
+                                final Toast toast = Toast.makeText(MainActivity.this, "DBファイルを削除しました。", Toast.LENGTH_SHORT);
+                                new FrameLayout(MainActivity.this) {
+                                    {
+                                        addView(toast.getView()); // toastのviewをframelayoutでくるむ
+                                        toast.setView(this); // framelayoutを新しくtoastに設定する
+                                    }
+                                    @Override
+                                    public void onDetachedFromWindow() {
+                                        super.onDetachedFromWindow();
+                                        // Toastが終了したあとの処理をする
+                                        Intent intent = getIntent();
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                };
+                                toast.show();
+                                //Toast.makeText(MainActivity.this, "DBファイルを削除しました。", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).show();

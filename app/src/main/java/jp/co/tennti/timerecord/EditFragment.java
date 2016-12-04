@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
@@ -134,7 +135,7 @@ public class EditFragment extends Fragment {
                                     dateTextView.setText(yearMonthDays);
                                     setHolidayFlag(db, yearMonthDays);
                                 } catch (NullPointerException e){
-                                    Log.d("NullPointerException",e.getMessage());
+                                    Log.e("NullPointerException",e.getMessage());
                                 }
                             }
                         });
@@ -199,7 +200,7 @@ public class EditFragment extends Fragment {
                                     /**時分の判定 end**/
                                     timeTextView.setText(hourMinute);
                                 } catch (NullPointerException e) {
-                                    Log.d("NullPointerException", e.getMessage());
+                                    Log.e("NullPointerException", e.getMessage());
                                 }
                             }
                         });
@@ -302,7 +303,9 @@ public class EditFragment extends Fragment {
                             overtime    = Constants.TIME_ZERO;
                         }
                         //アカウント名取得
-                        TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
+                        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+                        View header = navigationView.getHeaderView(0);
+                        TextView accountCd = (TextView)header.findViewById(R.id.accountMail);
                         //statement.bindString(1, randGenerat.get());
                         statement.bindString(1, yearMonthDay);
                         statement.bindString(2, allDate);
@@ -472,7 +475,9 @@ public class EditFragment extends Fragment {
                             overtime    = Constants.TIME_ZERO;
                         }
                         //アカウント名取得
-                        TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
+                        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+                        View header = navigationView.getHeaderView(0);
+                        TextView accountCd = (TextView)header.findViewById(R.id.accountMail);
                         statement.bindString(1, allDate);
                         statement.bindString(2, overtime);
                         statement.bindString(3, timeUtil.getTargetWeekOmit(yearMonthDay));

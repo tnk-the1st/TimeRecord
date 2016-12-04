@@ -132,7 +132,7 @@ public class EvacuationFragment extends Fragment {
                                     dateTextView.setText(year);
                                     //setHolidayFlag(db, yearMonthDays);
                                 } catch (NullPointerException e){
-                                    Log.d("NullPointerException",e.getMessage());
+                                    Log.e("NullPointerException",e.getMessage());
                                 }
                             }
                         });

@@ -305,6 +305,7 @@
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="csv_export">ΣCSVファイル出力</string>
     <string name="delete_file">※DBファイル削除</string>
+    <string name="delete_table">※全テーブル削除</string>
     <string name="edit_content">時刻編集</string>
     <string name="evacuation_content">退避処理</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -42,6 +42,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import jp.co.tennti.timerecord.apache.commons.IOUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
 import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
@@ -208,7 +209,7 @@ public class GeneralUtils {
      * @param  authToken 認証トークン String
      */
     public static final void createJsonAuthTokenSD(String accountName,String authToken) {
-
+        PrintWriter writer = null;
         try {
             if (!new File(Constants.GOOGLE_INFO_JSON_DIR).exists()) {
                 new File(Constants.GOOGLE_INFO_JSON_DIR).mkdirs();
@@ -220,7 +221,7 @@ public class GeneralUtils {
             jsonObject.accumulate("create_date", TimeUtils.getCurrentYearMonthDay());
             File tokenFile = new File( AUTH_TOKEN_JSON_FILE );
             OutputStream outStream = new FileOutputStream(tokenFile);
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+            writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
 
             writer.print(jsonObject);
             writer.close();
@@ -228,6 +229,8 @@ public class GeneralUtils {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(writer);
         }
     }
 
@@ -236,14 +239,14 @@ public class GeneralUtils {
      * @param json 取得情報 JSONObject
      */
     public static final void createJsonGoogleOauthInfoSD(JSONObject json) {
-
+        PrintWriter writer = null;
         try {
             if (!new File(Constants.GOOGLE_INFO_JSON_DIR).exists()) {
                 new File(Constants.GOOGLE_INFO_JSON_DIR).mkdirs();
             }
             File tokenFile = new File( GOOGLE_USER_INFO_FILE );
             OutputStream outStream = new FileOutputStream(tokenFile);
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
+            writer = new PrintWriter(new OutputStreamWriter(outStream,"UTF-8"));
             json.accumulate("create_date", TimeUtils.getCurrentYearMonthDay());
             writer.print(json);
             writer.close();
@@ -251,6 +254,8 @@ public class GeneralUtils {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(writer);
         }
     }
 
@@ -260,10 +265,11 @@ public class GeneralUtils {
      * @return JSONObject  json 取得情報
      */
     public static final JSONObject getJsonTargetFile(String FilePath) {
-        JSONObject jsonObject= null;
+        JSONObject jsonObject = null;
+        InputStream inputStream = null;
         try {
             File tokenFile = new File( FilePath );
-            InputStream inputStream = new FileInputStream(tokenFile);
+            inputStream = new FileInputStream(tokenFile);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -276,6 +282,8 @@ public class GeneralUtils {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(inputStream);
         }
         return jsonObject;
     }
@@ -284,10 +292,11 @@ public class GeneralUtils {
      * @return JSONObject  json 取得情報
      */
     public static final JSONObject getJsonAuthToken() {
-        JSONObject jsonObject= null;
+        JSONObject jsonObject = null;
+        InputStream inputStream = null;
         try {
             File tokenFile = new File( AUTH_TOKEN_JSON_FILE );
-            InputStream inputStream = new FileInputStream(tokenFile);
+            inputStream = new FileInputStream(tokenFile);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -301,6 +310,8 @@ public class GeneralUtils {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(inputStream);
         }
         return jsonObject;
     }
@@ -310,10 +321,11 @@ public class GeneralUtils {
      * @return JSONObject  json 取得情報
      */
     public static final JSONObject getJsonGoogleInfo() {
-        JSONObject jsonObject= null;
+        JSONObject jsonObject = null;
+        InputStream inputStream = null;
         try {
             File tokenFile = new File( GOOGLE_USER_INFO_FILE );
-            InputStream inputStream = new FileInputStream(tokenFile);
+            inputStream = new FileInputStream(tokenFile);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -327,6 +339,8 @@ public class GeneralUtils {
             Log.e("JSONException",e.toString());
         } catch (IOException e) {
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(inputStream);
         }
         return jsonObject;
     }
@@ -408,9 +422,11 @@ public class GeneralUtils {
     // URLからBitmapへの変換
     public static final Bitmap getBitmapFromURL(Context context) {
         Bitmap mBitmap = null;
+        FileInputStream file = null;
+        BufferedInputStream buf = null;
         try {
-            FileInputStream file = new FileInputStream(GOOGLE_USER_ICON_FILE);
-            BufferedInputStream buf = new BufferedInputStream(file);
+            file = new FileInputStream(GOOGLE_USER_ICON_FILE);
+            buf = new BufferedInputStream(file);
             mBitmap = BitmapFactory.decodeStream(buf);
             file.close();
             buf.close();
@@ -418,6 +434,9 @@ public class GeneralUtils {
             Log.e("FileNotFoundException", e.toString());
         } catch (IOException e){
             Log.e("IOException", e.toString());
+        } finally {
+            IOUtils.closeQuietly(file);
+            IOUtils.closeQuietly(buf);
         }
         return mBitmap;
        /* Bitmap bitmap = null;

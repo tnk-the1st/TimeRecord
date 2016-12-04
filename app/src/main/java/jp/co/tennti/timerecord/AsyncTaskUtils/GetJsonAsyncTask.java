@@ -72,7 +72,7 @@ public class GetJsonAsyncTask extends AsyncTask<String, Void, JSONObject> {
     @Override
     protected void onPostExecute(JSONObject json) {
         if (json == null) {
-            Log.d("onPostExecute", "JSON取得失敗 JSONがNULL");
+            Log.w("onPostExecute", "JSON取得失敗 JSONがNULL");
         }/* else {
             Log.v("onPostExecute", "JSON取得成功");
         }*/

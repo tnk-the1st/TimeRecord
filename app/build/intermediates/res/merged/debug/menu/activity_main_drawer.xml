@@ -45,6 +45,10 @@
                 android:icon="@drawable/fi_delete_forever_black"
                 android:title="@string/oauth_file" />
             <item
+                android:id="@+id/delete_table"
+                android:icon="@drawable/fi_nuclear"
+                android:title="@string/delete_table" />
+            <item
                 android:id="@+id/delete_file"
                 android:icon="@drawable/fi_biohazard"
                 android:title="@string/delete_file" />

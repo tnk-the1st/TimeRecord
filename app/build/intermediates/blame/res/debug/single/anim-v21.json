@@ -1,10 +1,10 @@
 [
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_in.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/design/23.2.1/res/anim-v21/design_bottom_sheet_slide_in.xml"
     },
     {
-        "merged": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
-        "source": "D:\\dev\\android\\AndroidStudioProjects15\\TimeRecord\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/anim-v21/design_bottom_sheet_slide_out.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/design/23.2.1/res/anim-v21/design_bottom_sheet_slide_out.xml"
     }
 ]

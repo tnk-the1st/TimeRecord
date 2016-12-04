@@ -79,7 +79,7 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
             } while (cursor.moveToNext());
 
         } else {
-            Log.w("SELECT ERROR", "検索結果 0件");
+            //Log.w("SELECT ERROR", "検索結果 0件");
             //Toast.makeText(context, "検索結果 0件", Toast.LENGTH_SHORT).show();
             return arrayTmp;
         }

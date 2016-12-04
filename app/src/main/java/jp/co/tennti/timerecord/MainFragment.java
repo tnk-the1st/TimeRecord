@@ -155,7 +155,11 @@ public class MainFragment extends Fragment {
                         overtime    = Constants.TIME_ZERO;
                     }
                     //アカウント名取得
-                    TextView accountCd = (TextView)getActivity().findViewById(R.id.accountMail);
+                    TextView account = (TextView)getActivity().findViewById(R.id.accountMail);
+                    String accountCd = "db_loss";
+                    if(account != null){
+                        accountCd = account.getText().toString();
+                    }
                     final SQLiteStatement statement = db.compileStatement("INSERT INTO " + timeUtil.getCurrentTableName() + Constants.INSERT_SQL_VALUES);
                     try {
 //                        statement.bindString(1, randGenerat.get());
@@ -164,7 +168,7 @@ public class MainFragment extends Fragment {
                         statement.bindString(3, overtime);
                         statement.bindString(4, timeUtil.getCurrentWeekOmit());
                         statement.bindString(5, holidayFlag);
-                        statement.bindString(6, accountCd.getText().toString());
+                        statement.bindString(6, accountCd);
                         statement.executeInsert();
                         timeCountButton.setEnabled(false);
                         timeCountButton.setColorFilter(Color.argb(100, 0, 0, 0));

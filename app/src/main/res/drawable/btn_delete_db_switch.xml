@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- ボタンを押された時 -->
+    <item
+        android:state_pressed="true"
+        android:drawable="@mipmap/ic_delete_db_btn_dep">
+
+    </item>
+    <!-- 何もしない時 -->
+    <item
+        android:state_pressed="false"
+        android:drawable="@mipmap/ic_delete_db_btn">
+    </item>
+</selector>

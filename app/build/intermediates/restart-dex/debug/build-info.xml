@@ -5,67 +5,63 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="8641492780421"
+    timestamp="5924228444980"
     token="24421916655215655"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="697" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="82" />
+        duration="0" />
     <task
         name="verifier"
-        duration="6" />
+        duration="0" />
 
     <artifact
-        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
-        type="RESOURCES" />
-    <artifact
-        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-        type="DEX" />
-    <artifact
-        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex"
+        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex"
         type="DEX" />
     <artifact
         location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
         type="DEX" />
 
     <build
-        timestamp="1397553330129"
+        timestamp="4695555504532"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="2764797026252"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
-            type="DEX" />
-    </build>
-    <build
-        timestamp="8641492780421"
-        verifier="COLD_SWAP_REQUESTED" >
+        timestamp="4882334276807"
+        verifier="FIELD_TYPE_CHANGE" >
         <artifact
             location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
             type="RESOURCES" />
+    </build>
+    <build
+        timestamp="5223602132366"
+        verifier="COMPATIBLE" >
         <artifact
-            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
-            type="DEX" />
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/builds/debug/5223602132366/classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="5854440898762"
+        verifier="COMPATIBLE" >
         <artifact
-            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
-            type="DEX" />
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/builds/debug/5854440898762/classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        timestamp="5924228444980"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex"
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex"
             type="DEX" />
         <artifact
             location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"

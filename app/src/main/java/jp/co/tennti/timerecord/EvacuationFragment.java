@@ -198,7 +198,7 @@ public class EvacuationFragment extends Fragment {
         final ImageButton deleteButton = (ImageButton)view.findViewById(R.id.deleteButtonEvacuation);
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
-        deleteButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_evacuation_switch));
+        deleteButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_target_csv_delete_switch));
 
         // リスナーをボタンに登録
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +247,7 @@ public class EvacuationFragment extends Fragment {
         final ImageButton deleteDirButton = (ImageButton)view.findViewById(R.id.deleteDirButtonEvacuation);
         deleteDirButton.setImageBitmap(null);
         deleteDirButton.setImageDrawable(null);
-        deleteDirButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_delete_evacuation_switch));
+        deleteDirButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_all_csv_delete_switch));
         // リスナーをボタンに登録
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

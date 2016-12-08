@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_all_csv_delete_btn_dep.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_all_csv_delete_btn_dep.png"
+    },
+    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_times_day_dep.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_times_day_dep.png"
     },
@@ -8,16 +12,20 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/switch_off.png"
     },
     {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_delete_db_btn.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_delete_db_btn.png"
+    },
+    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_allholiday.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_allholiday.png"
     },
     {
-        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_udate_btn.png",
-        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_udate_btn.png"
-    },
-    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_evacuation.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_evacuation.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_udate_btn.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_udate_btn.png"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/title_name.png",
@@ -40,6 +48,14 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_evacuation_dep.png"
     },
     {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_delete_db_btn_dep.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_delete_db_btn_dep.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_drop_table_btn.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_drop_table_btn.png"
+    },
+    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_times_day.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_times_day.png"
     },
@@ -48,8 +64,16 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_kongou.png"
     },
     {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_all_csv_delete_btn.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_all_csv_delete_btn.png"
+    },
+    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_file_delete.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_file_delete.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_drop_table_btn_dep.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_drop_table_btn_dep.png"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_edit_times_day.png",
@@ -74,6 +98,10 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_permit_disallowed_dep.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_permit_disallowed_dep.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_target_csv_delete_btn_dep.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_target_csv_delete_btn_dep.png"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/yariha.png",
@@ -118,5 +146,9 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_period_change.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_period_change.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_target_csv_delete_btn.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-mdpi/ic_target_csv_delete_btn.png"
     }
 ]

@@ -52,12 +52,12 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/res/drawable/abc_seekbar_thumb_material.xml"
     },
     {
-        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_allholiday.xml",
-        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_allholiday.xml"
-    },
-    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/ic_menu_manage.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/ic_menu_manage.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_allholiday.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_allholiday.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_tab_indicator_material.xml",
@@ -78,6 +78,10 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_btn_borderless_material.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/res/drawable/abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_drop_table_switch.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_drop_table_switch.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_item_background_holo_light.xml",
@@ -110,6 +114,10 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_indicator_material.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/res/drawable/abc_ratingbar_indicator_material.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_target_csv_delete_switch.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_target_csv_delete_switch.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/design_fab_background.xml",
@@ -158,6 +166,10 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_dark.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/res/drawable/abc_list_selector_holo_dark.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_all_csv_delete_switch.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_all_csv_delete_switch.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/abc_textfield_search_material.xml",
@@ -222,6 +234,10 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/gradient_black_lengthwise.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/gradient_black_lengthwise.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_delete_db_switch.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_delete_db_switch.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_edit_times_day_switch.xml",

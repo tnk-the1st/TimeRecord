@@ -577,6 +577,11 @@ public class EditFragment extends Fragment {
         super.onDetach();
     }
 
+    /**
+     * 初期データ取得
+     * @param  db  SQLiteDatabase db
+     * @param  targetDate String
+     */
     public void setHolidayFlag(SQLiteDatabase db ,String targetDate){
         TimeUtils timeUtil = new TimeUtils();
         String targetDateHyphen = timeUtil.conTargetYYYYMMDDHyphen(targetDate);
@@ -584,6 +589,9 @@ public class EditFragment extends Fragment {
         try {
             if(cursor != null && cursor.moveToNext()){
                 cursor.moveToFirst();
+                allHolidaySwitch.setChecked(false);
+                amHalfHolidaySwitch.setChecked(false);
+                pmHalfHolidaySwitch.setChecked(false);
                 if( cursor.getString(cursor.getColumnIndex("holiday_flag")).equals("1") ){
                     allHolidaySwitch.setChecked(true);
                 }

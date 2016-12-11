@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -115,11 +113,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        final ListViewFragment listViewFragment = new ListViewFragment();
-        final MainFragment mainFragment         = new MainFragment();
-        final EditFragment editFragment         = new EditFragment();
-        final HolidayFragment holidayFragment   = new HolidayFragment();
+        final ListViewFragment listViewFragment       = new ListViewFragment();
+        final MainFragment mainFragment               = new MainFragment();
+        final EditFragment editFragment               = new EditFragment();
+        final HolidayFragment holidayFragment         = new HolidayFragment();
         final EvacuationFragment evacuationFragment   = new EvacuationFragment();
+        final DBOperationFragment dbOperationFragment = new DBOperationFragment();
         switch (item.getItemId()) {
             case R.id.list_screen:
                 // 一覧を起動
@@ -141,6 +140,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.evacuation_screen:
                 // 退避処理を起動
                 transaction.replace(R.id.fragment_main, evacuationFragment).addToBackStack(null).commit();
+                break;
+            case R.id.db_operation_screen:
+                // DB操作を起動
+                transaction.replace(R.id.fragment_main, dbOperationFragment).addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -186,9 +189,9 @@ public class MainActivity extends AppCompatActivity
         }
         if (id == R.id.oauth_file) {
             new AlertDialog.Builder(this)
-                    .setTitle("確認ダイアログ")
+                    .setTitle(Constants.DELETE_TITLE_CONFIRM_NAME)
                     .setMessage("このアプリケーションのOauth認証ファイルを削除しますがよろしいですか?")
-                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(Constants.CANCEL_CONFIRM_NAME , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -208,16 +211,31 @@ public class MainActivity extends AppCompatActivity
                     }).show();
         }
         if (id == R.id.delete_table) {
-            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
-            final SQLiteDatabase db = helper.getWritableDatabase();
-            List<String> list = helper.getTableName(db);
-            helper.dropTableAll(db,list);
+            new AlertDialog.Builder(this)
+                    .setTitle(Constants.DELETE_TITLE_CONFIRM_NAME)
+                    .setMessage("このアプリケーションDBの全テーブルを削除しますがよろしいですか?")
+                    .setNegativeButton(Constants.CANCEL_CONFIRM_NAME , new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setNeutralButton("実行", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // OK button pressed
+                            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
+                            final SQLiteDatabase db = helper.getWritableDatabase();
+                            List<String> list = helper.getTableName(db);
+                            helper.dropTableAll(db,list);
+                            Toast.makeText(MainActivity.this, "全tableを削除しました。", Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
         }
         if (id == R.id.delete_file) {
             new AlertDialog.Builder(this)
-                    .setTitle("確認ダイアログ")
+                    .setTitle(Constants.DELETE_TITLE_CONFIRM_NAME)
                     .setMessage("このアプリケーションのDBファイルを削除しますがよろしいですか?")
-                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(Constants.CANCEL_CONFIRM_NAME , new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }

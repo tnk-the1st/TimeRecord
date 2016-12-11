@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
+import jp.co.tennti.timerecord.contacts.Constants;
 
 /**
  * Created by TENNTI on 2016/04/09.
  */
 public class MySQLiteOpenHelper extends SQLiteOpenHelper {
-    private static final String DB_DIRECTORY = Environment.getExternalStorageDirectory() + "/time_record/db/";
-    private static final String DB_NAME      = DB_DIRECTORY + "time_record_db.db";
+    //private static final String DB_DIRECTORY = Environment.getExternalStorageDirectory() + "/time_record/db/";
+    private static final String DB_NAME      = Constants.DB_FULL_NAME;// + "time_record_db.db";
     static final int DB_VERSION              = 1;
     private static final String TABLE_COLUMN_NAME = "( basic_date text not null primary key ," +
                                                     " leaving_date text not null ," +
@@ -136,17 +137,20 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         return list;
     }
     /**
-     * テーブル名取得
+     * DROPテーブル
      * @param  db SQLiteDatabase DBアクセッサ
      * @param  list List<String> 対象のテーブル名
      * */
     public void dropTableAll(SQLiteDatabase db,List<String> list) {
-        //try {
+        try {
             //db.setTransactionSuccessful();
             for (String tableName : list) {
-                Log.d("tableName", tableName);
-                db.execSQL("drop table "+ tableName); //, new String[]{tableName});
+                //Log.d("tableName", tableName);
+                db.execSQL("drop table " + tableName); //, new String[]{tableName});
             }
+        } catch (SQLException e) {
+            Log.e("SQLException ", e.toString());
+        }
         /*} finally {
             db.endTransaction();
         }*/

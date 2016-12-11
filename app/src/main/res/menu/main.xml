@@ -25,4 +25,8 @@
         android:id="@+id/evacuation_screen"
         android:orderInCategory="5"
         android:title="@string/evacuation_content" />
+    <item
+        android:id="@+id/db_operation_screen"
+        android:orderInCategory="6"
+        android:title="@string/db_operation" />
 </menu>

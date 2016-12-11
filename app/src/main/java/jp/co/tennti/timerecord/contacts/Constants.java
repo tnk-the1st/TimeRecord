@@ -89,6 +89,8 @@ public class Constants {
 
     /** データベースを置くSD上のフォルダのフルパス */
     public static final String DB_DIRECTORY          = Environment.getExternalStorageDirectory() + "/time_record/db/";
+    /** データベースを置くSD上のDBファイルのフルパス */
+    public static final String DB_FULL_NAME          = DB_DIRECTORY + "time_record_db.db";
     /** アプリケーションのファイルを置くSD上のフォルダのフルパス */
     public static final String APP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/";
     /** アプリケーションのCSVファイルを置くSD上のフォルダのフルパス */
@@ -122,14 +124,19 @@ public class Constants {
     public static final String GOOGLE_USER_ICON_IMG   = "icon.png";
 
     /** 認証トークンJSONのフルパス */
-    public static final String AUTH_TOKEN_JSON_FULL  = GOOGLE_INFO_JSON_DIR_SHORT + OAUTH_TOKEN_FILE_JSON;
+    public static final String AUTH_TOKEN_JSON_FULL   = GOOGLE_INFO_JSON_DIR_SHORT + OAUTH_TOKEN_FILE_JSON;
 
     /** Google Oauth取得情報JSONのフルパス */
-    public static final String GOOGLE_USER_INFO_FULL = GOOGLE_INFO_JSON_DIR_SHORT + GOOGLE_USER_INFO_JSON;
+    public static final String GOOGLE_USER_INFO_FULL  = GOOGLE_INFO_JSON_DIR_SHORT + GOOGLE_USER_INFO_JSON;
 
     /** Google Oauth取得情報画像のフルパス */
-    public static final String GOOGLE_USER_ICON_FULL = GOOGLE_INFO_DIR_SHORT + GOOGLE_USER_ICON_IMG;
+    public static final String GOOGLE_USER_ICON_FULL  = GOOGLE_INFO_DIR_SHORT + GOOGLE_USER_ICON_IMG;
 
     /** Google Oauth2認証のユーザープロファイル取得のURL */
-    public static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+    public static final String AUTH_TOKEN_TYPE_PROFILE   = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+
+    /** キャンセル確認ボタン名 */
+    public static final String CANCEL_CONFIRM_NAME       = "【CANCEL】";
+    /** 削除確認タイトル名 */
+    public static final String DELETE_TITLE_CONFIRM_NAME = "【削除確認ダイアログ】";
 }

@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -41,6 +42,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import jp.co.tennti.timerecord.apache.commons.IOUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
@@ -604,10 +607,10 @@ public class GeneralUtils {
     }
 
     /**
-     * SDCard 内のCSVフォルダを削除(Android 用)
-     * @return String ファイルまでの絶対パス
+     * 全CSVファイル名を取得
+     * @return List<String> ファイル名リスト
      */
-    public static final List<String> getDirCSVList() {
+    public static final List<String> getDirCSVNameList() {
         File dir = new File(Constants.CSV_DIRECTORY);
         List<String> listValues = new ArrayList<String>();
 
@@ -618,8 +621,52 @@ public class GeneralUtils {
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
             listValues.add(file.getName());
-            //System.out.println((i + 1) + ":    " + file);
         }
         return listValues;
+    }
+
+    /**
+     * zip圧縮する
+     * @return String ファイルまでの絶対パス
+     */
+    public static final void createDBZipFile() {
+        File dir             = new File(Constants.DB_FULL_NAME);
+        File[] files         = {dir};
+        ZipOutputStream zos  = null;
+        String DB_ZIP_DIR    = Constants.DB_DIRECTORY+"zip/";
+        String FILL_SUB_NAME = "";
+        try {
+            if (!new File(DB_ZIP_DIR).exists()) {
+                new File(DB_ZIP_DIR).mkdirs();
+                final String command = "chmod 777 " + DB_ZIP_DIR;
+                Runtime.getRuntime().exec(command);
+            }
+
+            int i = 1;
+            while (new File(DB_ZIP_DIR+"time_record_db"+FILL_SUB_NAME+".zip").exists()){
+                FILL_SUB_NAME = "_"+String.valueOf(i);
+                i++;
+            }
+
+            zos = new ZipOutputStream(
+                    new BufferedOutputStream(
+                            new FileOutputStream(
+                                    new File(DB_ZIP_DIR+"time_record_db"+FILL_SUB_NAME+".zip"))));
+            byte[] buf = new byte[1024];
+            InputStream is = null;
+            for (File file : files) {
+                ZipEntry entry = new ZipEntry(file.getName());
+                zos.putNextEntry(entry);
+                is = new BufferedInputStream(new FileInputStream(file));
+                int len = 0;
+                while ((len = is.read(buf)) != -1) {
+                    zos.write(buf, 0, len);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(zos);
+        }
     }
 }

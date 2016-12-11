@@ -72,12 +72,12 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-xxxhdpi/ic_delete_btn_dep.png"
     },
     {
-        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/title_name.png",
-        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-xxxhdpi/title_name.png"
-    },
-    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_evacuation_dep.png",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-xxxhdpi/ic_evacuation_dep.png"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/title_name.png",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/mipmap-xxxhdpi/title_name.png"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_period_change_dep.png",

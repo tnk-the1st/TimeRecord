@@ -154,7 +154,7 @@ public class EvacuationFragment extends Fragment {
         final TableLayout csvConfirmList = (TableLayout) view.findViewById(R.id.csvConfirmList);
         csvConfirmList.removeAllViews();
 
-        List<String> cstList = GeneralUtils.getDirCSVList();
+        List<String> cstList = GeneralUtils.getDirCSVNameList();
         for(String csvName :cstList){
             TableRow row = new TableRow(getContext());
             final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
@@ -173,10 +173,10 @@ public class EvacuationFragment extends Fragment {
 
         /************ 退避ボタン start ************/
         // ボタンを設定
-        final ImageButton timeCountButton = (ImageButton)view.findViewById(R.id.evacuationButton);
-        timeCountButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_evacuation_switch));
+        final ImageButton evacuationButton = (ImageButton)view.findViewById(R.id.evacuationButton);
+        evacuationButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_evacuation_switch));
         // リスナーをボタンに登録
-        timeCountButton.setOnClickListener(new View.OnClickListener() {
+        evacuationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final TimeUtils timeUtil = new TimeUtils();
@@ -249,7 +249,7 @@ public class EvacuationFragment extends Fragment {
         deleteDirButton.setImageDrawable(null);
         deleteDirButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_all_csv_delete_switch));
         // リスナーをボタンに登録
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        deleteDirButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //ダイアログの生成
@@ -307,11 +307,11 @@ public class EvacuationFragment extends Fragment {
         ImageView imgView = (ImageView)getActivity().findViewById(R.id.contentImageView);
         imgView.setImageBitmap(null);
         imgView.setImageDrawable(null);
-        /************ 登録ボタン ************/
-        ImageButton timeCountButton = (ImageButton)getActivity().findViewById(R.id.evacuationButton);
-        timeCountButton.setImageDrawable(null);
-        timeCountButton.setImageBitmap(null);
-        timeCountButton.setOnClickListener(null);
+        /************ 退避ボタン ************/
+        ImageButton evacuationButton = (ImageButton)getActivity().findViewById(R.id.evacuationButton);
+        evacuationButton.setImageDrawable(null);
+        evacuationButton.setImageBitmap(null);
+        evacuationButton.setOnClickListener(null);
         /************ 削除ボタン ************/
         ImageButton deleteButton = (ImageButton)getActivity().findViewById(R.id.deleteButtonEvacuation);
         deleteButton.setImageBitmap(null);

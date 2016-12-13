@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -187,6 +188,18 @@ public class GeneralUtils {
         return blankResultList;
     }
     /**
+     * nullをブランク文字列に変換する
+     *
+     * @param value 文字列
+     * @return nullをブランク文字列に変換した結果文字列
+     */
+    static public String nullToBlank(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value;
+    }
+    /**
      * SDCard にauthTokenを保存する
      * @param  accountName 選択ID(アドレス) string
      * @param  context コンテキスト情報 Context
@@ -235,6 +248,36 @@ public class GeneralUtils {
         } finally {
             IOUtils.closeQuietly(writer);
         }
+    }
+
+    /**
+     * SDCard にGoogle Oauthで取得した情報をJSONファイルに保存する
+     * @param accountName アクセスユーザーID
+     * @param authToken   アクセストークン
+     * @param json 取得情報 JSONObject
+     * @return map 引数をまとめたmapデータ Map<String, String>
+     */
+    public static final Map<String, String> googleOAuthInfoSummary(String accountName, String authToken, JSONObject json) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        try {
+            map.put("account_name", accountName);
+            map.put("auth_token", authToken);
+
+            map.put("id",         nullToBlank(json.getString("id")));
+            map.put("name",       nullToBlank(json.getString("name")));
+            map.put("given_name", nullToBlank(json.getString("given_name")));
+            map.put("family_name",nullToBlank(json.getString("family_name")));
+            map.put("link",       nullToBlank(json.getString("link")));
+            map.put("picture",    nullToBlank(json.getString("picture")));
+            map.put("gender",     nullToBlank(json.getString("gender")));
+            map.put("locale",     nullToBlank(json.getString("locale")));
+
+            map.put("create_date", TimeUtils.getCurrentYearMonthDay());
+        } catch (JSONException e){
+            Log.e("JSONException",e.toString());
+        }
+        return map;
     }
 
     /**

@@ -5,12 +5,17 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Environment;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import jp.co.tennti.timerecord.commonUtils.GeneralUtils;
 import jp.co.tennti.timerecord.commonUtils.TimeUtils;
 import jp.co.tennti.timerecord.contacts.Constants;
 
@@ -27,6 +32,19 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
                                                     " week text ," +
                                                     " holiday_flag text ," +
                                                     " user_cd text);";
+    private static final String GOOGLE_OAUTH2_TABLE = "google_oauth2_data";
+    private static final String OAUTH2_TABLE_COLUMN_NAME =
+            "( account_name text not null primary key," +
+            " auth_token text not null ," +
+            " id text ," +
+            " name text ," +
+            " given_name text ," +
+            " family_name text ," +
+            " link text ," +
+            " picture text ," +
+            " gender text ," +
+            " locale text ," +
+            " create_date text);";
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -35,12 +53,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        //if (isExistDatabase(mContext) == true){
-        //DBがあれば削除
-        //mContext.deleteDatabase("NameAgeDB");
-        //}
+        //通常のテーブル
+        reloadOnFire(db);
+        //認証用のテーブル
+        reloadOnFireOAuth2(db);
         //テーブル名作成
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
         builder.append("time_record_");
         builder.append(TimeUtils.getCurrentYearAndMonth());
         final TimeUtils timeUtil = new TimeUtils();
@@ -50,14 +68,17 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
+                    //通常のテーブル
                     db.execSQL("CREATE TABLE "+timeUtil.getCurrentTableName().toString()+TABLE_COLUMN_NAME);
+                    //認証用のテーブル
+                    reloadOnFireAuth2(db);
                 }
             }
         } catch (SQLException ex) {
             Log.e("SQLException", ex.toString());
         } finally {
             cursor.close();
-        }
+        }*/
     }
 
     @Override
@@ -76,12 +97,35 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         builder.append(TimeUtils.getCurrentYearAndMonth());
         final TimeUtils timeUtil = new TimeUtils();
 
-        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;",  new String[]{timeUtil.getCurrentTableName().toString()});
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;"
+                , new String[]{timeUtil.getCurrentTableName().toString()});
         try {
             if (cursor.moveToNext()) {
                 cursor.moveToFirst();
                 if(cursor.getString(0).equals("0")){
                     db.execSQL("CREATE TABLE " + timeUtil.getCurrentTableName().toString() + TABLE_COLUMN_NAME);
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("SQLException ERROR", e.toString());
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * Google認証データ再作成用
+     * @param db SQLiteDatabase DBアクセッサ
+     */
+    public void reloadOnFireOAuth2(SQLiteDatabase db) {
+        //テーブル名作成
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=?;"
+                , new String[]{GOOGLE_OAUTH2_TABLE});
+        try {
+            if (cursor.moveToNext()) {
+                cursor.moveToFirst();
+                if(cursor.getString(0).equals("0")){
+                    db.execSQL("CREATE TABLE " + GOOGLE_OAUTH2_TABLE + OAUTH2_TABLE_COLUMN_NAME);
                 }
             }
         } catch (SQLException e) {
@@ -124,8 +168,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         try {
             cursor.moveToFirst();
             do {
-                Log.d("result", cursor.getString(0));
-                if(!cursor.getString(0).isEmpty() && cursor.getString(0).matches(".*time_record_.*")){
+                if (!cursor.getString(0).isEmpty() && cursor.getString(0).matches(".*time_record_.*")) {
                     list.add(cursor.getString(0));
                 }
             } while (cursor.moveToNext());
@@ -238,5 +281,149 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return cursor;
+    }
+
+    /**
+     * 認証テーブル存在判定
+     * 対象月のレコード数を返す。
+     * @param  db SQLiteDatabase DBアクセッサ
+     * @return boolean exitFlag 判定結果
+     */
+    public boolean isOAuth2Data(SQLiteDatabase db) {
+        boolean exitFlag = false;
+        final Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "
+                + GOOGLE_OAUTH2_TABLE +
+                ";",  new String[]{});
+        try {
+            cursor.moveToFirst();
+            if(cursor.getString(0).equals("1")){
+                exitFlag = true;
+            }
+        } catch (SQLException e) {
+            Log.e("SELECT COUNT(*) ERROR", e.toString());
+        } finally {
+            cursor.close();
+        }
+        return exitFlag;
+    }
+    /**
+     *  認証データを挿入する。
+     * @param  db SQLiteDatabase DBアクセッサ
+     * @param  map Map<String, String> 挿入データ
+     */
+    public static void insertOAuth2Data(SQLiteDatabase db , Map<String, String> map) {
+        db.beginTransaction();
+        try {
+            final SQLiteStatement statement = db.compileStatement(
+                    "INSERT INTO "
+                    + GOOGLE_OAUTH2_TABLE +
+                    " VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            try {
+                statement.bindString(1,  map.get("account_name"));
+                statement.bindString(2,  map.get("auth_token"));
+                statement.bindString(3,  map.get("id"));
+                statement.bindString(4,  map.get("name"));
+                statement.bindString(5,  map.get("given_name"));
+                statement.bindString(6,  map.get("family_name"));
+                statement.bindString(7,  map.get("link"));
+                statement.bindString(8,  map.get("picture"));
+                statement.bindString(9,  map.get("gender"));
+                statement.bindString(10, map.get("locale"));
+                statement.bindString(11, map.get("create_date"));
+                statement.executeInsert();
+            } finally {
+                statement.close();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+    /**
+     *  認証データを更新する。
+     * @param  db SQLiteDatabase DBアクセッサ
+     * @param  map Map<String, String> 挿入データ
+     */
+    public static void updateOAuth2Data(SQLiteDatabase db , Map<String, String> map) {
+        db.beginTransaction();
+        try {
+            final SQLiteStatement statement = db.compileStatement("UPDATE " + GOOGLE_OAUTH2_TABLE + " SET "+
+                    //" account_name=?," +
+                    " auth_token=?," +
+                    " id=?," +
+                    " name=?," +
+                    " given_name=?," +
+                    " family_name=?," +
+                    " link=?," +
+                    " picture=?," +
+                    " gender=?," +
+                    " locale=?," +
+                    " create_date=?" +
+                    " WHERE account_name = ?");
+            try {
+                statement.bindString(11, map.get("account_name"));
+                statement.bindString(1,  map.get("auth_token"));
+                statement.bindString(2,  map.get("id"));
+                statement.bindString(3,  map.get("name"));
+                statement.bindString(4,  map.get("given_name"));
+                statement.bindString(5,  map.get("family_name"));
+                statement.bindString(6,  map.get("link"));
+                statement.bindString(7,  map.get("picture"));
+                statement.bindString(8,  map.get("gender"));
+                statement.bindString(9,  map.get("locale"));
+                statement.bindString(10, map.get("create_date"));
+                statement.executeInsert();
+            } finally {
+                statement.close();
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+    /**
+     * 認証データを取得する。
+     * @param  db SQLiteDatabase DBアクセッサ
+     * @return  map Map<String, String> 挿入データ
+     */
+    public static Map<String, String> getOAuth2Data(SQLiteDatabase db) {
+        final Cursor cursor = db.rawQuery(
+                "SELECT * FROM "
+                        + GOOGLE_OAUTH2_TABLE +
+                        ";", new String[]{});
+        final Map<String, String> map =
+                new HashMap<String, String>() {{
+                    put("account_name", "");
+                    put("auth_token", "");
+                    put("id", "");
+                    put("name", "");
+                    put("given_name", "");
+                    put("family_name", "");
+                    put("link", "");
+                    put("picture", "");
+                    put("gender", "");
+                    put("locale", "");
+                    put("create_date", "");
+                }};
+        try {
+            if (cursor.moveToFirst()) {
+                map.put("account_name",GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("account_name"))));
+                map.put("auth_token", GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("auth_token"))));
+                map.put("id",         GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("id"))));
+                map.put("name",       GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("name"))));
+                map.put("given_name", GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("given_name"))));
+                map.put("family_name",GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("family_name"))));
+                map.put("link",       GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("link"))));
+                map.put("picture",    GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("picture"))));
+                map.put("gender",     GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("gender"))));
+                map.put("locale",     GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("locale"))));
+                map.put("create_date",GeneralUtils.nullToBlank(cursor.getString(cursor.getColumnIndex("create_date"))));
+            }
+        } catch (SQLException e) {
+            Log.e("SQLException ERROR", e.toString());
+        } finally {
+            cursor.close();
+        }
+        return map;
     }
 }

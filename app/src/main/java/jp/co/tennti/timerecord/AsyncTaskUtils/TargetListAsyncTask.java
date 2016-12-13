@@ -49,7 +49,6 @@ public class TargetListAsyncTask extends AsyncTask<String, Integer, List<HashMap
                     + paramsTableName[0] +
                     " WHERE basic_date LIKE \""+this.targetDate+"%\" ORDER BY basic_date LIMIT 31;", new String[]{});
             // WHERE year_month_date=? timeUtil.getCurrentYearMonthHyphen()
-            //System.out.println(this.targetDate);
         } catch (SQLException e) {
             Log.e("SQLException SELECT", e.toString());
         } finally {

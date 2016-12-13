@@ -85,11 +85,15 @@ public class HttpRequestAsyncTask extends AsyncTask<Uri.Builder, Void, String> {
         ImageView accountIconView = (ImageView)mainActivity.findViewById(R.id.accountIconView);
         TextView accountName      = (TextView)mainActivity.findViewById(R.id.accountName);
         TextView accountMail      = (TextView)mainActivity.findViewById(R.id.accountMail);
-        if(accountIconView != null){
+        if (accountIconView != null) {
             accountIconView.setScaleType(ImageView.ScaleType.FIT_START);
             accountIconView.setImageBitmap(BitmapUtils.toRoundBitmap(this.bitmap));
         }
-        accountName.setText(result);
-        accountMail.setText(this.accountName);
+        if (accountName != null) {
+            accountName.setText(result);
+        }
+        if (accountMail != null){
+            accountMail.setText(this.accountName);
+        }
     }
 }

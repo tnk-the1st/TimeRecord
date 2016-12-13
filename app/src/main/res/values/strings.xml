@@ -11,7 +11,7 @@
     <string name="edit_content">時刻編集</string>
     <string name="holiday_content">休暇登録</string>
     <string name="evacuation_content">退避処理</string>
-    <string name="db_operation">DB処理</string>
+    <string name="db_operation_content">DB処理</string>
     <string name="nav_mid_title">Important</string>
 
     <string name="account_update">Δアカウント「更新」</string>

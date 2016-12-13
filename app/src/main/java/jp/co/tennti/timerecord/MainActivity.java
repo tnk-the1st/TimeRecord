@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         /******テーブル再作成 END******/
         /******基本処理******/
         accountManager = AccountManager.get(this);
-        GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+        GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager ,db);
         go2.startRequest(AUTH_TOKEN_TYPE_PROFILE);
     }
 
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity
         final EditFragment editFragment         = new EditFragment();
         final HolidayFragment holidayFragment   = new HolidayFragment();
         final EvacuationFragment evacuationFragment   = new EvacuationFragment();
+        final DBOperationFragment dbOperationFragment = new DBOperationFragment();
         if (id == R.id.main_content) {
             transaction.replace(R.id.fragment_main, mainFragment).addToBackStack(null).commit();
         }
@@ -175,12 +176,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.evacuation_content) {
             transaction.replace(R.id.fragment_main, evacuationFragment).addToBackStack(null).commit();
         }
+        if (id == R.id.db_operation_content) {
+            transaction.replace(R.id.fragment_main, dbOperationFragment).addToBackStack(null).commit();
+        }
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
+        final SQLiteDatabase db = helper.getWritableDatabase();
         if (id == R.id.account_update) {
-            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager , db );
             go2.continueAccount("out");
         }
         if (id == R.id.account_choice) {
-            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager);
+            GoogleOauth2Utils go2 = new GoogleOauth2Utils(MainActivity.this , accountManager , db );
             go2.chooseAccount("out");
         }
         if (id == R.id.csv_export) {
@@ -205,7 +211,22 @@ public class MainActivity extends AppCompatActivity
                                     || !GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_ICON_FULL)) {
                                 Toast.makeText(MainActivity.this, "認証ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT).show();
+                                final Toast toast = Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT);
+                                new FrameLayout(MainActivity.this) {
+                                    {
+                                        addView(toast.getView()); // toastのviewをframelayoutでくるむ
+                                        toast.setView(this); // framelayoutを新しくtoastに設定する
+                                    }
+                                    @Override
+                                    public void onDetachedFromWindow() {
+                                        super.onDetachedFromWindow();
+                                        // Toastが終了したあとの処理をする
+                                        Intent intent = getIntent();
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                };
+                                toast.show();
                             }
                         }
                     }).show();

@@ -8,6 +8,7 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +17,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Map;
 
 import jp.co.tennti.timerecord.AsyncTaskUtils.GetJsonAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.HttpRequestAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.SetImageAsyncTask;
 import jp.co.tennti.timerecord.AsyncTaskUtils.SetNavInfoAsyncTask;
+import jp.co.tennti.timerecord.MainActivity;
+import jp.co.tennti.timerecord.daoUtils.MySQLiteOpenHelper;
 
 /**
  * Created by TENNTI on 2016/08/14.
@@ -32,14 +36,16 @@ public class GoogleOauth2Utils {
     protected String accountName;
     protected String authToken;
     protected String authTokenType;
+    protected SQLiteDatabase db;
     protected static final String AUTH_TOKEN_TYPE_PROFILE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     protected static final String ACCOUNT_TYPE            = "com.google";
     protected static final String API_KEY                 = "USE_YOUR_API_KEY";
     protected static final String KEY_AUTH_ERROR          = "\"code\": 401";
 
-    public GoogleOauth2Utils(Activity activity, AccountManager accountManager) {
+    public GoogleOauth2Utils(Activity activity, AccountManager accountManager ,SQLiteDatabase db ) {
         this.activity = activity;
         this.accountManager = accountManager;
+        this.db = db;
     }
 
     /**
@@ -74,7 +80,7 @@ public class GoogleOauth2Utils {
     }
     /**
      * アカウントマネージャーでアカウントを選択する
-     * @param String insideOutsideFlag 内部外部呼出し判定
+     * @param insideOutsideFlag String 内部外部呼出し判定
      *         in  : 内部呼出し
      *         out : 外部呼出し
      * */
@@ -105,17 +111,33 @@ public class GoogleOauth2Utils {
         try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
             accountFullName = jsonGoogleInfo.getString("name");
-
             SetNavInfoAsyncTask sniat = new SetNavInfoAsyncTask(this.activity, accountNameMail,accountFullName, bitmap);
             sniat.execute();
         } catch (JSONException e) {
             Log.e("JSONException", e.toString());
         }
     }
+    /**
+     * DBからGoogle取得情報を取得する
+     * */
+    protected void getDBAccount() {
+        Bitmap bitmap = GeneralUtils.getBitmapFromURL(this.activity);
+        String accountNameMail     = "";
+        String accountFullName     = "";
+        //DB から取得する
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity);
+        if ( helper.isOAuth2Data(db) ) {
+            Map<String, String> map = helper.getOAuth2Data(db);
+            accountNameMail = map.get("account_name");
+            accountFullName = map.get("name");
+        }
+        SetNavInfoAsyncTask sniat = new SetNavInfoAsyncTask(this.activity, accountNameMail,accountFullName, bitmap);
+        sniat.execute();
+    }
 
     /**
      * JSONに保存されているアカウントを更新する
-     * @param String insideOutsideFlag 内部外部呼出し判定
+     * @param insideOutsideFlag String 内部外部呼出し判定
      *         in  : 内部呼出し
      *         out : 外部呼出し
      * */
@@ -214,6 +236,14 @@ public class GoogleOauth2Utils {
                     //取得データをjsonとして保存する
                     GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
                     GeneralUtils.createJsonGoogleOauthInfoSD(json);
+                    //DB に値を保持する
+                    Map<String, String> map = GeneralUtils.googleOAuthInfoSummary(accountName, authToken,json);
+                    final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity);
+                    if ( helper.isOAuth2Data(db) ) {
+                        helper.updateOAuth2Data(db,map);
+                    } else {
+                        helper.insertOAuth2Data(db,map);
+                    }
                     SetImageAsyncTask siat = new SetImageAsyncTask(json.getString("picture"));
                     siat.execute();
                     HttpRequestAsyncTask hrat = new HttpRequestAsyncTask(activity, pictureUrl, fullName, accountName);

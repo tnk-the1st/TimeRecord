@@ -206,13 +206,16 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // OK button pressed
-                            if (!GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_INFO_FULL)
-                                    || !GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_JSON_FULL)
-                                    || !GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_ICON_FULL)) {
-                                Toast.makeText(MainActivity.this, "認証ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
-                            } else {
-                                final Toast toast = Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT);
-                                new FrameLayout(MainActivity.this) {
+                            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(MainActivity.this.getApplicationContext());
+                            final SQLiteDatabase db = helper.getWritableDatabase();
+                            helper.deleteAllOAuth2Data(db);
+                            //if (!GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_INFO_FULL)
+                            //        || !GeneralUtils.deleteSDCardFile(Constants.AUTH_TOKEN_JSON_FULL)
+                            //        || !GeneralUtils.deleteSDCardFile(Constants.GOOGLE_USER_ICON_FULL)) {
+                            //    Toast.makeText(MainActivity.this, "認証ファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                            //} else {
+                            //    final Toast toast = Toast.makeText(MainActivity.this, "認証ファイルを削除しました。", Toast.LENGTH_SHORT);
+/*                                new FrameLayout(MainActivity.this) {
                                     {
                                         addView(toast.getView()); // toastのviewをframelayoutでくるむ
                                         toast.setView(this); // framelayoutを新しくtoastに設定する
@@ -225,9 +228,9 @@ public class MainActivity extends AppCompatActivity
                                         finish();
                                         startActivity(intent);
                                     }
-                                };
-                                toast.show();
-                            }
+                                };*/
+                              //  toast.show();
+                            //}
                         }
                     }).show();
         }

@@ -426,4 +426,12 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
         }
         return map;
     }
+    /**
+     * 認証テーブル
+     * @param  db SQLiteDatabase DBアクセッサ
+     * @return boolean exitFlag 判定結果
+     */
+    public void deleteAllOAuth2Data(SQLiteDatabase db) {
+            db.delete(GOOGLE_OAUTH2_TABLE, null, null);
+    }
 }

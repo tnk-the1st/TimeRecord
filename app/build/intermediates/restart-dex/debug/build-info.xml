@@ -5,39 +5,63 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="14304398363729"
+    timestamp="1211139734250"
     token="24421916655215655"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="331" />
+        duration="1107" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="13" />
+        duration="117" />
     <task
         name="verifier"
-        duration="1" />
+        duration="5" />
 
+    <artifact
+        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
+        type="RESOURCES" />
+    <artifact
+        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+        type="DEX" />
+    <artifact
+        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+        type="DEX" />
     <artifact
         location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex"
         type="DEX" />
+    <artifact
+        location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
+        type="DEX" />
 
     <build
-        timestamp="11074054652492"
+        timestamp="659285006372"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="14304398363729"
+        timestamp="1211139734250"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
+            type="RESOURCES" />
+        <artifact
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_7/classes.dex"
+            type="DEX" />
+        <artifact
             location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex"
+            type="DEX" />
+        <artifact
+            location="/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex"
             type="DEX" />
     </build>
 

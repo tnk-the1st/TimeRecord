@@ -16,6 +16,10 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/color_thursday.xml"
     },
     {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/fi_perm_data_setting.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/fi_perm_data_setting.xml"
+    },
+    {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/ic_menu_slideshow.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/ic_menu_slideshow.xml"
     },
@@ -192,8 +196,8 @@
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/fi_graph_bar.xml"
     },
     {
-        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/ic_perm_data_setting.xml",
-        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/ic_perm_data_setting.xml"
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/fi_database.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/fi_database.xml"
     },
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/color_saturday.xml",
@@ -302,5 +306,9 @@
     {
         "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/ic_menu_share.xml",
         "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/ic_menu_share.xml"
+    },
+    {
+        "merged": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/res/merged/debug/drawable/btn_zip_switch.xml",
+        "source": "/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/src/main/res/drawable/btn_zip_switch.xml"
     }
 ]

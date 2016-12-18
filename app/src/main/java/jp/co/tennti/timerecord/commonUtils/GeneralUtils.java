@@ -199,6 +199,13 @@ public class GeneralUtils {
         }
         return value;
     }
+    static public String jsonNullToBlank(JSONObject jsonObject, String value) throws JSONException {
+        if (jsonObject.isNull(value)){
+            return "";
+        }
+        return jsonObject.getString(value);
+    }
+
     /**
      * SDCard にauthTokenを保存する
      * @param  accountName 選択ID(アドレス) string
@@ -264,14 +271,14 @@ public class GeneralUtils {
             map.put("account_name", accountName);
             map.put("auth_token", authToken);
 
-            map.put("id",         nullToBlank(json.getString("id")));
-            map.put("name",       nullToBlank(json.getString("name")));
-            map.put("given_name", nullToBlank(json.getString("given_name")));
-            map.put("family_name",nullToBlank(json.getString("family_name")));
-            map.put("link",       nullToBlank(json.getString("link")));
-            map.put("picture",    nullToBlank(json.getString("picture")));
-            map.put("gender",     nullToBlank(json.getString("gender")));
-            map.put("locale",     nullToBlank(json.getString("locale")));
+            map.put("id",         jsonNullToBlank(json,"id"));
+            map.put("name",       jsonNullToBlank(json,"name"));
+            map.put("given_name", jsonNullToBlank(json,"given_name"));
+            map.put("family_name",jsonNullToBlank(json,"family_name"));
+            map.put("link",       jsonNullToBlank(json,"link"));
+            map.put("picture",    jsonNullToBlank(json,"picture"));
+            map.put("gender",     jsonNullToBlank(json,"gender"));
+            map.put("locale",     jsonNullToBlank(json,"locale"));
 
             map.put("create_date", TimeUtils.getCurrentYearMonthDay());
         } catch (JSONException e){

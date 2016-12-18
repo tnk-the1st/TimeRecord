@@ -28,5 +28,5 @@
     <item
         android:id="@+id/db_operation_screen"
         android:orderInCategory="6"
-        android:title="@string/db_operation" />
+        android:title="@string/db_operation_content" />
 </menu>

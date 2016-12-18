@@ -56,7 +56,9 @@ public class GoogleOauth2Utils {
         this.authTokenType = authTokenType;
         if (accountName == null) {
             //Log.d("startRequest", "アカウントが選択されていない");
-            if (!GeneralUtils.isGoogleInfoFile()) {
+            final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity);
+            if ( !helper.isOAuth2Data(db) ) {
+            //if (!GeneralUtils.isGoogleInfoFile()) {
                 chooseAccount("in");
                 return;
             }
@@ -64,7 +66,8 @@ public class GoogleOauth2Utils {
                 continueAccount("in");
                 return;
             }
-            getJsonAccount();
+            getDBAccount();
+            //getJsonAccount();
             /*if (GeneralUtils.isGoogleInfoFile()) {
                 if (TimeUtils.isBeginningMonth()) {
                     continueAccount();
@@ -146,33 +149,42 @@ public class GoogleOauth2Utils {
             this.authTokenType = AUTH_TOKEN_TYPE_PROFILE;
         }
         //Log.d("continueAccount", "AuthToken取得開始（アカウント続行）");
-        JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
+        //JSONObject jsonGoogleOauth = GeneralUtils.getJsonAuthToken();
         String accountNameMail = "";
-        try {
+        /*try {
             accountNameMail = jsonGoogleOauth.getString("account_name");
         } catch (JSONException e) {
             Log.e("JSONException", e.toString());
-        }
-        accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,
-                activity, new AccountManagerCallback<Bundle>() {
-                    @Override
-                    public void run(AccountManagerFuture<Bundle> future) {
-                        try {
-                            Bundle bundle = future.getResult();
-                            accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
-                            authToken   = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-                            if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
-                                getUserInfo(); //ユーザー情報取得開始
+        }*/
+        //DB から取得する
+        final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity);
+        if ( helper.isOAuth2Data(db) ) {
+            Map<String, String> map = helper.getOAuth2Data(db);
+            accountNameMail = map.get("account_name");
+            accountManager.getAuthToken(new Account(accountNameMail, "com.google"), authTokenType, null,
+                    activity, new AccountManagerCallback<Bundle>() {
+                        @Override
+                        public void run(AccountManagerFuture<Bundle> future) {
+                            try {
+                                Bundle bundle = future.getResult();
+                                accountName = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+                                authToken   = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                                if (authTokenType.equals(AUTH_TOKEN_TYPE_PROFILE)) {
+                                    getUserInfo(); //ユーザー情報取得開始
+                                }
+                            } catch (OperationCanceledException e) {
+                                Log.e("OperationCanceledExc ", e.toString());
+                            } catch (IOException e) {
+                                Log.e("IOException ", e.toString());
+                            } catch (AuthenticatorException e) {
+                                Log.e("AuthenticatorException ", e.toString());
                             }
-                        } catch (OperationCanceledException e) {
-                            Log.e("OperationCanceledExc", e.toString());
-                        } catch (IOException e) {
-                            Log.e("IOException", e.toString());
-                        } catch (AuthenticatorException e) {
-                            Log.e("AuthenticatorException", e.toString());
                         }
-                    }
-                }, null);
+                    }, null);
+        } else {
+            chooseAccount("in");
+            return;
+        }
     }
 
 
@@ -214,9 +226,9 @@ public class GoogleOauth2Utils {
         task.setListener(new GetJsonAsyncTask.OnResultEventListener() {
             @Override
             public void onResult(JSONObject json) {
-                String msg = "";
+                String msg        = "";
                 String pictureUrl = "";
-                String fullName = "";
+                String fullName   = "";
                 try {
                     if (json == null) {
                         msg = "ユーザー情報取得失敗";
@@ -234,8 +246,8 @@ public class GoogleOauth2Utils {
                     }
 
                     //取得データをjsonとして保存する
-                    GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
-                    GeneralUtils.createJsonGoogleOauthInfoSD(json);
+                    //GeneralUtils.createJsonAuthTokenSD(accountName, authToken);
+                    //GeneralUtils.createJsonGoogleOauthInfoSD(json);
                     //DB に値を保持する
                     Map<String, String> map = GeneralUtils.googleOAuthInfoSummary(accountName, authToken,json);
                     final MySQLiteOpenHelper helper = new MySQLiteOpenHelper(activity);

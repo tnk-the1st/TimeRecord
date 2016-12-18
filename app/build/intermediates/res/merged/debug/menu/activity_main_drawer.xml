@@ -20,8 +20,12 @@
             android:title="@string/holiday_content" />
         <item
             android:id="@+id/evacuation_content"
-            android:icon="@drawable/ic_perm_data_setting"
+            android:icon="@drawable/fi_perm_data_setting"
             android:title="@string/evacuation_content" />
+        <item
+            android:id="@+id/db_operation_content"
+            android:icon="@drawable/fi_database"
+            android:title="@string/db_operation_content" />
     </group>
 
     <item android:title="@string/nav_mid_title">

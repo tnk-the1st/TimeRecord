@@ -1,4 +1,4 @@
-#Sun Dec 11 21:04:55 JST 2016
+#Mon Dec 19 01:42:06 JST 2016
 base.0=/Volumes/transcend220s/dev/StudioProjects/TimeRecord/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_71f9704c54990db9b0c9c94e40dd211d171e8aac
 renamed.1=classes2.dex
 renamed.0=classes.dex

@@ -304,7 +304,7 @@
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="csv_export">ΣCSVファイル出力</string>
-    <string name="db_operation">DB処理</string>
+    <string name="db_operation_content">DB処理</string>
     <string name="delete_file">※DBファイル削除</string>
     <string name="delete_table">※全テーブル削除</string>
     <string name="edit_content">時刻編集</string>
@@ -316,7 +316,7 @@
     <string name="nav_mid_title">Important</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="oauth_file">※認証ファイル削除</string>
+    <string name="oauth_file">※認証データ削除</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_activity_list">ListActivity</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

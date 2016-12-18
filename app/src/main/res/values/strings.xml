@@ -17,7 +17,7 @@
     <string name="account_update">Δアカウント「更新」</string>
     <string name="account_choice">Ξアカウント「選択」</string>
     <string name="csv_export">ΣCSVファイル出力</string>
-    <string name="oauth_file">※認証ファイル削除</string>
+    <string name="oauth_file">※認証データ削除</string>
     <string name="delete_table">※全テーブル削除</string>
     <string name="delete_file">※DBファイル削除</string>
     <string name="action_settings">Settings</string>

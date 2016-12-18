@@ -59,7 +59,7 @@ public class DBOperationFragment extends Fragment {
         if(mainImage!=null){
             mainImage.recycle();
         }
-        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.fleet_haruna);
+        mainImage = BitmapFactory.decodeResource(resource, R.mipmap.fleet_kongou_all_sd);
         final ImageView imgView = (ImageView)view.findViewById(R.id.contentImageView);
 
         imgView.setImageDrawable(null);
@@ -95,7 +95,7 @@ public class DBOperationFragment extends Fragment {
         /************ 退避ボタン start ************/
         // ボタンを設定
         final ImageButton dbZipButton = (ImageButton)view.findViewById(R.id.dbZipButton);
-        dbZipButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_evacuation_switch));
+        dbZipButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_zip_switch));
         // リスナーをボタンに登録
         dbZipButton.setOnClickListener(new View.OnClickListener() {
             @Override

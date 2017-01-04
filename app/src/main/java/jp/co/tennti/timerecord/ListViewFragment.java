@@ -77,7 +77,7 @@ public class ListViewFragment extends Fragment {
             mainImage.recycle();
         }
         mainImage = BitmapFactory.decodeResource(resM, R.mipmap.fleet_kongou_all);
-        ImageView imgView = (ImageView) view.findViewById(R.id.listImageView);
+        final ImageView imgView = (ImageView) view.findViewById(R.id.listImageView);
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
         imgView.setImageBitmap(mainImage);
@@ -86,7 +86,7 @@ public class ListViewFragment extends Fragment {
 
         /**日付データ**/
         /**データピッカー**/
-        DatePicker datePicker = (DatePicker) contentView.findViewById(R.id.datePickerDia);
+        final DatePicker datePicker = (DatePicker) contentView.findViewById(R.id.datePickerDia);
         // APIレベル11以降の「日」のカレンダーを表示しない 初期値true
         datePicker.setCalendarViewShown(false);
         // 初期値を設定する 1999年12月31日
@@ -359,7 +359,8 @@ public class ListViewFragment extends Fragment {
         contentView = null;
         totalText = null;
         TableLayout mTableLayoutList = (TableLayout) getActivity().findViewById(R.id.tableLayoutList);
-        mTableLayoutList.removeAllViews();mTableLayoutList.setBackground(null);
+        mTableLayoutList.removeAllViews();
+        mTableLayoutList.setBackground(null);
         mTableLayoutList = null;
     }
 

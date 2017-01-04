@@ -60,7 +60,7 @@ public class HolidayFragment extends Fragment {
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
         BitmapUtils bu = new BitmapUtils();
-        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        final DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -308,18 +308,6 @@ public class HolidayFragment extends Fragment {
         deleteButton.setImageBitmap(null);
         deleteButton.setImageDrawable(null);
         /************ 休暇関連スイッチ ************/
-        //allHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.allHolidaySwitch);
-        /*allHolidaySwitch.setOnClickListener(null);
-        allHolidaySwitch.setTypeface(null);
-        allHolidaySwitch = null;*/
-        //amHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.amHalfHolidaySwitch);
-        /*amHalfHolidaySwitch.setOnClickListener(null);
-        amHalfHolidaySwitch.setTypeface(null);
-        amHalfHolidaySwitch = null;*/
-        //pmHalfHolidaySwitch = (android.support.v7.widget.SwitchCompat)getActivity().findViewById(R.id.pmHalfHolidaySwitch);
-        /*pmHalfHolidaySwitch.setOnClickListener(null);
-        pmHalfHolidaySwitch.setTypeface(null);
-        pmHalfHolidaySwitch = null;*/
 
         BitmapUtils.cleanupView(getView());
     }

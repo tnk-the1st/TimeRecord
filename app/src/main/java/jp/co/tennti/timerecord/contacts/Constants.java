@@ -95,6 +95,8 @@ public class Constants {
     public static final String APP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/";
     /** アプリケーションのCSVファイルを置くSD上のフォルダのフルパス */
     public static final String CSV_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/csv/";
+    /** DBのZIPファイルを置くSD上のフォルダのフルパス */
+    public static final String ZIP_DIRECTORY         = Environment.getExternalStorageDirectory() + "/time_record/db/zip/";
     /** 認証トークンのファイルを置くSD上のフォルダのフルパス */
     public static final String AUTH_TOKEN_DIRECTORY  = Environment.getExternalStorageDirectory() + "/time_record/auth_token/";
     /** 認証ファイルをjsonにし配置するSD上のフォルダのフルパス */

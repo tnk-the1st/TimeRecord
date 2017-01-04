@@ -83,6 +83,35 @@ public class GeneralUtils {
     }
 
     /**
+     * ディレクトリを再帰的に読む
+     * @param filepath
+     */
+    public static boolean deleteFileRotation( String filepath ) {
+        File dir = new File(filepath);
+        File[] files = dir.listFiles();
+        if( files == null ){
+            return false;
+        }
+        for( File file : files ) {
+            if( !file.exists() ) {
+                continue;
+            } else if( file.isDirectory() ){
+                deleteFileRotation( filepath );
+            } else if( file.isFile() ){
+                file.delete();
+            }
+        }
+        return true;
+    }
+    /**
+     * ファイルの処理
+     * @param file
+     */
+    public void execute( File file ) {
+        // ここにやりたい処理を書く
+        System.out.println( file.getPath() );
+    }
+    /**
      * SDCard のファイルを削除する(Android 用)
      * @param  fileName ファイル名 string
      * @return boolean true : ファイル削除成功
@@ -662,6 +691,24 @@ public class GeneralUtils {
      */
     public static final List<String> getDirCSVNameList() {
         File dir = new File(Constants.CSV_DIRECTORY);
+        List<String> listValues = new ArrayList<String>();
+
+        if (!dir.isDirectory()) {
+            return listValues;
+        }
+        File[] files = dir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            listValues.add(file.getName());
+        }
+        return listValues;
+    }
+    /**
+     * 全ZIPファイル名を取得
+     * @return List<String> ファイル名リスト
+     */
+    public static final List<String> getDirZIPNameList() {
+        File dir = new File(Constants.ZIP_DIRECTORY);
         List<String> listValues = new ArrayList<String>();
 
         if (!dir.isDirectory()) {

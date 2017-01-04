@@ -38,6 +38,7 @@ public class DBOperationFragment extends Fragment {
 
     AlertDialog.Builder builder_d = null;
     AlertDialog.Builder builder_t = null;
+    TableLayout zipConfirmList = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,19 +65,21 @@ public class DBOperationFragment extends Fragment {
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        BitmapUtils bu = new BitmapUtils();
-        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        final BitmapUtils bu = new BitmapUtils();
+        final DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+        
         
         final TimeUtils timeUtil = new TimeUtils();
 
         /************ 一覧レイアウト start ************/
-        final TableLayout csvConfirmList = (TableLayout) view.findViewById(R.id.tableConfirmList);
-        csvConfirmList.removeAllViews();
+        //final TableLayout
+                zipConfirmList = (TableLayout) view.findViewById(R.id.tableConfirmList);
+        zipConfirmList.removeAllViews();
 
-        List<String> cstList = GeneralUtils.getDirCSVNameList();
-        for(String csvName :cstList){
+        List<String> zipList = GeneralUtils.getDirZIPNameList();
+        for(String zipName :zipList){
             TableRow row = new TableRow(getContext());
             final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
             params.weight = 0.1f;
@@ -86,9 +89,9 @@ public class DBOperationFragment extends Fragment {
             title.setTextColor(Color.BLACK);
             title.setTypeface(meiryobType);
             title.setGravity(Constants.GRAVITY_CENTER);
-            title.setText(csvName);
+            title.setText(zipName);
             row.addView(title, params);
-            csvConfirmList.addView(row);
+            zipConfirmList.addView(row);
         }
         /************ 一覧レイアウト end ************/
 
@@ -103,10 +106,63 @@ public class DBOperationFragment extends Fragment {
                 GeneralUtils.createDBZipFile();
                 // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                 Toast.makeText(getActivity(), "DBファイルを圧縮しました", Toast.LENGTH_SHORT).show();
+                againZipList(meiryobType);
             }
 
         });
         /************ 退避ボタン end ************/
+
+        /************ ZIP FILE 削除ボタン start ************/
+        // ボタンを設定
+        final ImageButton deleteZipButton = (ImageButton)view.findViewById(R.id.deleteZipFileButton);
+        deleteZipButton.setImageBitmap(null);
+        deleteZipButton.setImageDrawable(null);
+        deleteZipButton.setImageDrawable(getResources().getDrawable(R.drawable.btn_drop_table_switch));
+
+        // リスナーをボタンに登録
+        deleteZipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ダイアログの生成
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                // アラートダイアログのタイトルを設定します
+                alertDialogBuilder.setTitle("ZIPファイル削除ダイアログ");
+                // アラートダイアログのメッセージを設定します
+                alertDialogBuilder.setMessage("全ZIPファイルを削除しますがよろしいですか?");
+                // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+                alertDialogBuilder.setNegativeButton(Constants.CANCEL_CONFIRM_NAME , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                        .setNeutralButton("実行", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // OK button pressed
+                                if (!GeneralUtils.deleteFileRotation(Constants.ZIP_DIRECTORY)) {
+                                    Toast.makeText(getActivity(), "全ZIPファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    final Toast toast = Toast.makeText(getActivity(), "全ZIPファイルを削除しました。", Toast.LENGTH_SHORT);
+                                    againZipList(meiryobType);
+        /*                            new FrameLayout(getActivity()) {
+                                        {
+                                            addView(toast.getView()); // toastのviewをframelayoutでくるむ
+                                            toast.setView(this); // framelayoutを新しくtoastに設定する
+                                        }
+                                        @Override
+                                        public void onDetachedFromWindow() {
+                                            super.onDetachedFromWindow();
+                                            // Toastが終了したあとの処理をする
+                                            againZipList(meiryobType);
+                                        }
+                                    };*/
+                                    toast.show();
+                                }
+                            }
+                        }).show();
+            }
+        });
+        /************ ZIP FILE 削除ボタン end ************/
 
         /************ DROP Tableボタン start ************/
         // ボタンを設定
@@ -239,8 +295,8 @@ public class DBOperationFragment extends Fragment {
         deleteDBFileButton.setImageDrawable(null);
         deleteDBFileButton.setOnClickListener(null);
         /************ 一覧ビュー ************/
-        TableLayout tableConfirmList = (TableLayout) getActivity().findViewById(R.id.tableConfirmList);
-        tableConfirmList.removeAllViews();
+        //TableLayout zipConfirmList = (TableLayout) getActivity().findViewById(R.id.tableConfirmList);
+        zipConfirmList.removeAllViews();
 
         builder_d = null;
         builder_t = null;
@@ -263,6 +319,30 @@ public class DBOperationFragment extends Fragment {
         super.onDetach();
     }
 
+    /***
+     * zipファイルのリストを再取得再描画する
+     * @param meiryobType
+     */
+    public void againZipList(Typeface meiryobType) {
+        //final TableLayout zipConfirmList = (TableLayout) view.findViewById(R.id.tableConfirmList);
+        zipConfirmList.removeAllViews();
+
+        List<String> zipList = GeneralUtils.getDirZIPNameList();
+        for(String zipName :zipList){
+            TableRow row = new TableRow(getContext());
+            final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
+            params.weight = 0.1f;
+            params.height = Constants.ROW_HIGHT_SIZE;
+            TextView title = new TextView(getContext());
+            title.setTextSize(10.0f);
+            title.setTextColor(Color.BLACK);
+            title.setTypeface(meiryobType);
+            title.setGravity(Constants.GRAVITY_CENTER);
+            title.setText(zipName);
+            row.addView(title, params);
+            zipConfirmList.addView(row);
+        }
+    }
 /*    public void setHolidayFlag(SQLiteDatabase db ,String targetDate){
         TimeUtils timeUtil = new TimeUtils();
         String targetDateHyphen = timeUtil.conTargetYYYYMMDDHyphen(targetDate);

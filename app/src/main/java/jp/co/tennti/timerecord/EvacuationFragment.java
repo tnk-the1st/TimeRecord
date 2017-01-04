@@ -42,6 +42,7 @@ public class EvacuationFragment extends Fragment {
     AlertDialog.Builder builder_d = null;
     AlertDialog.Builder builder_t = null;
     View datePickerView           = null;
+    TableLayout csvConfirmList = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +69,8 @@ public class EvacuationFragment extends Fragment {
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        BitmapUtils bu = new BitmapUtils();
-        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        final BitmapUtils bu = new BitmapUtils();
+        final DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
         
@@ -151,7 +152,8 @@ public class EvacuationFragment extends Fragment {
         /**データピッカー**/
 
         /************ 一覧レイアウト start ************/
-        final TableLayout csvConfirmList = (TableLayout) view.findViewById(R.id.csvConfirmList);
+        //final TableLayout
+                csvConfirmList = (TableLayout) view.findViewById(R.id.csvConfirmList);
         csvConfirmList.removeAllViews();
 
         List<String> cstList = GeneralUtils.getDirCSVNameList();
@@ -188,6 +190,7 @@ public class EvacuationFragment extends Fragment {
                 GeneralUtils.exportCSV(getActivity(), builder.toString());
                 // 第3引数は、表示期間（LENGTH_SHORT、または、LENGTH_LONG）
                 Toast.makeText(getActivity(), dateTextViewTemp.getText().toString() + "のデータを保存しました", Toast.LENGTH_SHORT).show();
+                againCsvList(meiryobType);
             }
 
         });
@@ -225,6 +228,7 @@ public class EvacuationFragment extends Fragment {
                                 builder.append(timeUtil.getTargetYYYY(dateTextViewTemp.getText().toString()));
                                 GeneralUtils.deleteCSV(builder.toString());
                                 Toast.makeText(getActivity(), dateTextViewTemp.getText().toString() + "年のデータを削除しました", Toast.LENGTH_SHORT).show();
+                                againCsvList(meiryobType);
                             }
                         });
                          alertDialogBuilder.setNegativeButton(
@@ -263,8 +267,12 @@ public class EvacuationFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                GeneralUtils.deleteDirCSV();
-                                Toast.makeText(getActivity(), "CSVフォルダを削除しました", Toast.LENGTH_SHORT).show();
+                                if (!GeneralUtils.deleteFileRotation(Constants.CSV_DIRECTORY)) {
+                                    Toast.makeText(getActivity(), "全CSVファイルを削除出来ませんでした。", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "全CSVファイルを削除しました", Toast.LENGTH_SHORT).show();
+                                    againCsvList(meiryobType);
+                                }
                             }
                         });
                 alertDialogBuilder.setNegativeButton(
@@ -323,7 +331,7 @@ public class EvacuationFragment extends Fragment {
         deleteDirButton.setImageDrawable(null);
         deleteDirButton.setOnClickListener(null);
         /************ 一覧ビュー ************/
-        TableLayout csvConfirmList = (TableLayout) getActivity().findViewById(R.id.csvConfirmList);
+        //TableLayout csvConfirmList = (TableLayout) getActivity().findViewById(R.id.csvConfirmList);
         csvConfirmList.removeAllViews();
 
         datePickerView.setOnClickListener(null);
@@ -351,6 +359,30 @@ public class EvacuationFragment extends Fragment {
         super.onDetach();
     }
 
+    /***
+     * CSVファイルのリストを再取得再描画する
+     * @param meiryobType
+     */
+    public void againCsvList(Typeface meiryobType) {
+        //final TableLayout zipConfirmList = (TableLayout) view.findViewById(R.id.tableConfirmList);
+        csvConfirmList.removeAllViews();
+
+        List<String> cstList = GeneralUtils.getDirCSVNameList();
+        for(String csvName :cstList){
+            TableRow row = new TableRow(getContext());
+            final TableRow.LayoutParams params = new TableRow.LayoutParams(0, 0);
+            params.weight = 0.1f;
+            params.height = Constants.ROW_HIGHT_SIZE;
+            TextView title = new TextView(getContext());
+            title.setTextSize(10.0f);
+            title.setTextColor(Color.BLACK);
+            title.setTypeface(meiryobType);
+            title.setGravity(Constants.GRAVITY_CENTER);
+            title.setText(csvName);
+            row.addView(title, params);
+            csvConfirmList.addView(row);
+        }
+    }
 /*    public void setHolidayFlag(SQLiteDatabase db ,String targetDate){
         TimeUtils timeUtil = new TimeUtils();
         String targetDateHyphen = timeUtil.conTargetYYYYMMDDHyphen(targetDate);

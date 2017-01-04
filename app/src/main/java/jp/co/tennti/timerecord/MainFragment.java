@@ -60,8 +60,8 @@ public class MainFragment extends Fragment {
 
         imgView.setImageDrawable(null);
         imgView.setImageBitmap(null);
-        BitmapUtils bu = new BitmapUtils();
-        DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
+        final BitmapUtils bu = new BitmapUtils();
+        final DisplayMetrics displayMetrics = bu.getDisplayMetrics(getContext());
         imgView.setImageBitmap(bu.resize(mainImage,displayMetrics.widthPixels,displayMetrics.heightPixels));
         imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
